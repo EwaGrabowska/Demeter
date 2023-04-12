@@ -19,7 +19,7 @@ import java.util.List;
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
 
     public void createRecipe(final RecipeRequest source) {
@@ -36,8 +36,8 @@ public class RecipeService {
     }
 
     private List<IngredientSubstituteResponse> getAllSubstitutesByIngredientsName(List<String> ingredientsName){
-        IngredientSubstituteResponse[] substitutes = webClient.get()
-                .uri("http://localhost:8081/api/ingredient/substitutes", uriBuilder -> uriBuilder.queryParam("name", ingredientsName).build())
+        IngredientSubstituteResponse[] substitutes = webClientBuilder.build().get()
+                .uri("http://ingredient-service/ingredients/substitutes", uriBuilder -> uriBuilder.queryParam("name", ingredientsName).build())
                 .retrieve()
                 .bodyToMono(IngredientSubstituteResponse[].class)
                 .block();

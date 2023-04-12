@@ -20,7 +20,7 @@ public class Ingredient {
     @Id
     private String id;
     private String name;
-    private List<String> taste = new ArrayList<>();
-    private List<String> substitute = new ArrayList<>();
+    private List<String> taste;
+    private List<String> substitute;
     private String description;
 }

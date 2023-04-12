@@ -1,5 +1,6 @@
 package com.demeter.postrecipeservice;
 
+
 import com.demeter.postrecipeservice.dto.IngredientRequest;
 import com.demeter.postrecipeservice.dto.RecipeRequest;
 import com.demeter.postrecipeservice.model.MeasuringUnites;
@@ -20,14 +21,13 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest
 @Testcontainers
 @AutoConfigureMockMvc
 class RecipeServiceApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
-	@Autowired
+    @Autowired
 	private ObjectMapper objectMapper;
 	@Autowired
 	private RecipeRepository recipeRepository;
