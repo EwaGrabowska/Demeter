@@ -17,6 +17,7 @@
 		<module>recipe-service</module>
 		<module>eureka-server</module>
         <module>api-gateway</module>
+        <module>kafka-service</module>
     </modules>
 	<name>microservices-parent</name>
 	<description>Demo project for Spring Boot</description>
