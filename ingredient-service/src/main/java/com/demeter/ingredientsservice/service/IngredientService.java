@@ -6,6 +6,7 @@ import com.demeter.ingredientsservice.dto.IngredientSubstituteResponse;
 import com.demeter.ingredientsservice.model.Ingredient;
 import com.demeter.ingredientsservice.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,8 @@ public class IngredientService {
     }
 
 
-    private IngredientResponse mapToIngredientResponse(Ingredient ingredient) {
+    @Transactional(readOnly = true)
+    IngredientResponse mapToIngredientResponse(Ingredient ingredient) {
         return IngredientResponse.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getName())
@@ -47,12 +49,13 @@ public class IngredientService {
     }
 
     @Transactional(readOnly = true)
+    @SneakyThrows
     public List<IngredientSubstituteResponse> getAllSubstitutes(List<String> ingredientsName) {
         return ingredientRepository.findByNameIn(ingredientsName).stream()
                 .map(ingredient -> IngredientSubstituteResponse.builder()
                         .name(ingredient.getName())
                         .substitute(ingredient.getSubstitute())
-                        .build()
-                ).toList();
+                        .build())
+                .toList();
     }
 }

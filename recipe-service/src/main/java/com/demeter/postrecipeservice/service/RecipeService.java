@@ -1,5 +1,8 @@
 package com.demeter.postrecipeservice.service;
 
+import brave.Span;
+import brave.Tracer;
+import com.demeter.postrecipeservice.client.IngredientClient;
 import com.demeter.postrecipeservice.dto.IngredientSubstituteResponse;
 import com.demeter.postrecipeservice.dto.RecipeRequest;
 import com.demeter.postrecipeservice.dto.RecipeResponse;
@@ -8,52 +11,53 @@ import com.demeter.postrecipeservice.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class RecipeService {
 
+    private final IngredientClient ingredientClient;
     private final RecipeRepository recipeRepository;
-    private final WebClient.Builder webClientBuilder;
+    private final Tracer tracer;
 
 
     public void createRecipe(final RecipeRequest source) {
         Recipe recipe = RecipeFactory.dtoToEntity(source);
 
         recipe = recipeRepository.save(recipe);
-        log.info("Product {} is saved", recipe.getId());
+        log.info("Recipe {} is saved", recipe.getId());
     }
 
     public List<RecipeResponse> getAllRecipes() {
         List<Recipe> recipes = recipeRepository.findAll();
-
         return recipes.stream().map(recipe-> RecipeFactory.entityToDto(recipe)).toList();
     }
 
     private List<IngredientSubstituteResponse> getAllSubstitutesByIngredientsName(List<String> ingredientsName){
-        IngredientSubstituteResponse[] substitutes = webClientBuilder.build().get()
-                .uri("http://ingredient-service/ingredients/substitutes", uriBuilder -> uriBuilder.queryParam("name", ingredientsName).build())
-                .retrieve()
-                .bodyToMono(IngredientSubstituteResponse[].class)
-                .block();
-        List<IngredientSubstituteResponse> ingredientSubstituteResponseList = Arrays.stream(substitutes)
+        List<IngredientSubstituteResponse> substituteResponses = ingredientClient.hasSubstitute(ingredientsName).stream()
                 .filter(substitus -> !substitus.getSubstitute().isEmpty())
                 .toList();
-        return ingredientSubstituteResponseList;
+        return substituteResponses;
     }
 
-
     public List<IngredientSubstituteResponse> getAllSubstitutes(String id) {
-        List<String> ingredientsName = recipeRepository.findById(Long.parseLong(id))
-                .map(recipe -> recipe.getIngredientList().stream()
-                        .map(ingredient -> ingredient.getName())
-                        .toList())
-                .orElseThrow(() -> new IllegalArgumentException("Recipe doesnt exist."));
-        return getAllSubstitutesByIngredientsName(ingredientsName);
+        Span ingredientServiceLookup = tracer.nextSpan().name("IngredientServiceLookup");
+
+        try (Tracer.SpanInScope isLookup = tracer.withSpanInScope(ingredientServiceLookup.start())){
+            List<String> ingredientsName = recipeRepository.findById(Long.parseLong(id))
+                    .map(recipe -> recipe.getIngredientList().stream()
+                            .map(ingredient -> ingredient.getName())
+                            .toList())
+                    .orElseThrow(() -> new IllegalArgumentException("Recipe doesnt exist."));
+            return getAllSubstitutesByIngredientsName(ingredientsName);
+        }finally {
+            ingredientServiceLookup.flush();
+        }
+
     }
 }
