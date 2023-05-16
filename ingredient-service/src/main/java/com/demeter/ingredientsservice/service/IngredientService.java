@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +32,9 @@ public class IngredientService {
     }
 
     public List<IngredientResponse> getAllIngredients() {
-        List<Ingredient> products = ingredientRepository.findAll();
-
+        Iterable<Ingredient> productsIterable = ingredientRepository.findAll();
+        List<Ingredient> products = StreamSupport.stream(productsIterable.spliterator(), false)
+                .toList();
         return products.stream().map(this::mapToIngredientResponse).toList();
     }
 

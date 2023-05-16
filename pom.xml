@@ -49,6 +49,31 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M3</version>
+				<executions>
+					<execution>
+						<id>enforce-property-variables</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireProperty>
+									<property>dockerhub_username</property>
+									<message>Please provide the 'dockerhub_username' property.</message>
+								</requireProperty>
+								<requireProperty>
+									<property>dockerhub_password</property>
+									<message>Please provide the 'dockerhub_password' property.</message>
+								</requireProperty>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -66,6 +91,27 @@
 				<configuration>
 					<source>16</source>
 					<target>16</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17.0.7_7-jre-jammy</image>
+						<auth>
+							<username>${dockerhub_username}</username>
+							<password>${dockerhub_password}</password>
+						</auth>
+					</from>
+					<to>
+						<image>registry.hub.docker.com/ewagrabowska/${artifactId}</image>
+						<auth>
+							<username>${dockerhub_username}</username>
+							<password>${dockerhub_password}</password>
+						</auth>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>

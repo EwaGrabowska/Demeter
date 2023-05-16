@@ -1,10 +1,12 @@
 package com.demeter.ingredientsservice.repository;
 
 import com.demeter.ingredientsservice.model.Ingredient;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface IngredientRepository extends MongoRepository<Ingredient, String> {
+@EnableScan
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
     List<Ingredient> findByNameIn(List<String> name);
 }

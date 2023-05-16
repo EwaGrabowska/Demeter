@@ -1,4 +1,9 @@
-application-prod.properties
+docker-compose2.yml
+script.sh
+/mysql_keycloak_data
+/realms
+
+
 # compiled output
 /dist
 /tmp

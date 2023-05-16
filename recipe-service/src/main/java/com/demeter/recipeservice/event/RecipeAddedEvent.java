@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecipeAddedEvent {
-    private Long recipeNumber;
+    private String recipeNumber;
 }

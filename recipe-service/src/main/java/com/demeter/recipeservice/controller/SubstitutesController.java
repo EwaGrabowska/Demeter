@@ -27,6 +27,7 @@ public class SubstitutesController {
     @TimeLimiter(name="ingredient")
     @Retry(name = "ingredient", fallbackMethod = "fallbackGetAllSubstitutesMethod")
     public CompletableFuture<List<IngredientSubstituteResponse>> getAllSubstitutes(@RequestParam String id) {
+        log.info("Calling getAllSubstitutes method");
         return CompletableFuture.supplyAsync(()->recipeService.getAllSubstitutes(id));
     }
 

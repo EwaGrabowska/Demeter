@@ -1,6 +1,38 @@
 ---
 version: '3'
 services:
+  ## Keycloak Config with Mysql database
+  keycloak-mysql:
+    container_name: keycloak-mysql
+    image: mysql:5.7
+    volumes:
+      - ./mysql_keycloak_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:18.0.0
+    command: [ "start-dev", "--import-realm" ]
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./realms/:/opt/keycloak/data/import/
+    depends_on:
+      - keycloak-mysql
+
+  ## Kafka with Zookeeper
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
     container_name: zookeeper
@@ -23,3 +55,86 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  ## Zipkin
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  ## Eureka Server
+  eureka-server:
+    image: ewagrabowska/eureka-server:latest
+    container_name: eureka-server
+    pull_policy: always
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+
+  ## Api-gateway
+  api-gateway:
+    image: ewagrabowska/api-gateway:latest
+    container_name: api-gateway
+    pull_policy: always
+    ports:
+      - "8181:8080"
+    expose:
+      - "8181"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+    depends_on:
+      - zipkin
+      - eureka-server
+      - keycloak
+
+  ## Recipe-Service Docker Compose Config
+  recipe-service:
+    container_name: recipe-service
+    image: ewagrabowska/recipe-service:latest
+    pull_policy: always
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SPRING_PROFILES_ACTIVE=docker
+      - url=${url}
+      - username=${username}
+      - password=${password}
+    depends_on:
+      - broker
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+  ## Ingredient-Service Docker Compose Config
+  ingredient-service:
+    container_name: ingredient-service
+    image: ewagrabowska/ingredient-service:latest
+    pull_policy: always
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - api-gateway
+
+
+  ## Kafka-Service Docker Compose Config
+  kafka-service:
+    container_name: kafka-service
+    image: ewagrabowska/kafka-service:latest
+    pull_policy: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+      - broker
+      - eureka-server
+      - api-gateway
+
+

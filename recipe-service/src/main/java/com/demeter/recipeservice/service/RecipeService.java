@@ -34,7 +34,8 @@ public class RecipeService {
 
         recipe = recipeRepository.save(recipe);
         log.info("Recipe {} is saved", recipe.getId());
-        kafkaTemplate.send("dbEventTopic", new RecipeAddedEvent(recipe.getId()));
+        kafkaTemplate.send("dbEventTopic", new RecipeAddedEvent(String.valueOf(recipe.getId())));
+        log.info("Notification about saved recipe - id {} sended :", recipe.getId());
     }
 
     public List<RecipeResponse> getAllRecipes() {
