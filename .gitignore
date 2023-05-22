@@ -3,6 +3,27 @@ script.sh
 /mysql_keycloak_data
 /realms
 
+demeter-ui/.angular/cache
+
+# Node.js dependencies
+/node_modules
+
+# Compiled output
+/dist
+
+# Environment variables
+/.env
+
+# IDE/Editor files
+/.idea
+/.vscode
+
+# Log files
+/*.log
+
+# Build artifacts
+/*.js.map
+/*.js.LICENSE.txt
 
 # compiled output
 /dist

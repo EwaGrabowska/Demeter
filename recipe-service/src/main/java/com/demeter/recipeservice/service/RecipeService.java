@@ -7,13 +7,16 @@ import com.demeter.recipeservice.dto.IngredientSubstituteResponse;
 import com.demeter.recipeservice.dto.RecipeRequest;
 import com.demeter.recipeservice.dto.RecipeResponse;
 import com.demeter.recipeservice.event.RecipeAddedEvent;
+import com.demeter.recipeservice.model.Photo;
 import com.demeter.recipeservice.model.Recipe;
+import com.demeter.recipeservice.repository.PhotoRepository;
 import com.demeter.recipeservice.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +30,8 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final Tracer tracer;
     private final KafkaTemplate<String, RecipeAddedEvent> kafkaTemplate;
+    private final AWSService AWSService;
+    private final PhotoRepository photoRepository;
 
 
     public void createRecipe(final RecipeRequest source) {
@@ -64,5 +69,14 @@ public class RecipeService {
             ingredientServiceLookup.flush();
         }
 
+    }
+
+    public void uploadPhoto(MultipartFile file) {
+        String photoUrl = AWSService.uploadFile(file);
+        var photo = new Photo();
+        photo.setPhotoUrl(photoUrl);
+        System.out.println("photo added");
+
+        photoRepository.save(photo);
     }
 }

@@ -165,5 +165,12 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=password
 
+  demeter-ui:
+    image: ewagrabowska/demeter-ui
+    container_name: demeter-ui
+    restart: always
+    ports:
+      - "4200:80"
+
 
 
