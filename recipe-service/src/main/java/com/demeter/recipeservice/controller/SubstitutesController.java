@@ -1,7 +1,7 @@
-package com.demeter.recipeservice.controller;
+package com.demeter.recipeservice.client.controller;
 
 import com.demeter.recipeservice.dto.IngredientSubstituteResponse;
-import com.demeter.recipeservice.service.RecipeService;
+import com.demeter.recipeservice.client.service.RecipeService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;

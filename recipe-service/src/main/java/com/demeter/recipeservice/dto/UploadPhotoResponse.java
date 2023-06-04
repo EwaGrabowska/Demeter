@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MeasuringUnitesRequest {
-    private String name;
+public class UploadResponse {
+    private String url;
+    private String id;
 }

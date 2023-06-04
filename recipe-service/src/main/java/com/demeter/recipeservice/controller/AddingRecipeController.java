@@ -1,8 +1,8 @@
-package com.demeter.recipeservice.controller;
+package com.demeter.recipeservice.client.controller;
 
 import com.demeter.recipeservice.dto.RecipeRequest;
 import com.demeter.recipeservice.dto.RecipeResponse;
-import com.demeter.recipeservice.service.RecipeService;
+import com.demeter.recipeservice.client.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -36,3 +36,9 @@ public class AddingRecipeController {
     }
 
 }
+//
+//    @PutMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public RecipeResponse editRecipe(@RequestBody RecipeResponse recipeResponse){
+//        return recipeService.editVideo(recipeResponse);
+//    }

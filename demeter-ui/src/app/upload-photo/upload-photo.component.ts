@@ -63,13 +63,13 @@ export class UploadPhotoComponent{
   }
 
   uploadPhoto() {
-  //   Uploading photo to bacend
     if (this.fileEntry !== undefined) {
       console.log(this.fileEntry);
 
       this.fileEntry.file(file => {
         this.photoService.uploadPhoto(file).subscribe(data => {
-          console.log("Photo added successfully")
+          this.router.navigateByUrl("/save-recipe-details/" + data.id);
+          console.log("Photo added successfully. Photo id:"+data.id)
        })
       })
     }

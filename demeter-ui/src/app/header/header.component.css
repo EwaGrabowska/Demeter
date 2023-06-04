@@ -4,6 +4,16 @@
 .logo{
   color: white;
   text-decoration: none;
+  font-size: 30px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 9999;
 }
 
 

@@ -1,0 +1,104 @@
+<div class="content-wrapper">
+  <div fxLayout="column" style="height: auto" fxFlex="15%" class="left-column">
+    <mat-button-toggle-group name="favoriteColor" aria-label="Favorite Color" class="vertical-buttons" value="addrecipe">
+      <mat-button-toggle value="myrecipes" (click)="navigateTo('myrecipes')">Moje przepisy</mat-button-toggle>
+      <mat-button-toggle value="addrecipe" (click)="navigateTo('myrecipes/addrecipe')">Dodaj przepis</mat-button-toggle>
+      <mat-button-toggle value="notes" (click)="navigateTo('myrecipes/notes')">Szkice</mat-button-toggle>
+      <mat-button-toggle value="rewrited" (click)="navigateTo('myrecipes/rewrited')">Przerobione</mat-button-toggle>
+      <mat-button-toggle value="favourite" (click)="navigateTo('myrecipes/favourite')">Ulubione</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <hr class="vertical-line" [ngClass]="'mat-primary'">
+
+  <div fxLayout="column" style="height: auto" fxFlex="85%" class="right-column">
+    <form class="recipe-form" (ngSubmit)="submitForm()">
+      <h3>Informacje o przepisie:</h3>
+      <div class="form-field" >
+        <mat-form-field fxFlex="100%">
+          <mat-label>Tytuł</mat-label>
+          <input matInput [(ngModel)]="recipeRequest.name" name="name">
+<!--          <mat-error *ngIf="recipeForm.controls['name']?.invalid">-->
+<!--            Pole tytuł jest wymagane-->
+<!--          </mat-error>-->
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-form-field fxFlex="80%">
+          <mat-label>Autor</mat-label>
+          <input matInput [(ngModel)]="recipeRequest.author" name="author" required>
+<!--          <mat-error *ngIf="recipeForm.controls['author']?.invalid">-->
+<!--            Pole autor jest wymagane-->
+<!--          </mat-error>-->
+        </mat-form-field>
+        <mat-form-field fxFlex="20%">
+          <mat-label>Ilość porcji</mat-label>
+          <input matInput [(ngModel)]="recipeRequest.servingSize" name="servingSize" type="number" required>
+<!--          <mat-error *ngIf="recipeForm.controls['servingSize']?.invalid">-->
+<!--            Pole iliść porcji jest wymagane-->
+<!--          </mat-error>-->
+        </mat-form-field>
+      </div>
+
+      <h3>składniki:</h3>
+      <div class="form-field" *ngFor="let ingredient of recipeRequest.ingredientList; let i = index">
+        <div fxLayout="row" fxLayoutGap="10px">
+
+          <mat-form-field fxFlex="15%">
+            <mat-label>Ilość</mat-label>
+            <input matInput [(ngModel)]="ingredient.quantity" type="number" name="ingredient-{{i}}-quantity" required>
+<!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('quantity')?.invalid">-->
+<!--              Pole ilość jest wymagane-->
+<!--            </mat-error>-->
+          </mat-form-field>
+
+          <mat-form-field fxFlex="20%">
+            <mat-label>Rodzaj miary</mat-label>
+            <input matInput [(ngModel)]="ingredient.measuringUnites" name="ingredient-{{i}}-measuringUnites" required>
+<!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('measuringUnites')?.invalid">-->
+<!--              Pole rodzaj miary jest wymagane-->
+<!--            </mat-error>-->
+          </mat-form-field>
+
+          <mat-form-field fxFlex="40%">
+            <mat-label>Składnik</mat-label>
+            <input matInput [(ngModel)]="ingredient.name" name="ingredient-{{i}}-name" required>
+<!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('name')?.invalid">-->
+<!--              Pole składnik jest wymagane-->
+<!--            </mat-error>-->
+          </mat-form-field>
+          <button mat-icon-button type="button" (click)="moveIngredientUp(i)" *ngIf="i > 0">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="moveIngredientDown(i)" *ngIf="i < recipeRequest.ingredientList.length - 1">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" type="button" (click)="removeIngredient(i)" *ngIf="recipeRequest.ingredientList.length > 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </div>
+      </div>
+      <div>
+        <button mat-raised-button color="accent" type="button" (click)="addIngredient()">Dodaj składnik</button>
+      </div>
+      <h3>Wykonanie:</h3>
+      <div class="form-field">
+        <mat-form-field fxFlex="100%">
+          <mat-label>Wykonanie</mat-label>
+          <textarea matInput [(ngModel)]="recipeRequest.method" name="method"></textarea>
+<!--          <mat-error *ngIf="recipeForm.controls['method']?.invalid">-->
+<!--            Pole metoda jest wymagane-->
+<!--          </mat-error>-->
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="end end">
+        <button mat-raised-button color="accent" type="button" (click)="resetForm()">Wyczyść</button>
+        <button mat-raised-button color="primary" type="submit">Dodaj przepis</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

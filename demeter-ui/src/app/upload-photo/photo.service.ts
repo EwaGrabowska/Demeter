@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {FileSystemFileEntry} from "ngx-file-drop";
 import {Observable} from "rxjs";
+import {UploadPhotoResponse} from "./uploadPhotoResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,9 @@ export class PhotoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  uploadPhoto(fileEntry: File): Observable<any> {
+  uploadPhoto(fileEntry: File): Observable<UploadPhotoResponse> {
     const formData = new FormData()
     formData.append('file', fileEntry, fileEntry.name)
-      return this.httpClient.post("http://localhost:8181/recipes/addphoto", formData);
+      return this.httpClient.post<UploadPhotoResponse>("http://localhost:8080/recipes/addphoto", formData);
   }
 }

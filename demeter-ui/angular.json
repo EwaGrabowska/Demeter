@@ -10,6 +10,8 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -96,4 +98,4 @@
       }
     }
   }
-}
+}}

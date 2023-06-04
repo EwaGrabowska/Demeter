@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.dto;
+package com.demeter.recipeservice.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,0 +1,64 @@
+.content-wrapper {
+  display: flex;
+  height: calc(100vh - 80px);
+}
+
+.left-column {
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 64px;
+}
+
+.right-column {
+  background-color: #ffffff;
+  overflow-y: auto;
+  height: 100%;
+  margin-top: 64px;
+}
+.right-column::before {
+  content: "";
+  width: 1px;
+  margin-right: 10px;
+  background-color: #111111;
+}
+.vertical-line {
+  border-left: 1px solid;
+  border-color: #c2185b;
+  margin: 0 10px;
+}
+
+.example-card {
+  width: 100%;
+  background-color: #b0bec5;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+}
+
+.example-header-image {
+  background-image: url('https://cssy.s3.eu-west-1.amazonaws.com/343974240_1234537757171955_7934628608337720497_n.png');
+  background-size: cover;
+  width: 25px;
+  height: 25px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+mat-slider {
+  width: 100%;
+  transform: rotate(270deg);
+}
+
+.recipe-card {
+  width: 100%
+}

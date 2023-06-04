@@ -12,12 +12,25 @@ import {MatButtonModule} from "@angular/material/button";
 import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import { SaveRecipeDetailsComponent } from './save-recipe-details/save-recipe-details.component';
+import {FlexLayoutModule} from "@angular/flex-layout";
+import { HomeComponent } from './home/home.component';
+import {MatSliderModule} from "@angular/material/slider";
+import { MyRecipesComponent } from './my-recipes/my-recipes.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { AddrecipeComponent } from './addrecipe/addrecipe.component';
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadPhotoComponent,
-    HeaderComponent
+    HeaderComponent,
+    SaveRecipeDetailsComponent,
+    HomeComponent,
+    MyRecipesComponent,
+    AddrecipeComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +42,11 @@ import {MatIconModule} from "@angular/material/icon";
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    FlexLayoutModule,
+    MatSliderModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

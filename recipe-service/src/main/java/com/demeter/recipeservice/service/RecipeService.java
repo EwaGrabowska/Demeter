@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.service;
+package com.demeter.recipeservice.client.service;
 
 import brave.Span;
 import brave.Tracer;
@@ -9,8 +9,8 @@ import com.demeter.recipeservice.dto.RecipeResponse;
 import com.demeter.recipeservice.event.RecipeAddedEvent;
 import com.demeter.recipeservice.model.Photo;
 import com.demeter.recipeservice.model.Recipe;
-import com.demeter.recipeservice.repository.PhotoRepository;
-import com.demeter.recipeservice.repository.RecipeRepository;
+import com.demeter.recipeservice.client.repository.PhotoRepository;
+import com.demeter.recipeservice.client.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -40,7 +40,7 @@ public class RecipeService {
         recipe = recipeRepository.save(recipe);
         log.info("Recipe {} is saved", recipe.getId());
         kafkaTemplate.send("dbEventTopic", new RecipeAddedEvent(String.valueOf(recipe.getId())));
-        log.info("Notification about saved recipe - id {} sended :", recipe.getId());
+        log.info("Notification about saved recipe - id {} sended", recipe.getId());
     }
 
     public List<RecipeResponse> getAllRecipes() {
@@ -78,5 +78,13 @@ public class RecipeService {
         System.out.println("photo added");
 
         photoRepository.save(photo);
+    }
+
+    public RecipeResponse editVideo(RecipeResponse recipeResponse) {
+        var oldVersionRecipe = recipeRepository.findById(recipeResponse.getId())
+                .orElseThrow(()->new IllegalArgumentException("Recipe doesnt exist. Recipe id: " + recipeResponse.getId()));
+        var editedRecipe = RecipeFactory.editRecipe(recipeResponse);
+        var newVersionRecipe = recipeRepository.save(editedRecipe);
+        return RecipeFactory.entityToDto(newVersionRecipe);
     }
 }

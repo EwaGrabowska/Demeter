@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.config;
+package com.demeter.recipeservice.client.config;
 
 import feign.Capability;
 import feign.micrometer.MicrometerCapability;

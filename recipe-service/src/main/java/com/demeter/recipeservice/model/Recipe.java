@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.model;
+package com.demeter.recipeservice.client.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
