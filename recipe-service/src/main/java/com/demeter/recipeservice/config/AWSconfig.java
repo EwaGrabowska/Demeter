@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.client.config;
+package com.demeter.recipeservice.config;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.s3.AmazonS3Client;

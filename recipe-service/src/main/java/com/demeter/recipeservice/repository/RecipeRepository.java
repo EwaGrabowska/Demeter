@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.client.repository;
+package com.demeter.recipeservice.repository;
 
 import com.demeter.recipeservice.model.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;

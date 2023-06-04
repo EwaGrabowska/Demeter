@@ -1,32 +1,21 @@
-package com.demeter.recipeservice.client.service;
+package com.demeter.recipeservice.service;
 
-import com.demeter.recipeservice.dto.*;
+import com.demeter.recipeservice.dto.IngredientRequest;
+import com.demeter.recipeservice.dto.IngredientResponse;
+import com.demeter.recipeservice.dto.RecipeRequest;
+import com.demeter.recipeservice.dto.RecipeResponse;
 import com.demeter.recipeservice.model.Ingredient;
-import com.demeter.recipeservice.model.MeasuringUnites;
 import com.demeter.recipeservice.model.Recipe;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RecipeFactory {
 
-    static MeasuringUnites dtoToEntity(final MeasuringUnitesRequest source) {
-        return MeasuringUnites.builder()
-                .name(source.getName())
-                .build();
-    }
-
-
-    static MeasuringUnitesResponse entityToDto(MeasuringUnites source){
-        return MeasuringUnitesResponse.builder()
-                .id(source.getId())
-                .name(source.getName())
-                .build();
-    }
-
     static Ingredient dtoToEntity(IngredientRequest source){
         return Ingredient.builder()
                 .name(source.getName())
                 .quantity(source.getQuantity())
+                .measuringUnites(source.getMeasuringUnites())
                 .build();
     }
 
@@ -35,6 +24,7 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .quantity(source.getQuantity())
+                .measuringUnites(source.getMeasuringUnites())
                 .build();
     }
 
@@ -43,6 +33,7 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .quantity(source.getQuantity())
+                .measuringUnites(source.getMeasuringUnites())
                 .build();
     }
 
@@ -56,7 +47,7 @@ public class RecipeFactory {
                 .restingTime(source.getRestingTime())
                 .servingSize(source.getServingSize())
                 .ingredientList(source.getIngredientList().stream()
-                        .map(recipeRequest->dtoToEntity(recipeRequest))
+                        .map(ingredientRequest->dtoToEntity(ingredientRequest))
                         .toList())
                 .build();
         return recipe;

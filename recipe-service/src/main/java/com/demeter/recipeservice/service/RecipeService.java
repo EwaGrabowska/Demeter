@@ -1,16 +1,17 @@
-package com.demeter.recipeservice.client.service;
+package com.demeter.recipeservice.service;
 
 import brave.Span;
 import brave.Tracer;
 import com.demeter.recipeservice.client.IngredientClient;
 import com.demeter.recipeservice.dto.IngredientSubstituteResponse;
+import com.demeter.recipeservice.dto.PhotoResponse;
 import com.demeter.recipeservice.dto.RecipeRequest;
 import com.demeter.recipeservice.dto.RecipeResponse;
 import com.demeter.recipeservice.event.RecipeAddedEvent;
 import com.demeter.recipeservice.model.Photo;
 import com.demeter.recipeservice.model.Recipe;
-import com.demeter.recipeservice.client.repository.PhotoRepository;
-import com.demeter.recipeservice.client.repository.RecipeRepository;
+import com.demeter.recipeservice.repository.PhotoRepository;
+import com.demeter.recipeservice.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -34,13 +35,14 @@ public class RecipeService {
     private final PhotoRepository photoRepository;
 
 
-    public void createRecipe(final RecipeRequest source) {
+    public RecipeResponse createRecipe(final RecipeRequest source) {
         Recipe recipe = RecipeFactory.dtoToEntity(source);
 
         recipe = recipeRepository.save(recipe);
         log.info("Recipe {} is saved", recipe.getId());
         kafkaTemplate.send("dbEventTopic", new RecipeAddedEvent(String.valueOf(recipe.getId())));
         log.info("Notification about saved recipe - id {} sended", recipe.getId());
+        return RecipeFactory.entityToDto(recipe);
     }
 
     public List<RecipeResponse> getAllRecipes() {
@@ -71,17 +73,18 @@ public class RecipeService {
 
     }
 
-    public void uploadPhoto(MultipartFile file) {
+    public PhotoResponse uploadPhoto(MultipartFile file) {
         String photoUrl = AWSService.uploadFile(file);
         var photo = new Photo();
         photo.setPhotoUrl(photoUrl);
         System.out.println("photo added");
+        Photo savedPhoto = photoRepository.save(photo);
+        return new PhotoResponse(String.valueOf(savedPhoto.getId()), savedPhoto.getPhotoUrl());
 
-        photoRepository.save(photo);
     }
 
-    public RecipeResponse editVideo(RecipeResponse recipeResponse) {
-        var oldVersionRecipe = recipeRepository.findById(recipeResponse.getId())
+    public RecipeResponse editRecipe(RecipeResponse recipeResponse) {
+        recipeRepository.findById(recipeResponse.getId())
                 .orElseThrow(()->new IllegalArgumentException("Recipe doesnt exist. Recipe id: " + recipeResponse.getId()));
         var editedRecipe = RecipeFactory.editRecipe(recipeResponse);
         var newVersionRecipe = recipeRepository.save(editedRecipe);

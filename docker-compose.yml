@@ -92,7 +92,7 @@ services:
       - eureka-server
       - keycloak
 
-  ## Recipe-Service Docker Compose Config
+  ## RecipeRequest-Service Docker Compose Config
   recipe-service:
     container_name: recipe-service
     image: ewagrabowska/recipe-service:latest

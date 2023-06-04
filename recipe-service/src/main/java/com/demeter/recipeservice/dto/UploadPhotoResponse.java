@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UploadResponse {
+public class UploadPhotoResponse {
     private String url;
     private String id;
 }

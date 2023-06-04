@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.service;
+package com.demeter.recipeservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

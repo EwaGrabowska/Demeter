@@ -1,8 +1,7 @@
-package com.demeter.recipeservice.client.controller;
+package com.demeter.recipeservice.controller;
 
-import com.demeter.recipeservice.dto.RecipeRequest;
-import com.demeter.recipeservice.dto.RecipeResponse;
-import com.demeter.recipeservice.client.service.RecipeService;
+import com.demeter.recipeservice.dto.*;
+import com.demeter.recipeservice.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +18,29 @@ public class AddingRecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct(@RequestBody RecipeRequest recipeRequest) {
-        recipeService.createRecipe(recipeRequest);
+    public UploadRecipeResponse createRecipe(@RequestBody RecipeRequest recipeRequest) {
+        RecipeResponse recipeResponse = recipeService.createRecipe(recipeRequest);
+        return new UploadRecipeResponse(String.valueOf(recipeResponse.getId()));
     }
 
     @PostMapping("/addphoto")
     @ResponseStatus(HttpStatus.CREATED)
-    public void uploadPhoto(@RequestParam("file") MultipartFile file) {
-        recipeService.uploadPhoto(file);
+    public UploadPhotoResponse uploadPhoto(@RequestParam("file") MultipartFile file) {
+        PhotoResponse photoResponse = recipeService.uploadPhoto(file);
+        return new UploadPhotoResponse(photoResponse.getId(), photoResponse.getPhotoUrl());
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<RecipeResponse> getAllProducts() {
+    public List<RecipeResponse> getAllRecipes() {
         return recipeService.getAllRecipes();
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public RecipeResponse editRecipe(@RequestBody RecipeResponse recipeResponse){
+        return recipeService.editRecipe(recipeResponse);
+    }
+
 }
-//
-//    @PutMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public RecipeResponse editRecipe(@RequestBody RecipeResponse recipeResponse){
-//        return recipeService.editVideo(recipeResponse);
-//    }
+

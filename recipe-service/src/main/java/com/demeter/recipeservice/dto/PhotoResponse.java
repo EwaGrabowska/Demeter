@@ -1,2 +1,15 @@
-package com.demeter.recipeservice.dto;public class PhotoResponse {
+package com.demeter.recipeservice.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
+public class PhotoResponse {
+    private String id;
+    private String photoUrl;
 }

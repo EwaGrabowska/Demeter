@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.model.event;
+package com.demeter.recipeservice.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.demeter.recipeservice.client.model;
+package com.demeter.recipeservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +18,5 @@ public class Ingredient {
     private Long id;
     private String name;
     private Double quantity;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private MeasuringUnites measuringUnites;
+    private String measuringUnites;
 }
