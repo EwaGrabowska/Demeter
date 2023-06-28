@@ -2,6 +2,7 @@ package com.demeter.recipeservice.controller;
 
 import com.demeter.recipeservice.dto.*;
 import com.demeter.recipeservice.service.RecipeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class AddingRecipeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UploadRecipeResponse createRecipe(@RequestBody RecipeRequest recipeRequest) {
+    public UploadRecipeResponse createRecipe(@RequestBody RecipeRequest recipeRequest) throws JsonProcessingException {
         RecipeResponse recipeResponse = recipeService.createRecipe(recipeRequest);
         return new UploadRecipeResponse(String.valueOf(recipeResponse.getId()));
     }

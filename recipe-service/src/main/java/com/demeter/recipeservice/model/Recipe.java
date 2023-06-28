@@ -23,14 +23,18 @@ public class Recipe {
     private String name;
     private Integer servingSize;
     private String author;
-    private String method;
     private BigDecimal price;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ingredient> ingredientList;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Step> method;
+    @OneToOne
+    private Photo photo;
     private Integer preparationTime;
     private Integer cookingTime;
     private Integer restingTime;
     @Transient
     private Integer readyToServe;
+
 
 }

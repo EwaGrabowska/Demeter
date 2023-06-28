@@ -12,6 +12,18 @@
       "architect": {
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "demeter-ui:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "demeter-ui:build:production"
+            },
+            "development": {
+              "browserTarget": "demeter-ui:build:development"
+            }
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -59,18 +71,6 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "demeter-ui:build:production"
-            },
-            "development": {
-              "browserTarget": "demeter-ui:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
@@ -98,4 +98,4 @@
       }
     }
   }
-}}
+}

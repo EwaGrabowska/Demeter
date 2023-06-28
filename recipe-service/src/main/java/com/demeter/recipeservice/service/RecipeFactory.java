@@ -1,15 +1,35 @@
 package com.demeter.recipeservice.service;
 
-import com.demeter.recipeservice.dto.IngredientRequest;
-import com.demeter.recipeservice.dto.IngredientResponse;
-import com.demeter.recipeservice.dto.RecipeRequest;
-import com.demeter.recipeservice.dto.RecipeResponse;
+import com.demeter.recipeservice.dto.*;
 import com.demeter.recipeservice.model.Ingredient;
 import com.demeter.recipeservice.model.Recipe;
+import com.demeter.recipeservice.model.Step;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RecipeFactory {
+
+    static Step dtoToEntity(StepRequest source){
+        return Step.builder()
+                .text(source.getText())
+                .number(source.getNumber())
+                .build();
+    }
+    static Step dtoToEntity(StepResponse source){
+        return Step.builder()
+                .id(source.getId())
+                .text(source.getText())
+                .number(source.getNumber())
+                .build();
+    }
+
+    static StepResponse entityToDto(Step source){
+        return StepResponse.builder()
+                .id(source.getId())
+                .text(source.getText())
+                .number(source.getNumber())
+                .build();
+    }
 
     static Ingredient dtoToEntity(IngredientRequest source){
         return Ingredient.builder()
@@ -41,7 +61,9 @@ public class RecipeFactory {
         Recipe recipe = Recipe.builder()
                 .name(source.getName())
                 .author(source.getAuthor())
-                .method(source.getMethod())
+                .method(source.getMethod().stream()
+                        .map(step->dtoToEntity(step))
+                        .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
@@ -49,6 +71,7 @@ public class RecipeFactory {
                 .ingredientList(source.getIngredientList().stream()
                         .map(ingredientRequest->dtoToEntity(ingredientRequest))
                         .toList())
+                .photo(source.getPhoto())
                 .build();
         return recipe;
     }
@@ -57,7 +80,9 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .author(source.getAuthor())
-                .method(source.getMethod())
+                .method(source.getMethod().stream()
+                        .map(step->dtoToEntity(step))
+                        .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
@@ -65,6 +90,7 @@ public class RecipeFactory {
                 .ingredientList(source.getIngredientList().stream()
                         .map(ingredientResponse->dtoToEntity(ingredientResponse))
                         .toList())
+                .photo(source.getPhoto())
                 .build();
         return recipe;
     }
@@ -73,7 +99,9 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .author(source.getAuthor())
-                .method(source.getMethod())
+                .method(source.getMethod().stream()
+                        .map(step -> entityToDto(step))
+                        .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
@@ -81,6 +109,7 @@ public class RecipeFactory {
                 .ingredientList(source.getIngredientList().stream()
                         .map(ingredient -> entityToDto(ingredient))
                         .toList())
+                .photo(source.getPhoto())
                 .build();
     }
 }

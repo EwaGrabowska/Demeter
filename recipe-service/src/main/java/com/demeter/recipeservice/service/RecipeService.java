@@ -79,7 +79,7 @@ public class RecipeService {
         photo.setPhotoUrl(photoUrl);
         System.out.println("photo added");
         Photo savedPhoto = photoRepository.save(photo);
-        return new PhotoResponse(String.valueOf(savedPhoto.getId()), savedPhoto.getPhotoUrl());
+        return new PhotoResponse(savedPhoto.getId(), savedPhoto.getPhotoUrl());
 
     }
 

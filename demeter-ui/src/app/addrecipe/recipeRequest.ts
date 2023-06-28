@@ -1,4 +1,6 @@
 import {Ingredient} from "./ingredient";
+import {Step} from "./step";
+import {UploadPhotoResponse} from "./uploadPhotoResponse";
 
 export class RecipeRequest {
 
@@ -7,10 +9,13 @@ export class RecipeRequest {
     public author: string,
     public servingSize: number,
     public ingredientList: Ingredient[],
-    public method: string,
+    public method: Step[],
     public price: number,
     public preparationTime: number,
     public cookingTime: number,
-    public restingTime: number) {
+    public restingTime: number,
+    public photo: UploadPhotoResponse
+  ){
+
   }
 }

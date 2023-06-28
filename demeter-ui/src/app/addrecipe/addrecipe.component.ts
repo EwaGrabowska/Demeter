@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {RecipeRequest} from "./recipeRequest";
 import {Ingredient} from "./ingredient";
 import {Router} from "@angular/router";
+import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
+import {environment} from '../../environments/environments';
+import {Step} from "./step";
+import {UploadPhotoResponse} from "./uploadPhotoResponse";
+import {PhotoService} from "./photo.service";
 
 @Component({
   selector: 'app-addrecipe',
@@ -11,24 +16,31 @@ import {Router} from "@angular/router";
   styleUrls: ['./addrecipe.component.css']
 })
 export class AddrecipeComponent {
-  // recipeForm: FormGroup;
-  recipeRequest= new RecipeRequest ('', '', 0,
-    [new Ingredient(0, '', '')],
-    '', 0, 0, 0, 0);
+  public files: NgxFileDropEntry[] = [];
+  public fileuploaded: boolean = false;
+  selectedImage: File | null = null;
+  thumbnail: string | null = null;
+  apiURL = environment.apiUrl;
+
+  recipeForm: FormGroup;
+  recipeRequest= new RecipeRequest ('', '', 1,
+    [new Ingredient(1, '', '')],
+    [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''));
+  private uploadedFile: File | undefined;
 
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
-    // this.recipeForm = this.formBuilder.group({
-    //   name: ['', Validators.required],
-    //   author: ['', Validators.required],
-    //   servingSize: [0, Validators.required],
-    //   method: ['', Validators.required],
-    //   ingredientList: this.formBuilder.array([], Validators.minLength(1)),
-    //   price: [0],
-    //   preparationTime: [0],
-    //   cookingTime: [0],
-    //   restingTime: [0]
-    // });
+  constructor(private photoService: PhotoService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+    this.recipeForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      author: ['', Validators.required],
+      servingSize: [1, Validators.required],
+      method: this.formBuilder.array([], Validators.minLength(1)),
+      ingredientList: this.formBuilder.array([], Validators.minLength(1)),
+      // price: [0],
+      // preparationTime: [0],
+      // cookingTime: [0],
+      // restingTime: [0]
+    });
   }
 
   navigateTo(route: string) {
@@ -37,7 +49,7 @@ export class AddrecipeComponent {
 
   addIngredient() {
     this.recipeRequest.ingredientList.push({
-      quantity: 0,
+      quantity: 1,
       measuringUnites: '',
       name: ''
     });
@@ -64,40 +76,99 @@ export class AddrecipeComponent {
       this.recipeRequest.ingredientList[index + 1] = currentIngredient;
     }
   }
+  public addStep() {
+    this.recipeRequest.method.push({
+      number: this.recipeRequest.method.length+1,
+      text: ''
+    });
 
+  }
+
+  moveStepUp(index: number) {
+    if (index > 0) {
+      const currentStep = { ...this.recipeRequest.method[index] };
+      currentStep.number = currentStep.number+1;
+      const previousStep = { ...this.recipeRequest.method[index - 1] };
+      previousStep.number = previousStep.number-1;
+      this.recipeRequest.method[index] = previousStep;
+      this.recipeRequest.method[index - 1] = currentStep;
+    }
+  }
+
+  moveStepDown(index: number) {
+    if (index < this.recipeRequest.method.length - 1) {
+      const currentStep = { ...this.recipeRequest.method[index] };
+      currentStep.number = currentStep.number-1;
+      const nextStep = { ...this.recipeRequest.method[index + 1] };
+      nextStep.number = nextStep.number+1;
+      this.recipeRequest.method[index] = nextStep;
+      this.recipeRequest.method[index + 1] = currentStep;
+    }
+  }
+
+  removeStep(index: number) {
+    this.recipeRequest.method.splice(index, 1);
+  }
   resetForm() {
-    this.recipeRequest = {
+    this.recipeForm.reset({
       name: '',
       author: '',
       servingSize: 0,
       ingredientList: [
         {
-          quantity: 0,
+          quantity: 1,
           measuringUnites: '',
           name: ''
         }
       ],
-      method: '',
+      method: [
+        {
+          number: 1,
+          text: ''
+        }
+      ],
       price: 0,
       preparationTime: 0,
       cookingTime: 0,
-      restingTime: 0
-    };
-  }
-  submitForm() {
-    // if (this.recipeForm.invalid) {
-    //   console.log('cos nie halo', this.recipe);
-    //   return;
-    // }
-    console.log(this.recipeRequest)
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:8080'
-      })
-    };
+      restingTime: 0,
+      photo: {
+        id: '',
+        photoUrl: ''
+      }
+    });
+    this.recipeRequest = new RecipeRequest ('', '', 1,
+      [new Ingredient(1, '', '')],
+      [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''));
 
-    this.http.post<RecipeRequest>("http://localhost:8080/recipes", this.recipeRequest).subscribe({
+    this.selectedImage = null;
+    this.thumbnail = null;
+  }
+  public dropped(files: NgxFileDropEntry[]) {
+    this.files = files;
+
+    for (const droppedFile of files) {
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+          const reader = new FileReader();
+          reader.onload = (event: any) => {
+            this.selectedImage = event.target.result;
+          };
+          reader.readAsDataURL(file);
+          this.generateThumbnail(file);
+          this.fileuploaded=true;
+          this.uploadedFile = file;
+          console.log(this.fileuploaded.valueOf())
+        });
+      }
+    }
+  }
+
+  async submitForm() {
+    if (this.fileuploaded) {
+      await this.uploadPhoto();
+    }
+    this.http.post<RecipeRequest>(this.apiURL.concat('recipes'), this.recipeRequest).subscribe({
       next: response => {
         console.log('Form submitted successfully!', response);
         this.resetForm();
@@ -107,5 +178,80 @@ export class AddrecipeComponent {
       }
     });
   }
+
+  uploadPhoto(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (this.uploadedFile !== undefined) {
+        this.photoService.uploadPhoto(this.uploadedFile).subscribe(data => {
+          this.recipeRequest.photo.photoUrl = data.photoUrl;
+          this.recipeRequest.photo.id = Number(data.id);
+          console.log("Photo added successfully. Photo id: " + this.recipeRequest.photo.id);
+          resolve();
+        }, error => {
+          reject(error);
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  removeImage() {
+    this.selectedImage = null;
+    this.thumbnail = null;
+  }
+
+  generateThumbnail(file: File) {
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      const image = new Image();
+      image.src = event.target.result;
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const maxWidth = 100;
+        const maxHeight = 100;
+        let width = image.width;
+        let height = image.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        if (context) {
+          context.drawImage(image, 0, 0, width, height);
+          this.thumbnail = canvas.toDataURL('image/jpeg');
+        } else {
+          console.error('Unable to obtain canvas context.');
+        }
+        this.thumbnail = canvas.toDataURL('image/jpeg');
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+
+  public fileOver(event: any){
+    console.log(event);
+  }
+
+  public fileLeave(event: any){
+    console.log(event);
+  }
+
+  public saveSketch(){
+
+  }
+
+
 }
 

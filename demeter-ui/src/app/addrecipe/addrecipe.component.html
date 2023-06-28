@@ -12,41 +12,62 @@
   <hr class="vertical-line" [ngClass]="'mat-primary'">
 
   <div fxLayout="column" style="height: auto" fxFlex="85%" class="right-column">
-    <form class="recipe-form" (ngSubmit)="submitForm()">
+    <form class="recipe-form" (ngSubmit)="submitForm()" [formGroup]="recipeForm">
       <h3>Informacje o przepisie:</h3>
       <div class="form-field" >
         <mat-form-field fxFlex="100%">
           <mat-label>Tytuł</mat-label>
-          <input matInput [(ngModel)]="recipeRequest.name" name="name">
-<!--          <mat-error *ngIf="recipeForm.controls['name']?.invalid">-->
-<!--            Pole tytuł jest wymagane-->
-<!--          </mat-error>-->
+          <input matInput [(ngModel)]="recipeRequest.name" name="name" required>
+          <mat-error *ngIf="recipeForm.controls['name']?.invalid">
+            Pole tytuł jest wymagane
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="form-field">
         <mat-form-field fxFlex="80%">
           <mat-label>Autor</mat-label>
           <input matInput [(ngModel)]="recipeRequest.author" name="author" required>
-<!--          <mat-error *ngIf="recipeForm.controls['author']?.invalid">-->
-<!--            Pole autor jest wymagane-->
-<!--          </mat-error>-->
+          <mat-error *ngIf="recipeForm.controls['author']?.invalid">
+            Pole autor jest wymagane
+          </mat-error>
         </mat-form-field>
         <mat-form-field fxFlex="20%">
           <mat-label>Ilość porcji</mat-label>
           <input matInput [(ngModel)]="recipeRequest.servingSize" name="servingSize" type="number" required>
-<!--          <mat-error *ngIf="recipeForm.controls['servingSize']?.invalid">-->
-<!--            Pole iliść porcji jest wymagane-->
-<!--          </mat-error>-->
+          <mat-error *ngIf="recipeForm.controls['servingSize']?.invalid">
+            Pole iliść porcji jest wymagane
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <h3>składniki:</h3>
-      <div class="form-field" *ngFor="let ingredient of recipeRequest.ingredientList; let i = index">
+      <h3>Zdjęcie:</h3>
+      <div>
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+                       (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" fxFlex="30%">
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <div *ngIf="thumbnail">
+              <img [src]="thumbnail" alt="Thumbnail" class="thumbnail">
+              <button mat-icon-button color="warn" (click)="removeImage()">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="!thumbnail">
+              Przeciągnij zdjęcie lub
+              <button mat-raised-button color="accent" type="button"  (click)="openFileSelector()"> wybierz plik </button>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+      </div>
+
+
+      <h3>Składniki:</h3>
+      <div *ngFor="let ingredient of recipeRequest.ingredientList; let i = index">
         <div fxLayout="row" fxLayoutGap="10px">
 
           <mat-form-field fxFlex="15%">
             <mat-label>Ilość</mat-label>
-            <input matInput [(ngModel)]="ingredient.quantity" type="number" name="ingredient-{{i}}-quantity" required>
+            <input matInput [(ngModel)] = "ingredient.quantity" [ngModelOptions]="{ standalone: true }" type="number" name="ingredient-{{i}}-quantity">
+<!--            <input matInput [(ngModel)]="ingredient.quantity" type="number" name="ingredient-{{i}}-quantity">-->
 <!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('quantity')?.invalid">-->
 <!--              Pole ilość jest wymagane-->
 <!--            </mat-error>-->
@@ -54,7 +75,7 @@
 
           <mat-form-field fxFlex="20%">
             <mat-label>Rodzaj miary</mat-label>
-            <input matInput [(ngModel)]="ingredient.measuringUnites" name="ingredient-{{i}}-measuringUnites" required>
+            <input matInput [(ngModel)]="ingredient.measuringUnites" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-measuringUnites">
 <!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('measuringUnites')?.invalid">-->
 <!--              Pole rodzaj miary jest wymagane-->
 <!--            </mat-error>-->
@@ -62,11 +83,12 @@
 
           <mat-form-field fxFlex="40%">
             <mat-label>Składnik</mat-label>
-            <input matInput [(ngModel)]="ingredient.name" name="ingredient-{{i}}-name" required>
+            <input matInput [(ngModel)]="ingredient.name" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-name">
 <!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('name')?.invalid">-->
 <!--              Pole składnik jest wymagane-->
 <!--            </mat-error>-->
           </mat-form-field>
+
           <button mat-icon-button type="button" (click)="moveIngredientUp(i)" *ngIf="i > 0">
             <mat-icon>arrow_upward</mat-icon>
           </button>
@@ -82,19 +104,38 @@
       <div>
         <button mat-raised-button color="accent" type="button" (click)="addIngredient()">Dodaj składnik</button>
       </div>
+
       <h3>Wykonanie:</h3>
-      <div class="form-field">
-        <mat-form-field fxFlex="100%">
-          <mat-label>Wykonanie</mat-label>
-          <textarea matInput [(ngModel)]="recipeRequest.method" name="method"></textarea>
-<!--          <mat-error *ngIf="recipeForm.controls['method']?.invalid">-->
-<!--            Pole metoda jest wymagane-->
-<!--          </mat-error>-->
-        </mat-form-field>
+      <div class="form-field" *ngFor="let step of recipeRequest.method; let i = index">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <label>{{i+1}}.</label>
+          <mat-form-field fxFlex="75%">
+            <mat-label></mat-label>
+            <textarea matInput [(ngModel)]="step.text" [ngModelOptions]="{ standalone: true }" name="step-{{i}}-text" required></textarea>
+<!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('quantity')?.invalid">-->
+<!--              Pole ilość jest wymagane-->
+<!--            </mat-error>-->
+          </mat-form-field>
+
+          <button mat-icon-button type="button" (click)="moveStepUp(i)" *ngIf="i > 0">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="moveStepDown(i)" *ngIf="i < recipeRequest.method.length - 1">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" type="button" (click)="removeStep(i)" *ngIf="recipeRequest.method.length > 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </div>
+      </div>
+      <div>
+        <button mat-raised-button color="accent" type="button" (click)="addStep()">Dodaj etap</button>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="end end">
         <button mat-raised-button color="accent" type="button" (click)="resetForm()">Wyczyść</button>
+        <button mat-raised-button color="accent" type="button" (click)="saveSketch()">Zapisz jako szkic</button>
         <button mat-raised-button color="primary" type="submit">Dodaj przepis</button>
       </div>
 

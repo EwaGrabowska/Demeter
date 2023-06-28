@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class PhotoResponse {
-    private String id;
+    private Long id;
     private String photoUrl;
 }

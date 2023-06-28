@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UploadPhotoResponse {
+public class StepResponse {
     private Long id;
-    private String url;
-
+    private String text;
+    private int number;
 }
