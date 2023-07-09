@@ -9,6 +9,7 @@ import {environment} from '../../environments/environments';
 import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
 import {PhotoService} from "./photo.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-addrecipe',
@@ -29,7 +30,8 @@ export class AddrecipeComponent {
   private uploadedFile: File | undefined;
 
 
-  constructor(private photoService: PhotoService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private photoService: PhotoService, private formBuilder: FormBuilder, private http: HttpClient,
+              private router: Router, private matSnackBar: MatSnackBar) {
     this.recipeForm = this.formBuilder.group({
       name: ['', Validators.required],
       author: ['', Validators.required],
@@ -155,7 +157,7 @@ export class AddrecipeComponent {
             this.selectedImage = event.target.result;
           };
           reader.readAsDataURL(file);
-          this.generateThumbnail(file);
+          this.thumbnail = this.photoService.generateThumbnail(file);
           this.fileuploaded=true;
           this.uploadedFile = file;
           console.log(this.fileuploaded.valueOf())
@@ -171,6 +173,7 @@ export class AddrecipeComponent {
     this.http.post<RecipeRequest>(this.apiURL.concat('recipes'), this.recipeRequest).subscribe({
       next: response => {
         console.log('Form submitted successfully!', response);
+        this.matSnackBar.open("Przepis dodany pomyślnie", "Ok")
         this.resetForm();
       },
       error: error => {
@@ -199,45 +202,6 @@ export class AddrecipeComponent {
   removeImage() {
     this.selectedImage = null;
     this.thumbnail = null;
-  }
-
-  generateThumbnail(file: File) {
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      const image = new Image();
-      image.src = event.target.result;
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        const maxWidth = 100;
-        const maxHeight = 100;
-        let width = image.width;
-        let height = image.height;
-
-        if (width > height) {
-          if (width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        if (context) {
-          context.drawImage(image, 0, 0, width, height);
-          this.thumbnail = canvas.toDataURL('image/jpeg');
-        } else {
-          console.error('Unable to obtain canvas context.');
-        }
-        this.thumbnail = canvas.toDataURL('image/jpeg');
-      };
-    };
-    reader.readAsDataURL(file);
   }
 
   public fileOver(event: any){

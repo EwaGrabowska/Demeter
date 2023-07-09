@@ -19,6 +19,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { AddrecipeComponent } from './addrecipe/addrecipe.component';
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {CommonModule} from "@angular/common";
     MatButtonToggleModule,
     MatInputModule,
     NgxFileDropModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
