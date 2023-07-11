@@ -5,7 +5,7 @@ import {RecipeRequest} from "./recipeRequest";
 import {Ingredient} from "./ingredient";
 import {Router} from "@angular/router";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
-import {environment} from '../../environments/environments';
+import {environment} from '../../environments/environment';
 import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
 import {PhotoService} from "./photo.service";
@@ -88,7 +88,7 @@ export class AddrecipeComponent {
 
   moveStepUp(index: number) {
     if (index > 0) {
-      const currentStep = { ...this.recipeRequest.method[index] };
+      const currentStep = { ...this.recipeRequest.method[index]};
       currentStep.number = currentStep.number+1;
       const previousStep = { ...this.recipeRequest.method[index - 1] };
       previousStep.number = previousStep.number-1;

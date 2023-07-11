@@ -167,6 +167,9 @@ services:
 
   demeter-ui:
     image: ewagrabowska/demeter-ui
+    build:
+      args:
+        PROFILE: production
     container_name: demeter-ui
     restart: always
     ports:

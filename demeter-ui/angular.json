@@ -17,7 +17,15 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "demeter-ui:build:production"
+              "browserTarget": "demeter-ui:build:production",
+              "optimization": true,
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ]
             },
             "development": {
               "browserTarget": "demeter-ui:build:development"
@@ -46,6 +54,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -60,6 +74,7 @@
               ],
               "outputHashing": "all"
             },
+
             "development": {
               "buildOptimizer": false,
               "optimization": false,
