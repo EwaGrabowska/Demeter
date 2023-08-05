@@ -1,7 +1,10 @@
 export const environment = {
   production: false,
   name: 'dev',
-  // apiUrl: $ENV.API_URL,
   apiUrl: 'http://localhost:8080/',
-  debug: true
+  debug: true,
+  authority: '',
+  clientId: '',
+  secureRoutes: 'http://localhost:8080',
+  audience: 'http://localhost:8080'
 };

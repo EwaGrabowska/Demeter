@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {NgxFileDropModule} from "ngx-file-drop";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatButtonModule} from "@angular/material/button";
@@ -20,8 +20,11 @@ import { AddrecipeComponent } from './addrecipe/addrecipe.component';
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AuthConfigModule } from './auth/auth-config.module';
+import {AuthInterceptor, AuthModule} from "angular-auth-oidc-client";
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -49,9 +52,11 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatInputModule,
     NgxFileDropModule,
     FlexLayoutModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AuthConfigModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ]
 })
 export class AppModule { }

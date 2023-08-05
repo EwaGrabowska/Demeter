@@ -14,9 +14,12 @@
     <button mat-icon-button>
       <mat-icon>content_paste_search</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button *ngIf="isAuthenticated; else noAuth" mat-icon-button>
       <mat-icon>account_circle</mat-icon>
     </button>
+    <ng-template #noAuth>
+      <button mat-raised-button (click)="login()" >Login</button>
+    </ng-template>
   </div>
 </mat-toolbar>
 

@@ -1,4 +1,5 @@
 docker-compose2.yml
+environment.production.ts
 script.sh
 /mysql_keycloak_data
 /realms

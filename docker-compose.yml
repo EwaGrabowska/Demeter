@@ -87,6 +87,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+      - OAUTH2_RESOURCESERVER=${OAUTH2_RESOURCESERVER}
     depends_on:
       - zipkin
       - eureka-server
