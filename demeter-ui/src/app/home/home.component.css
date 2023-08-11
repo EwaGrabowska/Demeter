@@ -37,10 +37,6 @@
   position: relative;
 }
 
-.image {
-  width: 100%;
-}
-
 .example-header-image {
   background-image: url('https://cssy.s3.eu-west-1.amazonaws.com/343974240_1234537757171955_7934628608337720497_n.png');
   background-size: cover;
@@ -61,4 +57,28 @@ mat-slider {
 
 .recipe-card {
   width: 100%
+}
+
+.title {
+  text-align: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.image-big {
+  width: 60%;
+  max-width: 100%;
+  height: auto;
+}
+
+.details {
+  text-align: left;
+  margin-left: 60px;
+}
+.detailsplus {
+  text-align: left;
+  margin-left: 100px;
 }

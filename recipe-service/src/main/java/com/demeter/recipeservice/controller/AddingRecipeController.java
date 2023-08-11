@@ -31,7 +31,7 @@ public class AddingRecipeController {
         return new UploadPhotoResponse(photoResponse.getId(), photoResponse.getPhotoUrl());
     }
 
-    @GetMapping
+    @GetMapping("/allrecipes")
     @ResponseStatus(HttpStatus.OK)
     public List<RecipeResponse> getAllRecipes() {
         return recipeService.getAllRecipes();

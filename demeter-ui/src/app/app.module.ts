@@ -22,6 +22,8 @@ import {CommonModule} from "@angular/common";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AuthConfigModule } from './auth/auth-config.module';
 import {AuthInterceptor, AuthModule} from "angular-auth-oidc-client";
+import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
+import {provideRoutes, RouterModule} from "@angular/router";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -30,7 +32,8 @@ import {AuthInterceptor, AuthModule} from "angular-auth-oidc-client";
     HeaderComponent,
     HomeComponent,
     MyRecipesComponent,
-    AddrecipeComponent
+    AddrecipeComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import {AuthInterceptor, AuthModule} from "angular-auth-oidc-client";
     FlexLayoutModule,
     MatSnackBarModule,
     AuthConfigModule,
+    RouterModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
