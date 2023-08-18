@@ -9,7 +9,7 @@ import {environment} from '../../environments/environment';
             authority: environment.authority,
             redirectUrl: window.location.origin,
             clientId: environment.clientId,
-            scope: 'openid profile offline_access',
+            scope: 'openid profile offline_access email',
             responseType: 'code',
             silentRenew: true,
             useRefreshToken: true,

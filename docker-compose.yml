@@ -124,6 +124,21 @@ services:
       - eureka-server
       - api-gateway
 
+  ## User-Service Docker Compose Config
+  user-service:
+    container_name: user-service
+    image: ewagrabowska/user-service:latest
+    pull_policy: always
+    environment:
+      - USER_SERVICE_DB_URL=${USER_SERVICE_DB_URL}
+      - USER_SERVICE_DB_USERNAME=${USER_SERVICE_DB_USERNAME}
+      - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
+      - OAUTH2_USERINFO=${OAUTH2_USERINFO}
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - api-gateway
+
 
   ## Kafka-Service Docker Compose Config
   kafka-service:
@@ -166,6 +181,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=password
 
+#  DEMETER-UI
   demeter-ui:
     image: ewagrabowska/demeter-ui
     build:
