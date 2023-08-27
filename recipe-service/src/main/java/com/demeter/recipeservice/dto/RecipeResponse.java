@@ -26,4 +26,6 @@ public class RecipeResponse {
     private Integer restingTime;
     private Integer readyToServe;
     private Photo photo;
+    private Integer likes;
+    private Integer disLikes;
 }

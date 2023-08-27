@@ -24,4 +24,6 @@ public class RecipeRequest {
     private Integer cookingTime;
     private Integer restingTime;
     private Photo photo;
+    private Integer likes;
+    private Integer disLikes;
 }

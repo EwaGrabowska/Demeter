@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recipes")
 @RequiredArgsConstructor
-public class AddingRecipeController {
+public class RecipeController {
 
     private final RecipeService recipeService;
 
@@ -41,6 +41,18 @@ public class AddingRecipeController {
     @ResponseStatus(HttpStatus.OK)
     public RecipeResponse editRecipe(@RequestBody RecipeResponse recipeResponse){
         return recipeService.editRecipe(recipeResponse);
+    }
+
+    @PostMapping("/{recipeId}/like")
+    @ResponseStatus(HttpStatus.OK)
+    public RecipeResponse likeRecipe(@PathVariable("recipeId") String recipeId, @RequestHeader("sub") String sub) {
+        return recipeService.likeRecipe(recipeId, sub);
+    }
+
+    @PostMapping("/{recipeId}/dislike")
+    @ResponseStatus(HttpStatus.OK)
+    public RecipeResponse disLikeRecipe(@PathVariable("recipeId") String recipeId, @RequestHeader("sub") String sub) {
+        return recipeService.disLikeRecipe(recipeId, sub);
     }
 
 }

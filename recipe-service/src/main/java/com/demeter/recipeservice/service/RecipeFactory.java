@@ -72,6 +72,8 @@ public class RecipeFactory {
                         .map(ingredientRequest->dtoToEntity(ingredientRequest))
                         .toList())
                 .photo(source.getPhoto())
+                .likes(source.getLikes())
+                .disLikes(source.getDisLikes())
                 .build();
         return recipe;
     }
@@ -91,6 +93,8 @@ public class RecipeFactory {
                         .map(ingredientResponse->dtoToEntity(ingredientResponse))
                         .toList())
                 .photo(source.getPhoto())
+                .likes(source.getLikes())
+                .disLikes(source.getDisLikes())
                 .build();
         return recipe;
     }
@@ -110,6 +114,8 @@ public class RecipeFactory {
                         .map(ingredient -> entityToDto(ingredient))
                         .toList())
                 .photo(source.getPhoto())
+                .likes(source.getLikes())
+                .disLikes(source.getDisLikes())
                 .build();
     }
 }

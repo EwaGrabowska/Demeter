@@ -35,6 +35,27 @@ public class Recipe {
     private Integer restingTime;
     @Transient
     private Integer readyToServe;
+    private Integer likes;
+    private Integer disLikes;
 
+    public Integer incrementLikes(){
+        likes = likes + 1;
+        return likes;
+    }
+
+    public Integer decrementLikes(){
+        likes = likes - 1;
+        return likes;
+    }
+
+    public Integer incrementDislakes(){
+        disLikes = disLikes + 1;
+        return disLikes;
+    }
+
+    public Integer decrementDislakes(){
+        disLikes = disLikes - 1;
+        return disLikes;
+    }
 
 }

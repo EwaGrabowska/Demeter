@@ -3,10 +3,8 @@ package com.demeter.recipeservice.service;
 import brave.Span;
 import brave.Tracer;
 import com.demeter.recipeservice.client.IngredientClient;
-import com.demeter.recipeservice.dto.IngredientSubstituteResponse;
-import com.demeter.recipeservice.dto.PhotoResponse;
-import com.demeter.recipeservice.dto.RecipeRequest;
-import com.demeter.recipeservice.dto.RecipeResponse;
+import com.demeter.recipeservice.client.UserClient;
+import com.demeter.recipeservice.dto.*;
 import com.demeter.recipeservice.event.RecipeAddedEvent;
 import com.demeter.recipeservice.model.Photo;
 import com.demeter.recipeservice.model.Recipe;
@@ -28,11 +26,13 @@ import java.util.List;
 public class RecipeService {
 
     private final IngredientClient ingredientClient;
+    private final UserClient userClient;
     private final RecipeRepository recipeRepository;
     private final Tracer tracer;
     private final KafkaTemplate<String, RecipeAddedEvent> kafkaTemplate;
     private final AWSService AWSService;
     private final PhotoRepository photoRepository;
+    private final UserService userService;
 
 
     public RecipeResponse createRecipe(final RecipeRequest source) {
@@ -84,10 +84,54 @@ public class RecipeService {
     }
 
     public RecipeResponse editRecipe(RecipeResponse recipeResponse) {
-        recipeRepository.findById(recipeResponse.getId())
-                .orElseThrow(()->new IllegalArgumentException("Recipe doesnt exist. Recipe id: " + recipeResponse.getId()));
+        findRecipeById(recipeResponse.getId());
         var editedRecipe = RecipeFactory.editRecipe(recipeResponse);
         var newVersionRecipe = recipeRepository.save(editedRecipe);
         return RecipeFactory.entityToDto(newVersionRecipe);
+    }
+
+    private Recipe findRecipeById(Long id){
+        return recipeRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("Recipe doesnt exist. Recipe id: " + id));
+    }
+
+    public RecipeResponse likeRecipe(String recipeId, String sub) {
+        Long id = Long.parseLong(recipeId);
+        Recipe recipe = findRecipeById(Long.parseLong(recipeId));
+        UserResponse currentUser = userService.getLoggedUser(sub);
+        UserResponse userResponse = userService.addRecipeToLikedHistory(currentUser, id);
+        if (currentUser.getLikedRecipe().size()<userResponse.getLikedRecipe().size()){
+            return incrementLikes(currentUser, recipe);
+        }
+        return RecipeFactory.entityToDto(recipe);
+    }
+
+    public RecipeResponse disLikeRecipe(String recipeId, String sub) {
+        Long id = Long.parseLong(recipeId);
+        Recipe recipe = findRecipeById(id);
+        UserResponse currentUser = userService.getLoggedUser(sub);
+        UserResponse userResponse = userService.addRecipeToDislikedHistory(currentUser, id);
+        if (currentUser.getDisLikedRecipe().size()<userResponse.getDisLikedRecipe().size()){
+            return incrementDislikes(currentUser, recipe);
+        }
+        return RecipeFactory.entityToDto(recipe);
+    }
+
+    private RecipeResponse incrementDislikes(UserResponse currentUser, Recipe recipe) {
+        if (currentUser.getLikedRecipe().stream().anyMatch(recipeId -> recipeId == recipe.getId())){
+            recipe.decrementLikes();
+        }
+        recipe.incrementDislakes();
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        return RecipeFactory.entityToDto(savedRecipe);
+    }
+
+    private RecipeResponse incrementLikes(UserResponse currentUser, Recipe recipe) {
+        if (currentUser.getDisLikedRecipe().stream().anyMatch(recipeId -> recipeId == recipe.getId())){
+            recipe.decrementDislakes();
+        }
+        recipe.incrementLikes();
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        return RecipeFactory.entityToDto(savedRecipe);
     }
 }
