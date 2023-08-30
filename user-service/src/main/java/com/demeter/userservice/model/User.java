@@ -26,7 +26,9 @@ public class User {
     private String emailAddress;
     private String sub;
     @ElementCollection
-    private Set<Long> subscribedChannelIds = ConcurrentHashMap.newKeySet();
+    private Set<Long> subscribedAuthors = ConcurrentHashMap.newKeySet();
+    @ElementCollection
+    private Set<Long> subscribers = ConcurrentHashMap.newKeySet();
     @ElementCollection
     private Set<Long> recipeHistory = ConcurrentHashMap.newKeySet();
     @ElementCollection

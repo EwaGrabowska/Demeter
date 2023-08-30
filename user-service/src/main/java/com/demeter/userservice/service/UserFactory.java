@@ -16,7 +16,7 @@ public class UserFactory {
                 .fullName(source.getFullName())
                 .likedRecipe(source.getLikedRecipe())
                 .disLikedRecipe(source.getDisLikedRecipe())
-                .subscribedChannelIds(source.getSubscribedChannelIds())
+                .subscribedChannelIds(source.getSubscribedAuthors())
                 .build();
     }
 }

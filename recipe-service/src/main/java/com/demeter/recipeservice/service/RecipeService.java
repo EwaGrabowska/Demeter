@@ -6,6 +6,7 @@ import com.demeter.recipeservice.client.IngredientClient;
 import com.demeter.recipeservice.client.UserClient;
 import com.demeter.recipeservice.dto.*;
 import com.demeter.recipeservice.event.RecipeAddedEvent;
+import com.demeter.recipeservice.model.Comment;
 import com.demeter.recipeservice.model.Photo;
 import com.demeter.recipeservice.model.Recipe;
 import com.demeter.recipeservice.repository.PhotoRepository;
@@ -42,12 +43,12 @@ public class RecipeService {
         log.info("Recipe {} is saved", recipe.getId());
         kafkaTemplate.send("dbEventTopic", new RecipeAddedEvent(String.valueOf(recipe.getId())));
         log.info("Notification about saved recipe - id {} sended", recipe.getId());
-        return RecipeFactory.entityToDto(recipe);
+        return RecipeFactory.dtoToEntity(recipe);
     }
 
     public List<RecipeResponse> getAllRecipes() {
         List<Recipe> recipes = recipeRepository.findAll();
-        return recipes.stream().map(recipe-> RecipeFactory.entityToDto(recipe)).toList();
+        return recipes.stream().map(recipe-> RecipeFactory.dtoToEntity(recipe)).toList();
     }
 
     private List<IngredientSubstituteResponse> getAllSubstitutesByIngredientsName(List<String> ingredientsName){
@@ -87,7 +88,7 @@ public class RecipeService {
         findRecipeById(recipeResponse.getId());
         var editedRecipe = RecipeFactory.editRecipe(recipeResponse);
         var newVersionRecipe = recipeRepository.save(editedRecipe);
-        return RecipeFactory.entityToDto(newVersionRecipe);
+        return RecipeFactory.dtoToEntity(newVersionRecipe);
     }
 
     private Recipe findRecipeById(Long id){
@@ -103,7 +104,7 @@ public class RecipeService {
         if (currentUser.getLikedRecipe().size()<userResponse.getLikedRecipe().size()){
             return incrementLikes(currentUser, recipe);
         }
-        return RecipeFactory.entityToDto(recipe);
+        return RecipeFactory.dtoToEntity(recipe);
     }
 
     public RecipeResponse disLikeRecipe(String recipeId, String sub) {
@@ -114,7 +115,7 @@ public class RecipeService {
         if (currentUser.getDisLikedRecipe().size()<userResponse.getDisLikedRecipe().size()){
             return incrementDislikes(currentUser, recipe);
         }
-        return RecipeFactory.entityToDto(recipe);
+        return RecipeFactory.dtoToEntity(recipe);
     }
 
     private RecipeResponse incrementDislikes(UserResponse currentUser, Recipe recipe) {
@@ -123,7 +124,7 @@ public class RecipeService {
         }
         recipe.incrementDislakes();
         Recipe savedRecipe = recipeRepository.save(recipe);
-        return RecipeFactory.entityToDto(savedRecipe);
+        return RecipeFactory.dtoToEntity(savedRecipe);
     }
 
     private RecipeResponse incrementLikes(UserResponse currentUser, Recipe recipe) {
@@ -132,6 +133,27 @@ public class RecipeService {
         }
         recipe.incrementLikes();
         Recipe savedRecipe = recipeRepository.save(recipe);
-        return RecipeFactory.entityToDto(savedRecipe);
+        return RecipeFactory.dtoToEntity(savedRecipe);
+    }
+
+    public RecipeResponse addComment(String recipeId, CommentRequest commentDTO) {
+        Long id = Long.parseLong(recipeId);
+        Recipe recipe = recipeRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("Recipe doesn't Exist. Recipe id: "+recipeId));
+        Comment comment = RecipeFactory.dtoToEntity(commentDTO);
+        recipe.getComments().add(comment);
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        return RecipeFactory.dtoToEntity(savedRecipe);
+    }
+
+    public List<CommentResponse> getAllComments(String recipeId) {
+        Long id = Long.parseLong(recipeId);
+        List<Comment> commentList = recipeRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("Recipe doesn't Exist. Recipe id: "+recipeId))
+                .getComments();
+        return commentList.stream()
+                .map(RecipeFactory::entityToDTO)
+                .toList();
+
     }
 }

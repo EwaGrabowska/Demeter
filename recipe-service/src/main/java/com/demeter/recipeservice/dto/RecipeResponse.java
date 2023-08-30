@@ -28,4 +28,5 @@ public class RecipeResponse {
     private Photo photo;
     private Integer likes;
     private Integer disLikes;
+    private List<CommentResponse> commentResponseList;
 }

@@ -24,6 +24,9 @@ import { AuthConfigModule } from './auth/auth-config.module';
 import {AuthInterceptor, AuthModule} from "angular-auth-oidc-client";
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import {provideRoutes, RouterModule} from "@angular/router";
+import { HistoryComponent } from './history/history.component';
+import { SubscribtionsComponent } from './subscribtions/subscribtions.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -33,7 +36,10 @@ import {provideRoutes, RouterModule} from "@angular/router";
     HomeComponent,
     MyRecipesComponent,
     AddrecipeComponent,
-    RecipeDetailsComponent
+    RecipeDetailsComponent,
+    HistoryComponent,
+    SubscribtionsComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

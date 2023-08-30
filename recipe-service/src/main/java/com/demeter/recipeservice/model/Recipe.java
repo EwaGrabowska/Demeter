@@ -37,6 +37,9 @@ public class Recipe {
     private Integer readyToServe;
     private Integer likes;
     private Integer disLikes;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
 
     public Integer incrementLikes(){
         likes = likes + 1;

@@ -53,4 +53,28 @@ public class UserService {
         User currentUser = usersRepository.findBySub(sub).orElseThrow(()-> new IllegalArgumentException("Cannot find user with sub "+sub));
         return currentUser;
     }
+
+    public UserResponse subcribeUser(String userId, String sub) {
+        User currentUser = getCurrentUser(sub);
+        Long useridlong = Long.parseLong(userId);
+        User subscibedUser = usersRepository.findById(useridlong)
+                .orElseThrow(()->new IllegalArgumentException("User doesnt exist. User id: "+ useridlong));
+        currentUser.getSubscribedAuthors().add(useridlong);
+        subscibedUser.getSubscribers().add(currentUser.getId());
+        usersRepository.save(subscibedUser);
+        User savedUser = usersRepository.save(currentUser);
+        return UserFactory.userToDTO(savedUser);
+    }
+
+    public UserResponse unsubcribeUser(String userId, String sub) {
+        User currentUser = getCurrentUser(sub);
+        Long useridlong = Long.parseLong(userId);
+        User subscibedUser = usersRepository.findById(useridlong)
+                .orElseThrow(()->new IllegalArgumentException("User doesnt exist. User id: "+ useridlong));
+        currentUser.getSubscribedAuthors().remove(useridlong);
+        subscibedUser.getSubscribers().remove(currentUser.getId());
+        usersRepository.save(subscibedUser);
+        User savedUser = usersRepository.save(currentUser);
+        return UserFactory.userToDTO(savedUser);
+    }
 }

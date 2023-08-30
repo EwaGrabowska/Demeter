@@ -1,6 +1,7 @@
 package com.demeter.recipeservice.service;
 
 import com.demeter.recipeservice.dto.*;
+import com.demeter.recipeservice.model.Comment;
 import com.demeter.recipeservice.model.Ingredient;
 import com.demeter.recipeservice.model.Recipe;
 import com.demeter.recipeservice.model.Step;
@@ -23,7 +24,7 @@ public class RecipeFactory {
                 .build();
     }
 
-    static StepResponse entityToDto(Step source){
+    static StepResponse dtoToEntity(Step source){
         return StepResponse.builder()
                 .id(source.getId())
                 .text(source.getText())
@@ -48,7 +49,7 @@ public class RecipeFactory {
                 .build();
     }
 
-    static IngredientResponse entityToDto(Ingredient source){
+    static IngredientResponse dtoToEntity(Ingredient source){
         return IngredientResponse.builder()
                 .id(source.getId())
                 .name(source.getName())
@@ -98,24 +99,46 @@ public class RecipeFactory {
                 .build();
         return recipe;
     }
-    static RecipeResponse entityToDto(Recipe source) {
+    static RecipeResponse dtoToEntity(Recipe source) {
         return RecipeResponse.builder()
                 .id(source.getId())
                 .name(source.getName())
                 .author(source.getAuthor())
                 .method(source.getMethod().stream()
-                        .map(step -> entityToDto(step))
+                        .map(step -> dtoToEntity(step))
                         .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
                 .servingSize(source.getServingSize())
                 .ingredientList(source.getIngredientList().stream()
-                        .map(ingredient -> entityToDto(ingredient))
+                        .map(ingredient -> dtoToEntity(ingredient))
                         .toList())
                 .photo(source.getPhoto())
                 .likes(source.getLikes())
                 .disLikes(source.getDisLikes())
+                .commentResponseList(source.getComments().stream()
+                        .map(comment -> entityToDTO(comment))
+                        .toList())
                 .build();
     }
+
+    public static Comment dtoToEntity(CommentRequest source) {
+        return Comment.builder()
+                .author(source.getAuthor())
+                .text(source.getText())
+                .disLikeCount(source.getDisLikeCount())
+                .likeCount(source.getLikeCount())
+                .build();
+    }
+    public static CommentResponse entityToDTO(Comment source){
+        return CommentResponse.builder()
+                .id(source.getId())
+                .author(source.getAuthor())
+                .text(source.getText())
+                .disLikeCount(source.getDisLikeCount())
+                .likeCount(source.getLikeCount())
+                .build();
+    }
+
 }

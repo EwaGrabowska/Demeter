@@ -43,4 +43,16 @@ public class UserController {
         Long id = Long.parseLong(recipeId);
         return userService.addRecipeToUserHistory(id, sub);
     }
+
+    @PostMapping("/subscribe/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    UserResponse subscribeAuthor(@PathVariable("userId") String userId, @RequestHeader("sub") String sub){
+        return userService.subcribeUser(userId, sub);
+    }
+
+    @PostMapping("/unsubscribe/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    UserResponse unsubscribeAuthor(@PathVariable("userId") String userId, @RequestHeader("sub") String sub){
+        return userService.unsubcribeUser(userId, sub);
+    }
 }

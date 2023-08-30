@@ -55,5 +55,17 @@ public class RecipeController {
         return recipeService.disLikeRecipe(recipeId, sub);
     }
 
+    @PostMapping("/{recipeId}/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public RecipeResponse addComment(@PathVariable("recipeId") String recipeId, @RequestBody CommentRequest commentDTO){
+        return recipeService.addComment(recipeId, commentDTO);
+    }
+
+    @GetMapping("/{recipeId}/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentResponse> getComments(@PathVariable("recipeId") String recipeId, @RequestBody CommentRequest commentDTO){
+        return recipeService.getAllComments(recipeId);
+    }
+
 }
 
