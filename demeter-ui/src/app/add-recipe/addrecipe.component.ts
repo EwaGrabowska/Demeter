@@ -10,6 +10,7 @@ import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
 import {PhotoService} from "./photo.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CommentRequest} from "../recipe-details/CommentRequest";
 
 @Component({
   selector: 'app-addrecipe',
@@ -26,7 +27,7 @@ export class AddrecipeComponent {
   recipeForm: FormGroup;
   recipeRequest= new RecipeRequest ('', '', 1,
     [new Ingredient(1, '', '')],
-    [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''));
+    [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
   private uploadedFile: File | undefined;
 
 
@@ -140,7 +141,7 @@ export class AddrecipeComponent {
     });
     this.recipeRequest = new RecipeRequest ('', '', 1,
       [new Ingredient(1, '', '')],
-      [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''));
+      [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
 
     this.selectedImage = null;
     this.thumbnail = null;

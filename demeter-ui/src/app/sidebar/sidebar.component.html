@@ -1,1 +1,43 @@
-<p>sidebar works!</p>
+<mat-sidenav #sidenav mode="side" opened>
+  <mat-nav-list role="list" class="matnavlist">
+
+    <mat-list-item role="listitem" routerLink="" >
+      <mat-icon class="list-block-icon" mat-list-icon >spa</mat-icon>
+      <p class="list-block">Strona główna</p>
+    </mat-list-item>
+
+    <mat-list-item role="listitem" routerLink="myrecipes" >
+      <mat-icon class="list-block-icon" mat-list-icon >local_dining</mat-icon>
+      <p class="list-block">Moje przepisy</p>
+    </mat-list-item>
+
+    <mat-list-item role="listitem" routerLink="addrecipe">
+      <mat-icon class="list-block-icon" mat-list-icon >create</mat-icon>
+      <p class="list-block">Dodaj przepis</p>
+    </mat-list-item>
+
+    <mat-list-item role="listitem" routerLink="notes" >
+      <mat-icon class="list-block-icon" mat-list-icon >menu_book</mat-icon>
+      <p class="list-block">Szkice</p>
+    </mat-list-item>
+
+    <mat-list-item role="listitem" routerLink="history" >
+      <mat-icon class="list-block-icon" mat-list-icon >history</mat-icon>
+      <p class="list-block">Ostatnio oglądane</p>
+    </mat-list-item>
+
+    <mat-list-item role="listitem" routerLink="likedrecipe" >
+      <mat-icon class="list-block-icon" mat-list-icon >star</mat-icon>
+      <p class="list-block">Ulubione</p>
+    </mat-list-item>
+
+    <mat-list-item role="listitem" routerLink="subscribtions" >
+      <mat-icon class="list-block-icon" mat-list-icon >favorite</mat-icon>
+      <p class="list-block">Subskrypcje</p>
+    </mat-list-item>
+  </mat-nav-list>
+
+</mat-sidenav>
+
+
+

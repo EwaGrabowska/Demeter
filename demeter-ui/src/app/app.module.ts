@@ -16,7 +16,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import { AddrecipeComponent } from './addrecipe/addrecipe.component';
+import { AddrecipeComponent } from './add-recipe/addrecipe.component';
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -27,6 +27,15 @@ import {provideRoutes, RouterModule} from "@angular/router";
 import { HistoryComponent } from './history/history.component';
 import { SubscribtionsComponent } from './subscribtions/subscribtions.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { LikedRecipeComponent } from './liked-recipe/liked-recipe.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { MenuComponent } from './menu/menu.component';
+import {MatListModule} from "@angular/material/list";
+import {MatLineModule} from "@angular/material/core";
+import { NotesComponent } from './notes/notes.component';
+import { RecipeCardComponent } from './recipe-card/recipe-card.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -39,7 +48,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     RecipeDetailsComponent,
     HistoryComponent,
     SubscribtionsComponent,
-    SidebarComponent
+    SidebarComponent,
+    LikedRecipeComponent,
+    MenuComponent,
+    NotesComponent,
+    RecipeCardComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +76,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FlexLayoutModule,
     MatSnackBarModule,
     AuthConfigModule,
-    RouterModule
+    RouterModule,
+    MatSidenavModule,
+    MatListModule,
+    MatLineModule,
+    MatChipsModule,
+    MatLegacyChipsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

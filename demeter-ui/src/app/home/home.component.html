@@ -1,39 +1,13 @@
-<div class="content-wrapper">
+<div>
+  <h2>Ostatnio dodane:</h2>
+</div>
 
-  <div class="left-column" fxFlex="20">
-    <div *ngFor="let item of itemsArray; let i = index">
-    <button class="recipe-card" (click)="handleCardClick(item.id)">
-      <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{ item.name }}</mat-card-title>
-          <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
-        </mat-card-header>
-        <img class="image" [src]="item.photo?.photoUrl || 'https://cdn.galleries.smcloud.net/t/galleries/gf-uHE7-GyQK-T2Wj_na-co-pomaga-owsianka-wlasciwosci-owsianki-jpg-664x442-nocrop.jpg'" alt="Photo of a Shiba Inu">
-      </mat-card>
-    </button>
-  </div>
-  </div>
-
-  <div fxLayout="column" style="height: auto" fxFlex="85%" class="right-column" *ngIf = "recipeAvailable">
-    <h2 class="title" > Title: {{ selectedItem?.name }}</h2>
-    <div class="image-container">
-      <img class="image-big" src="{{selectedItem?.photo?.photoUrl}}" >
-    </div>
-    <h3></h3>
-    <p class="details">Autor: {{ selectedItem?.author }}</p>
-    <p class="details">Porcje: {{ selectedItem?.servingSize }}</p>
-    <p class="details">Składniki: </p>
-    <div class="detailsplus" *ngFor="let item of selectedItem?.ingredientList; let i = index" >
-      <p>{{ item.quantity }} {{ item.measuringUnites }} {{ item.name }}</p>
-    </div>
-    <p class="details">Wykonanie: </p>
-    <div class="detailsplus" *ngFor="let item of selectedItem?.method; let i = index" >
-      <p>{{ item.number }}. {{ item.text }}</p>
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex = 30% *ngFor="let recipe of recipes">
+      <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
     </div>
   </div>
-
-
 </div>
 
 

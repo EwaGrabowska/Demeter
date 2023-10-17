@@ -45,14 +45,14 @@ public class RecipeController {
 
     @PostMapping("/{recipeId}/like")
     @ResponseStatus(HttpStatus.OK)
-    public RecipeResponse likeRecipe(@PathVariable("recipeId") String recipeId, @RequestHeader("sub") String sub) {
-        return recipeService.likeRecipe(recipeId, sub);
+    public RecipeResponse likeRecipe(@PathVariable("recipeId") String recipeId, @RequestHeader("Authorization") String token) {
+        return recipeService.likeRecipe(recipeId, token);
     }
 
     @PostMapping("/{recipeId}/dislike")
     @ResponseStatus(HttpStatus.OK)
-    public RecipeResponse disLikeRecipe(@PathVariable("recipeId") String recipeId, @RequestHeader("sub") String sub) {
-        return recipeService.disLikeRecipe(recipeId, sub);
+    public RecipeResponse disLikeRecipe(@PathVariable("recipeId") String recipeId, @RequestHeader("Authorization") String token) {
+        return recipeService.disLikeRecipe(recipeId, token);
     }
 
     @PostMapping("/{recipeId}/comment")

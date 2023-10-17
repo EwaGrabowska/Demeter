@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserClient userClient;
     private final Tracer tracer;
-    public UserResponse getLoggedUser(String sub){
+    public UserResponse getLoggedUser(String token){
         Span userServiceLookup = tracer.nextSpan().name("UserServiceLookup");
 
         try (Tracer.SpanInScope isLookup = tracer.withSpanInScope(userServiceLookup.start())){
-            return userClient.findUserbySub(sub);
+            return userClient.getLoggedUser(token);
         }finally {
             userServiceLookup.flush();
         }

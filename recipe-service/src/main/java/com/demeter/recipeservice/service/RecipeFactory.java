@@ -75,6 +75,9 @@ public class RecipeFactory {
                 .photo(source.getPhoto())
                 .likes(source.getLikes())
                 .disLikes(source.getDisLikes())
+                .comments(source.getComments().stream()
+                        .map(commentRequest -> dtoToEntity(commentRequest))
+                        .toList())
                 .build();
         return recipe;
     }

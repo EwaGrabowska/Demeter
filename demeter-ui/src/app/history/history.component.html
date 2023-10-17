@@ -1,1 +1,11 @@
-<p>history works!</p>
+<div>
+  <h2>Twoje przepisy:</h2>
+</div>
+
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex = 30% *ngFor="let recipe of recipes">
+      <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
+    </div>
+  </div>
+</div>

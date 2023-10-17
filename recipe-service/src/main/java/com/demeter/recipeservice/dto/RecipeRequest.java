@@ -26,4 +26,5 @@ public class RecipeRequest {
     private Photo photo;
     private Integer likes;
     private Integer disLikes;
+    private List<CommentRequest> comments;
 }

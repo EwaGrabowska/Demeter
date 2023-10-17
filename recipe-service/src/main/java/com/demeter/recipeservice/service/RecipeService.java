@@ -96,10 +96,10 @@ public class RecipeService {
                 .orElseThrow(()->new IllegalArgumentException("Recipe doesnt exist. Recipe id: " + id));
     }
 
-    public RecipeResponse likeRecipe(String recipeId, String sub) {
+    public RecipeResponse likeRecipe(String recipeId, String token) {
         Long id = Long.parseLong(recipeId);
         Recipe recipe = findRecipeById(Long.parseLong(recipeId));
-        UserResponse currentUser = userService.getLoggedUser(sub);
+        UserResponse currentUser = userService.getLoggedUser(token);
         UserResponse userResponse = userService.addRecipeToLikedHistory(currentUser, id);
         if (currentUser.getLikedRecipe().size()<userResponse.getLikedRecipe().size()){
             return incrementLikes(currentUser, recipe);
@@ -107,10 +107,10 @@ public class RecipeService {
         return RecipeFactory.dtoToEntity(recipe);
     }
 
-    public RecipeResponse disLikeRecipe(String recipeId, String sub) {
+    public RecipeResponse disLikeRecipe(String recipeId, String token) {
         Long id = Long.parseLong(recipeId);
         Recipe recipe = findRecipeById(id);
-        UserResponse currentUser = userService.getLoggedUser(sub);
+        UserResponse currentUser = userService.getLoggedUser(token);
         UserResponse userResponse = userService.addRecipeToDislikedHistory(currentUser, id);
         if (currentUser.getDisLikedRecipe().size()<userResponse.getDisLikedRecipe().size()){
             return incrementDislikes(currentUser, recipe);

@@ -1,6 +1,7 @@
 import {Ingredient} from "./ingredient";
 import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
+import {CommentRequest} from "../recipe-details/CommentRequest";
 
 export class RecipeRequest {
 
@@ -14,8 +15,11 @@ export class RecipeRequest {
     public preparationTime: number,
     public cookingTime: number,
     public restingTime: number,
-    public photo: UploadPhotoResponse
-  ){
+    public photo: UploadPhotoResponse,
+    public likes: number,
+    public disLikes: number,
+    public comments: CommentRequest[]
+   ){}
 
   }
-}
+

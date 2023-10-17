@@ -1,0 +1,43 @@
+.right-column {
+  background-color: #ffffff;
+  overflow-y: auto;
+  height: 100%;
+  margin-top: 64px;
+}
+.right-column::before {
+  content: "";
+  width: 1px;
+  margin-right: 10px;
+  background-color: #111111;
+}
+
+.tittle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-tittle {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+
+.button-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 2px;
+  padding: 20px;
+}
+
+.author-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

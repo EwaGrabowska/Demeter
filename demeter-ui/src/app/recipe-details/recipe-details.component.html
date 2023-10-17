@@ -1,1 +1,60 @@
-<p>recipe-details works!</p>
+<div class="content">
+  <div fxLayout="column" style="height: auto" fxFlex="97%" class="right-column">
+    <a class="button-container" (click)="goBack()">
+      <mat-icon class="button-icon" mat-list-icon >reply</mat-icon>
+      <h2 class="button-tittle">Powrót</h2>
+    </a>
+    <div class="tittle-container">
+      <h2>{{ recipe?.name }}</h2>
+      <button *ngIf="hasBeenLikedByTheUser; else noLike" mat-icon-button>
+        <mat-icon>star</mat-icon>
+      </button>
+      <ng-template #noLike>
+        <button mat-icon-button>
+          <mat-icon>star_border</mat-icon>
+        </button>
+      </ng-template>
+    </div>
+    <div class="image-container">
+      <img class="image-big" src="{{recipe?.photo?.photoUrl}}" >
+    </div>
+    <h3></h3>
+    <div>
+      <p class="details">Autor: {{ recipe?.author }}</p>
+      <button *ngIf="hasBeenSubscibed; else noSubscription" mat-icon-button>
+        <button matt-raised-button color="warn" (click)="unsubscribeToUser()" >Przestań subskrybować</button>
+      </button>
+      <ng-template #noSubscription>
+        <button matt-raised-button color="accent" (click)="subscribeToUser()" >Subskrybuj</button>
+      </ng-template>
+    </div>
+    <p class="details">Porcje: {{ recipe?.servingSize }}</p>
+    <p class="details">Składniki: </p>
+    <div class="detailsplus" *ngFor="let item of recipe?.ingredientList; let i = index" >
+      <p>{{ item.quantity }} {{ item.measuringUnites }} {{ item.name }}</p>
+    </div>
+    <p class="details">Wykonanie: </p>
+    <div class="detailsplus" *ngFor="let item of recipe?.method; let i = index" >
+      <p>{{ item.number }}. {{ item.text }}</p>
+    </div>
+    <div fxFlex="50%" fxLayoutAlign="end">
+          <span class="like-dislike-section">
+              <button mat-icon-button class="thumbs-up"
+                      (click)="likeRecipe()"
+                      aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>thumb_up_off_alt</mat-icon>
+                {{recipe?.likes}}
+              </button>
+              <button mat-icon-button class="thumbs-down"
+                      (click)="dislikeRecipe()"
+                      aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>thumb_down_off_alt</mat-icon>
+                {{recipe?.disLikes}}
+              </button>
+          </span>
+    </div>
+    <mat-chip-list>
+      <mat-chip>tagi</mat-chip>
+    </mat-chip-list>
+  </div>
+</div>

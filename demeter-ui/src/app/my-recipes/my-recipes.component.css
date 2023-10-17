@@ -1,48 +1,5 @@
-.content-wrapper {
+.content {
   display: flex;
   height: calc(100vh - 80px);
   margin-top: 70px;
 }
-.left-column {
-  overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.vertical-buttons{
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-mat-button-toggle{
-  margin: 10px;
-}
-
-/*.right-column::before {*/
-/*  content: "";*/
-/*  width: 1px;*/
-/*  margin-right: 10px;*/
-/*}*/
-/*.vertical-line {*/
-/*  border-left: 1px solid #000;*/
-/*  margin: 0 10px;*/
-/*}*/
-/*.right-column {*/
-/*  overflow-y: auto;*/
-/*  height: 100%;*/
-/*}*/
-/*ul {*/
-/*  list-style-type: none;*/
-/*  padding: 0;*/
-/*  margin: 0;*/
-/*}*/
-
-/*mat-slider {*/
-/*  width: 100%;*/
-/*  transform: rotate(270deg);*/
-/*}*/
-
-
-
-

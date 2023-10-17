@@ -1,6 +1,7 @@
-import {Ingredient} from "../addrecipe/ingredient";
-import {Step} from "../addrecipe/step";
-import {UploadPhotoResponse} from "../addrecipe/uploadPhotoResponse";
+import {Ingredient} from "../add-recipe/ingredient";
+import {Step} from "../add-recipe/step";
+import {UploadPhotoResponse} from "../add-recipe/uploadPhotoResponse";
+import {CommentRequest} from "../recipe-details/CommentRequest";
 
 export class RecipeResponse{
   constructor(
@@ -14,6 +15,9 @@ export class RecipeResponse{
     public preparationTime: number,
     public cookingTime: number,
     public restingTime: number,
-    public photo: UploadPhotoResponse
+    public photo: UploadPhotoResponse,
+    public likes: number,
+    public disLikes: number,
+    public comments: CommentRequest[]
   ){}
 }

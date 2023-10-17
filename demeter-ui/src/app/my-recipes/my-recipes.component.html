@@ -1,18 +1,11 @@
-<div class="content-wrapper">
-  <div fxLayout="column" style="height: auto" fxFlex="15%" class="left-column">
-    <mat-button-toggle-group name="favoriteColor" aria-label="Favorite Color" class="vertical-buttons" value="myrecipes">
-      <mat-button-toggle value="myrecipes" (click)="navigateTo('myrecipes')">Moje przepisy</mat-button-toggle>
-      <mat-button-toggle value="addrecipe" (click)="navigateTo('myrecipes/addrecipe')">Dodaj przepis</mat-button-toggle>
-      <mat-button-toggle value="notes" (click)="navigateTo('myrecipes/notes')">Szkice</mat-button-toggle>
-      <mat-button-toggle value="rewrited" (click)="navigateTo('myrecipes/rewrited')">Przerobione</mat-button-toggle>
-      <mat-button-toggle value="favourite" (click)="navigateTo('myrecipes/favourite')">Ulubione</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+<div>
+  <h2>Moje przepisy:</h2>
+</div>
 
-  <hr class="vertical-line" [ngClass]="'mat-primary'">
-
-  <div fxLayout="column" style="height: auto" fxFlex="85%" class="right-column">
-    <ul>
-    </ul>
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex = 30% *ngFor="let recipe of recipes">
+      <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
+    </div>
   </div>
 </div>

@@ -1,16 +1,14 @@
 import {Component, OnDestroy} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {RecipeResponse} from "../home/recipeResponse";
 import {Subscription} from "rxjs";
 import {RecipeService} from "../home/recipeService";
 
 @Component({
-  selector: 'app-my-recipes',
-  templateUrl: './my-recipes.component.html',
-  styleUrls: ['./my-recipes.component.css']
+  selector: 'app-notes',
+  templateUrl: './notes.component.html',
+  styleUrls: ['./notes.component.css']
 })
-export class MyRecipesComponent implements OnDestroy{
+export class NotesComponent implements OnDestroy{
   recipes: Array<RecipeResponse> = [];
   getAllRecipeSubscription: Subscription;
 
@@ -23,5 +21,4 @@ export class MyRecipesComponent implements OnDestroy{
   ngOnDestroy(): void {
     this.getAllRecipeSubscription.unsubscribe();
   }
-
 }

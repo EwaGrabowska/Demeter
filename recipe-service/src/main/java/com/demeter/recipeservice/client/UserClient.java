@@ -1,18 +1,17 @@
 package com.demeter.recipeservice.client;
 
 import com.demeter.recipeservice.dto.UserResponse;
+import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "user-service")
+@Headers({"Content-Type: application/json"})
 public interface UserClient {
     @GetMapping("user")
     @ResponseStatus(HttpStatus.OK)
-    UserResponse findUserbySub(@RequestParam("sub") String sub);
+    UserResponse getLoggedUser(@RequestHeader("Authorization") String token);
 
     @PutMapping("user/like")
     @ResponseStatus(HttpStatus.OK)

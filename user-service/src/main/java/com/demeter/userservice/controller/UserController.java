@@ -22,9 +22,10 @@ public class UserController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    UserResponse findUserbySub(@RequestParam("sub") String sub){
-        return userService.findUserBySub(sub);
+    UserResponse getLoggedUser(@RequestHeader("Authorization") String token){
+        return userService.getLoggedUser(token);
     }
+
     @PutMapping("/like")
     @ResponseStatus(HttpStatus.OK)
     UserResponse addRecipeToLikedRecipe(@RequestParam("userId") String userId, @RequestParam("recipeId") String recipeId){
