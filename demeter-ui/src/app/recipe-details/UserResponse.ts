@@ -8,10 +8,10 @@ export class UserResponse{
     public picture: string,
     public emailAddress: string,
     public sub: string,
-    public subscribedChannelId: Set<number>,
-    public videoHistory: Set<number>,
-    public likedRecipe: Set<number>,
-    public disLikedRecipe: Set<number>
+    public subscribedAuthors: string[],
+    public videoHistory: Number[],
+    public likedRecipe: Number[],
+    public disLikedRecipe: Number[]
   ) {
   }
 }

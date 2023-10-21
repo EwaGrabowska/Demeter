@@ -18,6 +18,7 @@ public class RecipeResponse {
     private String name;
     private Integer servingSize;
     private String author;
+    private String authorSub;
     private BigDecimal price;
     private List<IngredientResponse> ingredientList;
     private List<StepResponse> method;

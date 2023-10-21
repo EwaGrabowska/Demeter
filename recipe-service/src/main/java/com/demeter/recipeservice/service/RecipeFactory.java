@@ -62,6 +62,7 @@ public class RecipeFactory {
         Recipe recipe = Recipe.builder()
                 .name(source.getName())
                 .author(source.getAuthor())
+                .authorSub(source.getAuthorSub())
                 .method(source.getMethod().stream()
                         .map(step->dtoToEntity(step))
                         .toList())
@@ -86,6 +87,7 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .author(source.getAuthor())
+                .authorSub(source.getAuthorSub())
                 .method(source.getMethod().stream()
                         .map(step->dtoToEntity(step))
                         .toList())
@@ -107,6 +109,7 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .author(source.getAuthor())
+                .authorSub(source.getAuthorSub())
                 .method(source.getMethod().stream()
                         .map(step -> dtoToEntity(step))
                         .toList())
@@ -143,5 +146,4 @@ public class RecipeFactory {
                 .likeCount(source.getLikeCount())
                 .build();
     }
-
 }

@@ -8,6 +8,7 @@ export class RecipeResponse{
     public id: number,
     public name: string,
     public author: string,
+    public authorSub: string,
     public servingSize: number,
     public ingredientList: Ingredient[],
     public method: Step[],

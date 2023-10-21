@@ -8,6 +8,7 @@ export class RecipeRequest {
   constructor(
     public name: string,
     public author: string,
+    public authorSub: string,
     public servingSize: number,
     public ingredientList: Ingredient[],
     public method: Step[],
@@ -20,6 +21,10 @@ export class RecipeRequest {
     public disLikes: number,
     public comments: CommentRequest[]
    ){}
+
+  setauthorSub(value: string) {
+    this.authorSub = value;
+  }
 
   }
 

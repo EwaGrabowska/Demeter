@@ -36,6 +36,7 @@ import { NotesComponent } from './notes/notes.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -52,7 +53,8 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
     LikedRecipeComponent,
     MenuComponent,
     NotesComponent,
-    RecipeCardComponent
+    RecipeCardComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,

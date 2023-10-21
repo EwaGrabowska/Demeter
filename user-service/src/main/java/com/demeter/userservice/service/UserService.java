@@ -27,7 +27,7 @@ public class UserService {
     @Transactional(readOnly = true)
     @SneakyThrows
     public UserResponse findUserBySub(String sub) {
-        User user = getCurrentUser(sub);
+        User user = getUserBySub(sub);
         return UserFactory.userToDTO(user);
     }
 
@@ -55,39 +55,38 @@ public class UserService {
     }
 
     public UserResponse addRecipeToUserHistory(Long recipeId, String sub) {
-        User currentUser = getCurrentUser(sub);
+        User currentUser = getUserBySub(sub);
         currentUser.getRecipeHistory().add(recipeId);
         User savedUser = usersRepository.save(currentUser);
         return UserFactory.userToDTO(savedUser);
     }
 
-    private User getCurrentUser(String sub){
+    private User getUserBySub(String sub){
         User currentUser = usersRepository.findBySub(sub).orElseThrow(()-> new IllegalArgumentException("Cannot find user with sub "+sub));
         return currentUser;
     }
 
-    public UserResponse subcribeUser(String userId, String sub) {
-        User currentUser = getCurrentUser(sub);
-        Long useridlong = Long.parseLong(userId);
-        User subscibedUser = usersRepository.findById(useridlong)
-                .orElseThrow(()->new IllegalArgumentException("User doesnt exist. User id: "+ useridlong));
-        currentUser.getSubscribedAuthors().add(useridlong);
-        subscibedUser.getSubscribers().add(currentUser.getId());
+    public UserResponse subcribeUser(String subscribedsub, String currentsub) {
+        User currentUser = getUserBySub(currentsub);
+        User subscibedUser = getUserBySub(subscribedsub);
+
+        currentUser.getSubscribedAuthors().add(subscibedUser.getSub());
+        subscibedUser.getSubscribers().add(currentUser.getSub());
+
         usersRepository.save(subscibedUser);
-        User savedUser = usersRepository.save(currentUser);
-        return UserFactory.userToDTO(savedUser);
+        User savedCurrentUser = usersRepository.save(currentUser);
+        return UserFactory.userToDTO(savedCurrentUser);
     }
 
-    public UserResponse unsubcribeUser(String userId, String sub) {
-        User currentUser = getCurrentUser(sub);
-        Long useridlong = Long.parseLong(userId);
-        User subscibedUser = usersRepository.findById(useridlong)
-                .orElseThrow(()->new IllegalArgumentException("User doesnt exist. User id: "+ useridlong));
-        currentUser.getSubscribedAuthors().remove(useridlong);
-        subscibedUser.getSubscribers().remove(currentUser.getId());
+    public UserResponse unsubcribeUser(String subscribedsub, String currentsub) {
+        User currentUser = getUserBySub(currentsub);
+        User subscibedUser = getUserBySub(subscribedsub);
+
+        currentUser.getSubscribedAuthors().remove(subscibedUser.getSub());
+        subscibedUser.getSubscribers().remove(currentUser.getSub());
         usersRepository.save(subscibedUser);
-        User savedUser = usersRepository.save(currentUser);
-        return UserFactory.userToDTO(savedUser);
+        User savedCurrentUser = usersRepository.save(currentUser);
+        return UserFactory.userToDTO(savedCurrentUser);
     }
 
     public UserResponse getLoggedUser(String token) {

@@ -11,6 +11,7 @@ import {UploadPhotoResponse} from "./uploadPhotoResponse";
 import {PhotoService} from "./photo.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentRequest} from "../recipe-details/CommentRequest";
+import {UserService} from "../recipe-details/user.service";
 
 @Component({
   selector: 'app-addrecipe',
@@ -25,14 +26,14 @@ export class AddrecipeComponent {
   apiURL = environment.apiUrl;
 
   recipeForm: FormGroup;
-  recipeRequest= new RecipeRequest ('', '', 1,
+  recipeRequest= new RecipeRequest ('', '', '',1,
     [new Ingredient(1, '', '')],
     [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
   private uploadedFile: File | undefined;
 
 
   constructor(private photoService: PhotoService, private formBuilder: FormBuilder, private http: HttpClient,
-              private router: Router, private matSnackBar: MatSnackBar) {
+              private router: Router, private matSnackBar: MatSnackBar, private userService: UserService) {
     this.recipeForm = this.formBuilder.group({
       name: ['', Validators.required],
       author: ['', Validators.required],
@@ -139,7 +140,7 @@ export class AddrecipeComponent {
         photoUrl: ''
       }
     });
-    this.recipeRequest = new RecipeRequest ('', '', 1,
+    this.recipeRequest = new RecipeRequest ('', '', '', 1,
       [new Ingredient(1, '', '')],
       [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
 
@@ -171,6 +172,7 @@ export class AddrecipeComponent {
     if (this.fileuploaded) {
       await this.uploadPhoto();
     }
+    this.recipeRequest.setauthorSub(this.userService.getUserSub())
     this.http.post<RecipeRequest>(this.apiURL.concat('recipes'), this.recipeRequest).subscribe({
       next: response => {
         console.log('Form submitted successfully!', response);

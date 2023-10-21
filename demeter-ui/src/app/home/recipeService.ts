@@ -11,7 +11,7 @@ import {environment} from "../../environments/environment";
 export class RecipeService {
   private apiUrl = environment.apiUrl;
   private recipesSubject$: BehaviorSubject<RecipeResponse[]> = new BehaviorSubject<RecipeResponse[]>([]);
-  private refreshInterval: number = 6000;
+  private refreshInterval: number = 60000;
   private refreshTrigger$: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
 
   constructor(private http: HttpClient) {
@@ -39,21 +39,10 @@ export class RecipeService {
 
   private startBackgroundRefreshing(): void {
     setInterval(() => {
-      // this.refreshRecipes();
       this.triggerRefresh();
     }, this.refreshInterval);
   }
 
-  private refreshRecipes(): void {
-    this.http.get<RecipeResponse[]>(`${this.apiUrl}recipes/allrecipes`).subscribe(
-      (recipes: RecipeResponse[]) => {
-        this.sortAndSetRecipesInCache(recipes);
-      },
-      (error) => {
-        console.error('Error while refreshing recipes:', error);
-      }
-    );
-  }
   private sortAndSetRecipesInCache(recipes: RecipeResponse[]): void {
     const sortedRecipes = recipes.sort((a, b) => b.id - a.id);
     this.recipesSubject$.next(sortedRecipes);

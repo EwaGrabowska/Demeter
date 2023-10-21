@@ -17,6 +17,7 @@ public class RecipeRequest {
     private String name;
     private Integer servingSize;
     private String author;
+    private String authorSub;
     private BigDecimal price;
     private List<IngredientRequest> ingredientList;
     private List<StepRequest> method;

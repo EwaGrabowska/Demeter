@@ -23,6 +23,7 @@ public class Recipe {
     private String name;
     private Integer servingSize;
     private String author;
+    private String authorSub;
     private BigDecimal price;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ingredient> ingredientList;

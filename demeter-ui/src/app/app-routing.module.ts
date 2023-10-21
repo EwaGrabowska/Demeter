@@ -9,6 +9,7 @@ import {HistoryComponent} from "./history/history.component";
 import {LikedRecipeComponent} from "./liked-recipe/liked-recipe.component";
 import {SubscribtionsComponent} from "./subscribtions/subscribtions.component";
 import {RecipeDetailsComponent} from "./recipe-details/recipe-details.component";
+import {CallbackComponent} from "./callback/callback.component";
 
 
 const routes: Routes = [
@@ -42,11 +43,14 @@ const routes: Routes = [
       }
     ]
   },
+  // {
+  //   path: '', component: HomeComponent,
+  // },
+  // {
+  //   path: ':id', component: HomeComponent,
+  // },
   {
-    path: '', component: HomeComponent,
-  },
-  {
-    path: ':id', component: HomeComponent,
+    path: 'callback', component: CallbackComponent,
   }
 ];
 

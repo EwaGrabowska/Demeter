@@ -15,9 +15,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/register")
-    public String register(@RequestHeader("Authorization") String token){
-        userRegisterService.registerUser(token.substring(7));
-        return "Registration successfull.";
+    public UserResponse register(@RequestHeader("Authorization") String token){
+        return userRegisterService.registerUser(token.substring(7));
+
     }
 
     @GetMapping()
@@ -45,15 +45,15 @@ public class UserController {
         return userService.addRecipeToUserHistory(id, sub);
     }
 
-    @PostMapping("/subscribe/{userId}")
+    @PostMapping("/subscribe")
     @ResponseStatus(HttpStatus.OK)
-    UserResponse subscribeAuthor(@PathVariable("userId") String userId, @RequestHeader("sub") String sub){
-        return userService.subcribeUser(userId, sub);
+    UserResponse subscribeAuthor(@RequestParam("subscribedsub") String subscribedsub, @RequestParam("currentsub") String currentsub){
+        return userService.subcribeUser(subscribedsub, currentsub);
     }
 
-    @PostMapping("/unsubscribe/{userId}")
+    @PostMapping("/unsubscribe")
     @ResponseStatus(HttpStatus.OK)
-    UserResponse unsubscribeAuthor(@PathVariable("userId") String userId, @RequestHeader("sub") String sub){
-        return userService.unsubcribeUser(userId, sub);
+    UserResponse unsubscribeAuthor(@RequestParam("subscribedsub") String subscribedsub, @RequestParam("currentsub") String currentsub){
+        return userService.unsubcribeUser(subscribedsub, currentsub);
     }
 }

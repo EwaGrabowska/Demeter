@@ -38,6 +38,8 @@ public class SecurityConfig{
                                 .permitAll()
                                 .pathMatchers("/recipes/allrecipes")
                                 .permitAll()
+                                .pathMatchers("/user/register")
+                                .permitAll()
                                 .anyExchange()
                                 .authenticated())
                 .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt);

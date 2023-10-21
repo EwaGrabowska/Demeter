@@ -16,7 +16,7 @@ public class UserResponse {
     private String picture;
     private String emailAddress;
     private String sub;
-    private Set<Long> subscribedChannelIds = ConcurrentHashMap.newKeySet();
+    private Set<String> subscribedAuthors = ConcurrentHashMap.newKeySet();
     private Set<Long> videoHistory;
     private Set<Long> likedRecipe = ConcurrentHashMap.newKeySet();
     private Set<Long> disLikedRecipe = ConcurrentHashMap.newKeySet();
