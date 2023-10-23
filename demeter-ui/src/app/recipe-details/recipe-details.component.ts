@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {RecipeResponse} from "../home/recipeResponse";
-import {Recipe2ServiceService} from "./recipe2-service.service";
+import {RecipeDetailsService} from "./recipeDetails.service";
 import {Location} from "@angular/common";
 import {RecipeService} from "../home/recipeService";
 import {UserService} from "./user.service";
@@ -19,14 +19,15 @@ export class RecipeDetailsComponent{
   hasBeenSubscibed!: boolean;
   currentUser! : UserResponse;
 
+
   constructor(private activateRoute: ActivatedRoute, private recipeService: RecipeService,
-              private recipe2ServiceService: Recipe2ServiceService, private location: Location,
+              private recipeDetailsService: RecipeDetailsService, private location: Location,
               private userSrvice: UserService) {
     this.setData();
   }
 
   setData(){
-    this.recipe2ServiceService.selectedRecipe$.subscribe((value: any) => {
+    this.recipeDetailsService.selectedRecipe$.subscribe((value: any) => {
       this.recipe = value;
       this.userSrvice.getCurrentUser().subscribe((value: any) => {
         this.currentUser = value;
@@ -45,8 +46,8 @@ export class RecipeDetailsComponent{
   }
 
   likeRecipe() {
-    this.recipe2ServiceService.likeRecipe(this.recipe.id).subscribe(data => {
-      this.recipe2ServiceService.setRecipe(data);
+    this.recipeDetailsService.likeRecipe(this.recipe.id).subscribe(data => {
+      this.recipeDetailsService.setRecipe(data);
       this.recipeService.triggerRefresh();
       this.userSrvice.triggerCurrentUser();
     });
@@ -54,8 +55,8 @@ export class RecipeDetailsComponent{
   }
 
   dislikeRecipe() {
-    this.recipe2ServiceService.dislikeRecipe(this.recipe.id).subscribe(data => {
-      this.recipe2ServiceService.setRecipe(data);
+    this.recipeDetailsService.dislikeRecipe(this.recipe.id).subscribe(data => {
+      this.recipeDetailsService.setRecipe(data);
       this.recipeService.triggerRefresh();
       this.userSrvice.triggerCurrentUser();
     });

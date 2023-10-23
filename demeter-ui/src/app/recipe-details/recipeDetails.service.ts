@@ -7,7 +7,7 @@ import {RecipeResponse} from "../home/recipeResponse";
 @Injectable({
   providedIn: 'root'
 })
-export class Recipe2ServiceService {
+export class RecipeDetailsService {
   private recipe$ = new BehaviorSubject<any>({});
   selectedRecipe$ = this.recipe$.asObservable();
   apiURL = environment.apiUrl;

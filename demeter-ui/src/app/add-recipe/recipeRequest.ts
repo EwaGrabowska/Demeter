@@ -1,7 +1,7 @@
 import {Ingredient} from "./ingredient";
 import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
-import {CommentRequest} from "../recipe-details/CommentRequest";
+import {CommentRequest} from "../comments/commentRequest";
 
 export class RecipeRequest {
 

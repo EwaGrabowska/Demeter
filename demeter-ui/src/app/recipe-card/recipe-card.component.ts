@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {RecipeResponse} from "../home/recipeResponse";
 import {Router} from "@angular/router";
-import {Recipe2ServiceService} from "../recipe-details/recipe2-service.service";
+import {RecipeDetailsService} from "../recipe-details/recipeDetails.service";
 
 @Component({
   selector: 'app-recipe-card',
@@ -12,7 +12,7 @@ export class RecipeCardComponent {
 
   @Input()
   recipe!: RecipeResponse;
-  constructor(private router: Router, private recipeService: Recipe2ServiceService) {
+  constructor(private router: Router, private recipeService: RecipeDetailsService) {
   }
 
   handleCardClick() {

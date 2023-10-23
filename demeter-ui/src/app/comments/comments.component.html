@@ -1,0 +1,32 @@
+<form class="example-form" [formGroup]="commentsForm" fxLayout="row">
+  <mat-form-field class="example-full-width" fxFlex = "90%">
+    <mat-label>Zostaw komentarz</mat-label>
+    <textarea matInput (focus)="this.showCommentButton()"
+              [formControlName]="'comment'" ></textarea>
+  </mat-form-field>
+  <div fxLayout="column" *ngIf="showCommentSection" fxFlex="20%" >
+    <div fxFlexAlign="end">
+      <div>
+        <button mat-button (click)="clear()" >Anuluj</button>
+      </div>
+      <div>
+        <button type="submit" (click)="postComment()" mat-button color="primary">Dodaj komentarz</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<mat-divider></mat-divider>
+<div class="view-comments" *ngFor="let comment of comments">
+  <div fxLayout="row" fxFlex="90%">
+    {{comment.text}}
+  </div>
+  <div >
+    <div >
+      <mat-card-header>
+        <a matCardTitle class="comment-author" routerLink="">{{comment.author}}</a>
+      </mat-card-header>
+    </div>
+  </div>
+
+</div>

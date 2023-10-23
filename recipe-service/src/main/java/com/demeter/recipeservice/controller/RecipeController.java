@@ -57,13 +57,13 @@ public class RecipeController {
 
     @PostMapping("/{recipeId}/comment")
     @ResponseStatus(HttpStatus.OK)
-    public RecipeResponse addComment(@PathVariable("recipeId") String recipeId, @RequestBody CommentRequest commentDTO){
-        return recipeService.addComment(recipeId, commentDTO);
+    public void addComment(@PathVariable("recipeId") String recipeId, @RequestBody CommentRequest commentDTO){
+        recipeService.addComment(recipeId, commentDTO);
     }
 
     @GetMapping("/{recipeId}/comment")
     @ResponseStatus(HttpStatus.OK)
-    public List<CommentResponse> getComments(@PathVariable("recipeId") String recipeId, @RequestBody CommentRequest commentDTO){
+    public List<CommentResponse> getComments(@PathVariable("recipeId") String recipeId){
         return recipeService.getAllComments(recipeId);
     }
 

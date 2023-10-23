@@ -133,8 +133,6 @@ public class RecipeFactory {
         return Comment.builder()
                 .author(source.getAuthor())
                 .text(source.getText())
-                .disLikeCount(source.getDisLikeCount())
-                .likeCount(source.getLikeCount())
                 .build();
     }
     public static CommentResponse entityToDTO(Comment source){
@@ -142,8 +140,6 @@ public class RecipeFactory {
                 .id(source.getId())
                 .author(source.getAuthor())
                 .text(source.getText())
-                .disLikeCount(source.getDisLikeCount())
-                .likeCount(source.getLikeCount())
                 .build();
     }
 }

@@ -18,6 +18,4 @@ public class Comment {
     private Long id;
     private String text;
     private String author;
-    private Integer likeCount;
-    private Integer disLikeCount;
 }

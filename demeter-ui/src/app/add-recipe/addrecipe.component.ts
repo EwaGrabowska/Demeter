@@ -10,7 +10,6 @@ import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
 import {PhotoService} from "./photo.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CommentRequest} from "../recipe-details/CommentRequest";
 import {UserService} from "../recipe-details/user.service";
 
 @Component({

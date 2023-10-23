@@ -1,7 +1,7 @@
 import {Ingredient} from "../add-recipe/ingredient";
 import {Step} from "../add-recipe/step";
 import {UploadPhotoResponse} from "../add-recipe/uploadPhotoResponse";
-import {CommentRequest} from "../recipe-details/CommentRequest";
+import {CommentRequest} from "../comments/commentRequest";
 
 export class RecipeResponse{
   constructor(

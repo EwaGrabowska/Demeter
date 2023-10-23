@@ -136,14 +136,13 @@ public class RecipeService {
         return RecipeFactory.dtoToEntity(savedRecipe);
     }
 
-    public RecipeResponse addComment(String recipeId, CommentRequest commentDTO) {
+    public void addComment(String recipeId, CommentRequest commentDTO) {
         Long id = Long.parseLong(recipeId);
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("Recipe doesn't Exist. Recipe id: "+recipeId));
         Comment comment = RecipeFactory.dtoToEntity(commentDTO);
         recipe.getComments().add(comment);
-        Recipe savedRecipe = recipeRepository.save(recipe);
-        return RecipeFactory.dtoToEntity(savedRecipe);
+        recipeRepository.save(recipe);
     }
 
     public List<CommentResponse> getAllComments(String recipeId) {
