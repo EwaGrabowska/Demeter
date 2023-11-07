@@ -30,5 +30,6 @@ export class HeaderComponent {
 
   logout() {
     this.oidcSecurityService.logoffAndRevokeTokens();
+    this.oidcSecurityService.logoffLocal();
   }
 }

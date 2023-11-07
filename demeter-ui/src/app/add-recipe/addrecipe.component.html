@@ -31,23 +31,27 @@
 
       <h3>Zdjęcie:</h3>
       <div>
-        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-                       (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" fxFlex="30%">
+        <ngx-file-drop (onFileDrop)="dropped($event)" fxFlex="30%" *ngIf="!selectedImage">
           <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-            <div *ngIf="thumbnail">
-              <img [src]="thumbnail" alt="Thumbnail" class="thumbnail">
-              <button mat-icon-button color="warn" (click)="removeImage()">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-            <div *ngIf="!thumbnail">
+            <div>
               Przeciągnij zdjęcie lub
-              <button mat-raised-button color="accent" type="button"  (click)="openFileSelector()"> wybierz plik </button>
+              <button mat-raised-button color="accent" type="button" (click)="openFileSelector()"> wybierz plik </button>
             </div>
           </ng-template>
         </ngx-file-drop>
-      </div>
 
+        <mat-card *ngIf="selectedImage" fxFlex="75%">
+          <mat-card-header>
+            <mat-card-subtitle>Nazwa pliku: </mat-card-subtitle>
+            <mat-card-title>{{ selectedImage }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-actions align="end">
+            <button mat-icon-button color="warn" (click)="removeImage()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
 
       <h3>Składniki:</h3>
       <div *ngFor="let ingredient of recipeRequest.ingredientList; let i = index">

@@ -8,9 +8,13 @@
     <button mat-icon-button>
       <mat-icon>content_paste_search</mat-icon>
     </button>
-    <button *ngIf="isAuthenticated; else noAuth" mat-icon-button>
+    <button *ngIf="isAuthenticated; else noAuth" [matMenuTriggerFor]="menu" mat-icon-button>
       <mat-icon>account_circle</mat-icon>
     </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()" >Wyloguj</button>
+      <button mat-menu-item>Edytuj profil</button>
+    </mat-menu>
     <ng-template #noAuth>
       <button mat-raised-button (click)="login()" >Login</button>
     </ng-template>

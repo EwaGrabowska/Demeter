@@ -1,10 +1,7 @@
 package com.demeter.recipeservice.service;
 
 import com.demeter.recipeservice.dto.*;
-import com.demeter.recipeservice.model.Comment;
-import com.demeter.recipeservice.model.Ingredient;
-import com.demeter.recipeservice.model.Recipe;
-import com.demeter.recipeservice.model.Step;
+import com.demeter.recipeservice.model.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +21,7 @@ public class RecipeFactory {
                 .build();
     }
 
-    static StepResponse dtoToEntity(Step source){
+    static StepResponse entityToDTO(Step source){
         return StepResponse.builder()
                 .id(source.getId())
                 .text(source.getText())
@@ -49,7 +46,7 @@ public class RecipeFactory {
                 .build();
     }
 
-    static IngredientResponse dtoToEntity(Ingredient source){
+    static IngredientResponse entityToDTO(Ingredient source){
         return IngredientResponse.builder()
                 .id(source.getId())
                 .name(source.getName())
@@ -64,14 +61,14 @@ public class RecipeFactory {
                 .author(source.getAuthor())
                 .authorSub(source.getAuthorSub())
                 .method(source.getMethod().stream()
-                        .map(step->dtoToEntity(step))
+                        .map(step-> dtoToEntity(step))
                         .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
                 .servingSize(source.getServingSize())
                 .ingredientList(source.getIngredientList().stream()
-                        .map(ingredientRequest->dtoToEntity(ingredientRequest))
+                        .map(ingredientRequest-> dtoToEntity(ingredientRequest))
                         .toList())
                 .photo(source.getPhoto())
                 .likes(source.getLikes())
@@ -89,16 +86,16 @@ public class RecipeFactory {
                 .author(source.getAuthor())
                 .authorSub(source.getAuthorSub())
                 .method(source.getMethod().stream()
-                        .map(step->dtoToEntity(step))
+                        .map(step-> dtoToEntity(step))
                         .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
                 .servingSize(source.getServingSize())
                 .ingredientList(source.getIngredientList().stream()
-                        .map(ingredientResponse->dtoToEntity(ingredientResponse))
+                        .map(ingredientResponse-> dtoToEntity(ingredientResponse))
                         .toList())
-                .photo(source.getPhoto())
+                .photo(dtoToEntity(source.getPhoto()))
                 .likes(source.getLikes())
                 .disLikes(source.getDisLikes())
                 .build();
@@ -111,16 +108,16 @@ public class RecipeFactory {
                 .author(source.getAuthor())
                 .authorSub(source.getAuthorSub())
                 .method(source.getMethod().stream()
-                        .map(step -> dtoToEntity(step))
+                        .map(step -> entityToDTO(step))
                         .toList())
                 .preparationTime(source.getPreparationTime())
                 .cookingTime(source.getCookingTime())
                 .restingTime(source.getRestingTime())
                 .servingSize(source.getServingSize())
                 .ingredientList(source.getIngredientList().stream()
-                        .map(ingredient -> dtoToEntity(ingredient))
+                        .map(ingredient -> entityToDTO(ingredient))
                         .toList())
-                .photo(source.getPhoto())
+                .photo(entityToDTO(source.getPhoto()))
                 .likes(source.getLikes())
                 .disLikes(source.getDisLikes())
                 .commentResponseList(source.getComments().stream()
@@ -140,6 +137,20 @@ public class RecipeFactory {
                 .id(source.getId())
                 .author(source.getAuthor())
                 .text(source.getText())
+                .build();
+    }
+
+    public static PhotoResponse entityToDTO(Photo source){
+        return PhotoResponse.builder()
+                .id(source.getId())
+                .photoUrl(source.getPhotoUrl())
+                .build();
+    }
+
+    public static Photo dtoToEntity(PhotoResponse source){
+        return Photo.builder()
+                .id(source.getId())
+                .photoUrl(source.getPhotoUrl())
                 .build();
     }
 }

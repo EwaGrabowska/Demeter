@@ -38,6 +38,9 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 import { CallbackComponent } from './callback/callback.component';
 import { CommentsComponent } from './comments/comments.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -58,35 +61,38 @@ import { CommentsComponent } from './comments/comments.component';
     CallbackComponent,
     CommentsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    NgxFileDropModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSliderModule,
-    MatCardModule,
-    MatButtonToggleModule,
-    MatInputModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatInputModule,
-    NgxFileDropModule,
-    FlexLayoutModule,
-    MatSnackBarModule,
-    AuthConfigModule,
-    RouterModule,
-    MatSidenavModule,
-    MatListModule,
-    MatLineModule,
-    MatChipsModule,
-    MatLegacyChipsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        NgxFileDropModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatSliderModule,
+        MatCardModule,
+        MatButtonToggleModule,
+        MatInputModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatInputModule,
+        NgxFileDropModule,
+        FlexLayoutModule,
+        MatSnackBarModule,
+        AuthConfigModule,
+        RouterModule,
+        MatSidenavModule,
+        MatListModule,
+        MatLineModule,
+        MatChipsModule,
+        MatLegacyChipsModule,
+        MatMenuModule,
+        MatSlideToggleModule,
+        MatPaginatorModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ]

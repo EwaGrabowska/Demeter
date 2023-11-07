@@ -4,6 +4,7 @@ import com.demeter.recipeservice.dto.*;
 import com.demeter.recipeservice.service.RecipeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,14 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.OK)
     public List<RecipeResponse> getAllRecipes() {
         return recipeService.getAllRecipes();
+    }
+
+    @GetMapping("/paginated")
+    public Page<RecipeResponse> getPaginatedData(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        return recipeService.getAllRecipePageble(page, size);
     }
 
     @PutMapping

@@ -1,6 +1,5 @@
 package com.demeter.recipeservice.dto;
 
-import com.demeter.recipeservice.model.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +25,7 @@ public class RecipeResponse {
     private Integer cookingTime;
     private Integer restingTime;
     private Integer readyToServe;
-    private Photo photo;
+    private PhotoResponse photo;
     private Integer likes;
     private Integer disLikes;
     private List<CommentResponse> commentResponseList;

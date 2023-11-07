@@ -13,6 +13,9 @@ import com.demeter.recipeservice.repository.PhotoRepository;
 import com.demeter.recipeservice.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,5 +157,19 @@ public class RecipeService {
                 .map(RecipeFactory::entityToDTO)
                 .toList();
 
+    }
+
+     public Page<RecipeResponse> getAllRecipePageble(int pageNumber, int size){
+        Pageable pageable = PageRequest.of(pageNumber, size);
+
+        Page<Recipe> page = this.recipeRepository.findAll(pageable);
+         System.out.println("recipe service page.getTotalElements():" + page.getTotalElements());
+         System.out.println("recipe service page.getTotalPages():" + page.getTotalPages());
+        return page.map(recipe -> RecipeFactory.dtoToEntity(recipe));
+    }
+
+    public Page<Recipe> getAllLikedRecipePageble(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return this.recipeRepository.findAll(pageable);
     }
 }

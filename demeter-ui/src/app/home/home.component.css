@@ -3,3 +3,9 @@
   height: calc(100vh - 80px);
   margin-top: 70px;
 }
+
+.demo-paginator {
+  width: auto;
+  align-content: flex-end;
+}
+

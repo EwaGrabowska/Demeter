@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
 import {RecipeRequest} from "./recipeRequest";
 import {Ingredient} from "./ingredient";
 import {Router} from "@angular/router";
@@ -8,7 +7,7 @@ import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {environment} from '../../environments/environment';
 import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
-import {PhotoService} from "./photo.service";
+import {AddrecipeService} from "./addrecipe.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../recipe-details/user.service";
 
@@ -20,7 +19,7 @@ import {UserService} from "../recipe-details/user.service";
 export class AddrecipeComponent {
   public files: NgxFileDropEntry[] = [];
   public fileuploaded: boolean = false;
-  selectedImage: File | null = null;
+  selectedImage: string | undefined;
   thumbnail: string | null = null;
   apiURL = environment.apiUrl;
 
@@ -31,7 +30,7 @@ export class AddrecipeComponent {
   private uploadedFile: File | undefined;
 
 
-  constructor(private photoService: PhotoService, private formBuilder: FormBuilder, private http: HttpClient,
+  constructor(private addrecipeService: AddrecipeService, private formBuilder: FormBuilder,
               private router: Router, private matSnackBar: MatSnackBar, private userService: UserService) {
     this.recipeForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -84,9 +83,7 @@ export class AddrecipeComponent {
       number: this.recipeRequest.method.length+1,
       text: ''
     });
-
   }
-
   moveStepUp(index: number) {
     if (index > 0) {
       const currentStep = { ...this.recipeRequest.method[index]};
@@ -97,7 +94,6 @@ export class AddrecipeComponent {
       this.recipeRequest.method[index - 1] = currentStep;
     }
   }
-
   moveStepDown(index: number) {
     if (index < this.recipeRequest.method.length - 1) {
       const currentStep = { ...this.recipeRequest.method[index] };
@@ -143,7 +139,7 @@ export class AddrecipeComponent {
       [new Ingredient(1, '', '')],
       [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
 
-    this.selectedImage = null;
+    this.selectedImage = undefined;
     this.thumbnail = null;
   }
   public dropped(files: NgxFileDropEntry[]) {
@@ -153,12 +149,7 @@ export class AddrecipeComponent {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          const reader = new FileReader();
-          reader.onload = (event: any) => {
-            this.selectedImage = event.target.result;
-          };
-          reader.readAsDataURL(file);
-          this.thumbnail = this.photoService.generateThumbnail(file);
+          this.selectedImage = file.name;
           this.fileuploaded=true;
           this.uploadedFile = file;
           console.log(this.fileuploaded.valueOf())
@@ -172,9 +163,9 @@ export class AddrecipeComponent {
       await this.uploadPhoto();
     }
     this.recipeRequest.setauthorSub(this.userService.getUserSub())
-    this.http.post<RecipeRequest>(this.apiURL.concat('recipes'), this.recipeRequest).subscribe({
+    this.addrecipeService.addRecipe(this.recipeRequest).subscribe({
       next: response => {
-        console.log('Form submitted successfully!', response);
+        console.log('Form submitted successfully! Recipe id: ', response);
         this.matSnackBar.open("Przepis dodany pomyślnie", "Ok")
         this.resetForm();
       },
@@ -187,12 +178,12 @@ export class AddrecipeComponent {
   uploadPhoto(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (this.uploadedFile !== undefined) {
-        this.photoService.uploadPhoto(this.uploadedFile).subscribe(data => {
+        this.addrecipeService.uploadPhoto(this.uploadedFile).subscribe(data => {
           this.recipeRequest.photo.photoUrl = data.photoUrl;
           this.recipeRequest.photo.id = Number(data.id);
           console.log("Photo added successfully. Photo id: " + this.recipeRequest.photo.id);
           resolve();
-        }, error => {
+        }, function (error) {
           reject(error);
         });
       } else {
@@ -200,24 +191,12 @@ export class AddrecipeComponent {
       }
     });
   }
-
   removeImage() {
-    this.selectedImage = null;
+    this.selectedImage = undefined;
     this.thumbnail = null;
   }
 
-  public fileOver(event: any){
-    console.log(event);
-  }
-
-  public fileLeave(event: any){
-    console.log(event);
-  }
-
-  public saveSketch(){
+  saveSketch() {
 
   }
-
-
 }
-
