@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OidcSecurityService} from "angular-auth-oidc-client";
 import {Router} from "@angular/router";
 import {UserService} from "../recipe-details/user.service";
@@ -8,7 +8,7 @@ import {UserService} from "../recipe-details/user.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
 
   isAuthenticated: boolean = false;
   constructor(private oidcSecurityService: OidcSecurityService, private router: Router, private userService: UserService) {
@@ -31,5 +31,6 @@ export class HeaderComponent {
   logout() {
     this.oidcSecurityService.logoffAndRevokeTokens();
     this.oidcSecurityService.logoffLocal();
+    this.userService.logout();
   }
 }

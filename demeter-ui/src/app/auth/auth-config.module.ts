@@ -7,7 +7,6 @@ import {environment} from '../../environments/environment';
     imports: [AuthModule.forRoot({
         config: {
             authority: environment.authority,
-            // redirectUrl: window.location.origin,
             redirectUrl: environment.redirectUrl,
             clientId: environment.clientId,
             scope: 'openid profile offline_access email',

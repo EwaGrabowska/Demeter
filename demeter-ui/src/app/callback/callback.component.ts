@@ -8,16 +8,14 @@ import {OidcSecurityService} from "angular-auth-oidc-client";
   templateUrl: './callback.component.html',
   styleUrls: ['./callback.component.css']
 })
-export class CallbackComponent implements OnInit{
+export class CallbackComponent{
+
 
   constructor(private userService: UserService, private router: Router, private oidcSecurityService: OidcSecurityService) {
     this.oidcSecurityService.isAuthenticated$.subscribe(data =>{
       this.userService.registerUser();
       this.router.navigateByUrl('');
     });
-  }
-
-  ngOnInit(): void {
 
   }
 

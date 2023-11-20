@@ -23,7 +23,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AuthConfigModule } from './auth/auth-config.module';
 import {AuthInterceptor, AuthModule} from "angular-auth-oidc-client";
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
-import {provideRoutes, RouterModule} from "@angular/router";
+import {RouterModule} from "@angular/router";
 import { HistoryComponent } from './history/history.component';
 import { SubscribtionsComponent } from './subscribtions/subscribtions.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -41,6 +41,7 @@ import { CommentsComponent } from './comments/comments.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {ErrorInterceptor} from "./errorInterceptor";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -59,7 +60,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     NotesComponent,
     RecipeCardComponent,
     CallbackComponent,
-    CommentsComponent
+    CommentsComponent,
   ],
     imports: [
         BrowserModule,
@@ -91,9 +92,11 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         MatLegacyChipsModule,
         MatMenuModule,
         MatSlideToggleModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        AuthModule
     ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ]
 })

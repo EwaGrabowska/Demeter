@@ -36,6 +36,8 @@ public class SecurityConfig{
                         exchange
                                 .pathMatchers("/eureka/**")
                                 .permitAll()
+                                .pathMatchers("/recipes/paginated")
+                                .permitAll()
                                 .pathMatchers("/recipes/allrecipes")
                                 .permitAll()
                                 .pathMatchers("/user/register")

@@ -14,6 +14,7 @@ export class UserService {
   private currentUser: BehaviorSubject<UserResponse | null> = new BehaviorSubject<UserResponse | null>(null);
   private currentUserSub: string = "";
   private token!: string;
+  isAuthenticatedValue: boolean = false;
 
   constructor(private httpClient: HttpClient, private oidcSecurityService: OidcSecurityService ) {}
 
@@ -49,5 +50,16 @@ export class UserService {
 
   getCurrentUser(): Observable<UserResponse | null> {
     return this.currentUser.asObservable();
+  }
+
+  isAuthenticated(): boolean {
+    this.oidcSecurityService.isAuthenticated$.subscribe(({isAuthenticated}) =>{
+      this.isAuthenticatedValue = isAuthenticated
+    })
+    return this.isAuthenticatedValue;
+  }
+
+  logout() {
+    this.currentUser.next(null);
   }
 }

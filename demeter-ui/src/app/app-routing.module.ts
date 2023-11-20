@@ -10,6 +10,7 @@ import {LikedRecipeComponent} from "./liked-recipe/liked-recipe.component";
 import {SubscribtionsComponent} from "./subscribtions/subscribtions.component";
 import {RecipeDetailsComponent} from "./recipe-details/recipe-details.component";
 import {CallbackComponent} from "./callback/callback.component";
+import {AuthGuard} from "./auth/auth.guard";
 
 
 const routes: Routes = [
@@ -18,37 +19,31 @@ const routes: Routes = [
     path: '', component: MenuComponent,
     children: [
       {
-        path: '', component: HomeComponent,
+        path: '', component: HomeComponent
       },
       {
-        path: 'myrecipes', component: MyRecipesComponent,
+        path: 'myrecipes', component: MyRecipesComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'addrecipe', component: AddrecipeComponent,
+        path: 'addrecipe', component: AddrecipeComponent, canActivate: [AuthGuard]
+},
+      {
+        path: 'notes', component: NotesComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'notes', component: NotesComponent,
+        path: 'history', component: HistoryComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'history', component: HistoryComponent,
+        path: 'likedrecipe', component: LikedRecipeComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'likedrecipe', component: LikedRecipeComponent,
-      },
-      {
-        path: 'subscribtions', component: SubscribtionsComponent,
+        path: 'subscribtions', component: SubscribtionsComponent, canActivate: [AuthGuard]
       },
       {
         path: 'details', component: RecipeDetailsComponent,
       }
     ]
   },
-  // {
-  //   path: '', component: HomeComponent,
-  // },
-  // {
-  //   path: ':id', component: HomeComponent,
-  // },
   {
     path: 'callback', component: CallbackComponent,
   }
