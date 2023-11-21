@@ -1,5 +1,3 @@
-
-
 <div class="content" fxLayout = "column">
   <div>
     <h2>Ostatnio dodane:</h2>
@@ -16,11 +14,6 @@
                  [pageIndex]="pageIndex"
                  aria-label="Select page">
   </mat-paginator>
-
-<!--  <div class="demo-data">-->
-<!--    <div> Output event: {{(pageEvent | json) || 'No events dispatched yet'}} </div>-->
-<!--    <div> getNumberOfPages: {{paginator.getNumberOfPages()}} </div>-->
-<!--  </div>-->
 
   <div fxLayout="row wrap" fxLayoutGap="15px grid">
     <div fxFlex = 33% *ngFor="let recipe of recipes">

@@ -39,11 +39,29 @@ public class RecipeController {
     }
 
     @GetMapping("/paginated")
-    public Page<RecipeResponse> getPaginatedData(
+    public Page<RecipeResponse> getAllRecipesPaginated(
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ) {
-        return recipeService.getAllRecipePageble(page, size);
+        return recipeService.getAllRecipesPageble(page, size);
+    }
+
+    @GetMapping("/myrecipes/paginated")
+    public Page<RecipeResponse> getUserRecipesPaginated(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("usersub") String usersub
+    ) {
+        return recipeService.getAllUserRecipesPageble(page, size, usersub);
+    }
+
+    @PostMapping("/likedrecipe/paginated")
+    public Page<RecipeResponse> getLikedRecipesPaginated(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestBody List<Integer> likedRecipeIdList
+    ) {
+        return recipeService.getAllLikedRecipesPageble(page, size, likedRecipeIdList);
     }
 
     @PutMapping

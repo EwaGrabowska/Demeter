@@ -4,18 +4,24 @@
   </button>
   <span class="logo">Demeter</span>
   <span class="example-spacer"></span>
-  <div>
+  <div *ngIf="isAuthenticated; else noAuth">
+    <span class="logo">Witaj {{fullName}}  </span>
     <button mat-icon-button>
       <mat-icon>content_paste_search</mat-icon>
     </button>
-    <button *ngIf="isAuthenticated; else noAuth" [matMenuTriggerFor]="menu" mat-icon-button>
+    <button  [matMenuTriggerFor]="menu" mat-icon-button>
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="logout()" >Wyloguj</button>
       <button mat-menu-item>Edytuj profil</button>
     </mat-menu>
+  </div>
+  <div>
     <ng-template #noAuth>
+      <button mat-icon-button>
+        <mat-icon>content_paste_search</mat-icon>
+      </button>
       <button mat-raised-button (click)="login()" >Login</button>
     </ng-template>
   </div>

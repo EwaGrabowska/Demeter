@@ -1,27 +1,54 @@
-import {Component, OnDestroy} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RecipeResponse} from "../home/recipeResponse";
 import {Subscription} from "rxjs";
-import {RecipeService} from "../home/recipeService";
+import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
+import {PolishMatPaginatorIntl} from "../home/polishMatPaginatorIntl";
+import {MyRecipesPageService} from "./my-recipes-page.service";
 
 @Component({
   selector: 'app-my-recipes',
   templateUrl: './my-recipes.component.html',
-  styleUrls: ['./my-recipes.component.css']
+  styleUrls: ['./my-recipes.component.css'],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: new PolishMatPaginatorIntl() }
+  ]
 })
-export class MyRecipesComponent implements OnDestroy{
-  recipes: Array<RecipeResponse> = [];
-  getAllRecipeSubscription: Subscription;
+export class MyRecipesComponent implements OnDestroy, OnInit{
+  myRecipes: Array<RecipeResponse> = [];
+  getAllRecipeSubscription!: Subscription;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  length = 0;
+  pageSize = 9;
+  pageIndex = 0;
+  pageSizeOptions = [9, 16];
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
+  userSub!: string;
 
-  constructor(private recipeService: RecipeService) {
-    this.getAllRecipeSubscription = recipeService.getAllRecipes().subscribe(data => {
-      this.recipes = data;
-    });
+  constructor(private recipePageService: MyRecipesPageService) { }
+
+  ngOnInit(): void {
+    this.getAllRecipeSubscription = this.recipePageService.getMyRecipes(this.pageIndex, this.pageSize)
+      .subscribe(data => {
+        this.myRecipes = data.content;
+        this.length = data.totalElements;
+      });
   }
 
   ngOnDestroy(): void {
     this.getAllRecipeSubscription.unsubscribe();
   }
 
+  handlePageEvent(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+
+    this.recipePageService.getMyRecipes(this.pageIndex, this.pageSize)
+      .subscribe(data => {
+        this.myRecipes = data.content;
+        this.length = data.totalElements;
+      });
+  }
 }

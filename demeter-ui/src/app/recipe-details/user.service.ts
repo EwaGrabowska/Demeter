@@ -10,18 +10,18 @@ import {OidcSecurityService} from "angular-auth-oidc-client";
 })
 export class UserService {
 
-  apiURL = environment.apiUrl;
+  private apiURL = environment.apiUrl;
   private currentUser: BehaviorSubject<UserResponse | null> = new BehaviorSubject<UserResponse | null>(null);
   private currentUserSub: string = "";
-  private token!: string;
   isAuthenticatedValue: boolean = false;
-
+  isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   constructor(private httpClient: HttpClient, private oidcSecurityService: OidcSecurityService ) {}
 
   registerUser() {
     return this.httpClient.get<UserResponse>(this.apiURL.concat("user/register")).subscribe(data =>{
       this.currentUser.next(data)
       this.currentUserSub = data.sub;
+      this.isAuthenticatedSubject.next(true)
     });
   }
   triggerCurrentUser() {
@@ -33,16 +33,12 @@ export class UserService {
     params = params.append('currentsub', this.currentUserSub);
     return this.httpClient.post<UserResponse>(this.apiURL.concat("user/subscribe"), null, { params: params });
   }
-
   unsubscribeToUser(subscribedSub: string): Observable<UserResponse>{
     let params = new HttpParams();
     params = params.append('subscribedsub', subscribedSub);
     params = params.append('currentsub', this.currentUserSub);
     return this.httpClient.post<UserResponse>(this.apiURL.concat("user/unsubscribe"), null, { params: params });
-
   }
-
-
 
   getUserSub(): string{
     return this.currentUserSub;
@@ -61,5 +57,7 @@ export class UserService {
 
   logout() {
     this.currentUser.next(null);
+    this.isAuthenticatedSubject.next(false)
   }
+
 }

@@ -159,17 +159,22 @@ public class RecipeService {
 
     }
 
-     public Page<RecipeResponse> getAllRecipePageble(int pageNumber, int size){
+     public Page<RecipeResponse> getAllRecipesPageble(int pageNumber, int size){
         Pageable pageable = PageRequest.of(pageNumber, size);
 
         Page<Recipe> page = this.recipeRepository.findAll(pageable);
-         System.out.println("recipe service page.getTotalElements():" + page.getTotalElements());
-         System.out.println("recipe service page.getTotalPages():" + page.getTotalPages());
-        return page.map(recipe -> RecipeFactory.dtoToEntity(recipe));
+        return page.map(RecipeFactory::dtoToEntity);
     }
 
-    public Page<Recipe> getAllLikedRecipePageble(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
-        return this.recipeRepository.findAll(pageable);
+    public Page<RecipeResponse> getAllUserRecipesPageble(int pageNumber, int size, String usersub) {
+        Pageable pageable = PageRequest.of(pageNumber, size);
+        Page<Recipe> page = this.recipeRepository.findAllbySub(pageable, usersub);
+        return page.map(RecipeFactory::dtoToEntity);
+    }
+
+    public Page<RecipeResponse> getAllLikedRecipesPageble(int pageNumber, int size, List<Integer> likedRecipeIdList) {
+        Pageable pageable = PageRequest.of(pageNumber, size);
+        Page<Recipe> page = this.recipeRepository.findAllByIdIn(pageable, likedRecipeIdList);
+        return page.map(RecipeFactory::dtoToEntity);
     }
 }

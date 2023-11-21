@@ -36,8 +36,4 @@ export class RecipePageService {
     }, this.refreshInterval);
   }
 
-  private sortAndSetRecipesInCache(recipes: RecipeResponse[]): void {
-    const sortedRecipes = recipes.sort((a, b) => b.id - a.id);
-    this.recipesSubject$.next(sortedRecipes);
-  }
 }

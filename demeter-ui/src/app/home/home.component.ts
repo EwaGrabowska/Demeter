@@ -19,9 +19,9 @@ export class HomeComponent implements OnDestroy, OnInit{
   getAllRecipeSubscription!: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   length = 0;
-  pageSize = 2;
+  pageSize = 9;
   pageIndex = 0;
-  pageSizeOptions = [2, 9, 16];
+  pageSizeOptions = [9, 16];
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
