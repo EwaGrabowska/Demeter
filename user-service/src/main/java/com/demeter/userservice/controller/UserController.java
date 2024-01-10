@@ -19,6 +19,10 @@ public class UserController {
         return userRegisterService.registerUser(token.substring(7));
 
     }
+    @GetMapping("/findbysub")
+    public UserResponse findUserBySub(@RequestParam("usersub") String usersub){
+        return userService.findUserBySub(usersub);
+    }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)

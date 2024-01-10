@@ -42,6 +42,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {ErrorInterceptor} from "./errorInterceptor";
+import { SingleSubscriptionComponent } from './single-subscription/single-subscription.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -61,6 +62,7 @@ import {ErrorInterceptor} from "./errorInterceptor";
     RecipeCardComponent,
     CallbackComponent,
     CommentsComponent,
+    SingleSubscriptionComponent,
   ],
     imports: [
         BrowserModule,

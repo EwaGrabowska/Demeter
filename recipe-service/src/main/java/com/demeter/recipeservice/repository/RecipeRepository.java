@@ -10,10 +10,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
-    @Query(value = "SELECT * FROM recipes ORDER BY id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM recipes  WHERE sketch = 'false' ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAll(Pageable pageable);
-    @Query(value = "SELECT * FROM recipes WHERE author_sub = :usersub ORDER BY id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM recipes WHERE author_sub = :usersub AND sketch = 'false' ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAllbySub(Pageable pageable, @Param("usersub") String usersub);
-    @Query(value = "SELECT * FROM recipes WHERE id IN :likedRecipeIdList ORDER BY id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM recipes WHERE author_sub = :usersub AND sketch = 'true' ORDER BY id DESC", nativeQuery = true)
+    Page<Recipe> findAllSketchbySub(Pageable pageable, @Param("usersub") String usersub);
+    @Query(value = "SELECT * FROM recipes WHERE id IN :likedRecipeIdList  AND sketch = 'false' ORDER BY id DESC", nativeQuery = true)
     Page<Recipe> findAllByIdIn(Pageable pageable, @Param("likedRecipeIdList") List<Integer> likedRecipeIdList);
 }

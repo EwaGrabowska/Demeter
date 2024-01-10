@@ -29,4 +29,5 @@ public class RecipeResponse {
     private Integer likes;
     private Integer disLikes;
     private List<CommentResponse> commentResponseList;
+    private boolean sketch;
 }

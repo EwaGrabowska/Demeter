@@ -26,7 +26,7 @@ export class AddrecipeComponent {
   recipeForm: FormGroup;
   recipeRequest= new RecipeRequest ('', '', '',1,
     [new Ingredient(1, '', '')],
-    [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
+    [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, [], false);
   private uploadedFile: File | undefined;
 
 
@@ -137,7 +137,7 @@ export class AddrecipeComponent {
     });
     this.recipeRequest = new RecipeRequest ('', '', '', 1,
       [new Ingredient(1, '', '')],
-      [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, []);
+      [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, [], false);
 
     this.selectedImage = undefined;
     this.thumbnail = null;
@@ -196,7 +196,22 @@ export class AddrecipeComponent {
     this.thumbnail = null;
   }
 
-  saveSketch() {
+  async saveSketch() {
+    this.recipeRequest.setSketchValue(true);
+    if (this.fileuploaded) {
+      await this.uploadPhoto();
+    }
 
+    this.recipeRequest.setauthorSub(this.userService.getUserSub())
+    this.addrecipeService.addRecipe(this.recipeRequest).subscribe({
+      next: response => {
+        console.log('Sketch addet! Sketch id: ', response);
+        this.matSnackBar.open("Szkic zapisany pomyślnie", "Ok")
+        this.resetForm();
+      },
+      error: error => {
+        console.error('An error occurred while submitting the form:', error);
+      }
+    });
   }
 }

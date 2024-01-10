@@ -177,4 +177,10 @@ public class RecipeService {
         Page<Recipe> page = this.recipeRepository.findAllByIdIn(pageable, likedRecipeIdList);
         return page.map(RecipeFactory::dtoToEntity);
     }
+
+    public Page<RecipeResponse> getAllUserSketchesPageble(int pageNumber, int size, String usersub) {
+        Pageable pageable = PageRequest.of(pageNumber, size);
+        Page<Recipe> page = this.recipeRepository.findAllSketchbySub(pageable, usersub);
+        return page.map(RecipeFactory::dtoToEntity);
+    }
 }

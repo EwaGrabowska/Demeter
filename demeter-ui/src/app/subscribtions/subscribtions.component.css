@@ -1,5 +1,10 @@
 .content {
   display: flex;
+  flex-wrap: nowrap;
   height: calc(100vh - 80px);
   margin-top: 70px;
+}
+
+.user-subscription {
+  margin-bottom: 30px;
 }

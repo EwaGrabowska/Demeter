@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {UserResponse} from "./UserResponse";
 import {Observable, BehaviorSubject} from "rxjs";
@@ -39,25 +39,20 @@ export class UserService {
     params = params.append('currentsub', this.currentUserSub);
     return this.httpClient.post<UserResponse>(this.apiURL.concat("user/unsubscribe"), null, { params: params });
   }
-
   getUserSub(): string{
     return this.currentUserSub;
   }
-
   getCurrentUser(): Observable<UserResponse | null> {
     return this.currentUser.asObservable();
   }
-
   isAuthenticated(): boolean {
     this.oidcSecurityService.isAuthenticated$.subscribe(({isAuthenticated}) =>{
       this.isAuthenticatedValue = isAuthenticated
     })
     return this.isAuthenticatedValue;
   }
-
   logout() {
     this.currentUser.next(null);
     this.isAuthenticatedSubject.next(false)
   }
-
 }

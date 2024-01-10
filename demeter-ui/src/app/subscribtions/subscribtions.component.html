@@ -1,11 +1,18 @@
-<div>
-  <h2>Subskrypcje:</h2>
-</div>
-
-<div class="content">
-  <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div fxFlex = 30% *ngFor="let recipe of recipes">
-      <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
-    </div>
+<div class="content" fxLayout = "column">
+  <div>
+    <h2>Subskrypcje:</h2>
   </div>
+  <mat-paginator #paginator
+                 class="demo-paginator"
+                 (page)="handlePageEvent($event)"
+                 [length]="length"
+                 [pageSize]="pageSize"
+                 [pageIndex]="pageIndex"
+                 aria-label="Select page">
+  </mat-paginator>
+
+  <div fxFlex = 33% class="user-subscription" *ngFor="let userSub of subscribedUsers">
+    <app-single-subscription [userSub] = "userSub" ></app-single-subscription>
+  </div>
+
 </div>

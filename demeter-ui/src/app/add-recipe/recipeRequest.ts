@@ -19,12 +19,16 @@ export class RecipeRequest {
     public photo: UploadPhotoResponse,
     public likes: number,
     public disLikes: number,
-    public comments: CommentRequest[]
+    public comments: CommentRequest[],
+    public sketch: boolean
    ){}
 
   setauthorSub(value: string) {
     this.authorSub = value;
   }
 
+  setSketchValue(value: boolean) {
+    this.sketch = value;
+  }
   }
 

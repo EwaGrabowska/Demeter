@@ -19,6 +19,7 @@ export class RecipeResponse{
     public photo: UploadPhotoResponse,
     public likes: number,
     public disLikes: number,
-    public comments: CommentRequest[]
+    public comments: CommentRequest[],
+    public sketch: boolean
   ){}
 }

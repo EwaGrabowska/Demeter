@@ -28,4 +28,5 @@ public class RecipeRequest {
     private Integer likes;
     private Integer disLikes;
     private List<CommentRequest> comments;
+    private boolean sketch;
 }

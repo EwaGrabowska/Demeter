@@ -1,0 +1,18 @@
+<div>
+  <h2>{{fullName}} :</h2>
+</div>
+
+<div fxLayout="row wrap" fxLayoutGap="15px grid">
+  <div fxFlex = 33% *ngFor="let recipe of subscribedUserRecipes">
+    <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
+  </div>
+</div>
+
+<div *ngIf="showMoreButton">
+  <button (click)="showMore()">Pokaż więcej</button>
+</div>
+
+<div *ngIf="showLessButton">
+  <button (click)="showLess()">Pokaż mniej</button>
+</div>
+

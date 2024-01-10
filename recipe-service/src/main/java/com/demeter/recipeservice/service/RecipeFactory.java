@@ -76,6 +76,7 @@ public class RecipeFactory {
                 .comments(source.getComments().stream()
                         .map(commentRequest -> dtoToEntity(commentRequest))
                         .toList())
+                .sketch(source.isSketch())
                 .build();
         return recipe;
     }
@@ -98,6 +99,7 @@ public class RecipeFactory {
                 .photo(dtoToEntity(source.getPhoto()))
                 .likes(source.getLikes())
                 .disLikes(source.getDisLikes())
+                .sketch(source.isSketch())
                 .build();
         return recipe;
     }
@@ -123,6 +125,7 @@ public class RecipeFactory {
                 .commentResponseList(source.getComments().stream()
                         .map(comment -> entityToDTO(comment))
                         .toList())
+                .sketch(source.isSketch())
                 .build();
     }
 

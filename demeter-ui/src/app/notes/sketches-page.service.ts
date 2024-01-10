@@ -9,7 +9,7 @@ import {RecipePage} from "../home/recipePage";
 @Injectable({
   providedIn: 'root'
 })
-export class LikedRecipePageService implements OnInit{
+export class SketchesPageService implements OnInit {
 
   private apiUrl = environment.apiUrl;
   private myRecipesSubject$: BehaviorSubject<RecipeResponse[]> = new BehaviorSubject<RecipeResponse[]>([]);
@@ -18,13 +18,10 @@ export class LikedRecipePageService implements OnInit{
 
   page: number = 1;
   size: number = 9;
-
-  likedRecipeIdList: Number[] | undefined;
+  userSub: string;
 
   constructor(private http: HttpClient, private authService: UserService) {
-    authService.getCurrentUser().subscribe(user =>{
-      this.likedRecipeIdList = user?.likedRecipe
-    });
+    this.userSub = authService.getUserSub();
   }
 
   ngOnInit() {
@@ -35,12 +32,13 @@ export class LikedRecipePageService implements OnInit{
     this.refreshTrigger$.next(undefined);
   }
 
-  private getAllRecipesPega(pageIndex: number, pageSize: number): Observable<any> {
+  private getAllSketchesPega(pageIndex: number, pageSize: number, userSub: string): Observable<any> {
     const params = new HttpParams()
       .set('page', pageIndex.toString())
-      .set('size', pageSize.toString());
+      .set('size', pageSize.toString())
+      .set('usersub', userSub);
 
-    return this.http.post<RecipePage<RecipeResponse>>(`${this.apiUrl}recipes/likedrecipe/paginated`, this.likedRecipeIdList, {params});
+    return this.http.get<RecipePage<RecipeResponse>>(`${this.apiUrl}recipes/mysketches/paginated`, {params});
   }
 
   private startBackgroundRefreshing(): void {
@@ -49,19 +47,18 @@ export class LikedRecipePageService implements OnInit{
         switchMap(() => this.refreshTrigger$)
       )
       .subscribe(() => {
-        this.getAllRecipesPega(this.page, this.size).subscribe((recipes) => {
+        this.getAllSketchesPega(this.page, this.size, this.userSub).subscribe((recipes) => {
           this.myRecipesSubject$.next(recipes);
         });
       });
   }
 
-  getLikedRecipes(pageIndex: number, pageSize: number): Observable<any>{
-    this.getAllRecipesPega(pageIndex, pageSize, ).subscribe(recipes =>{
+  getSketches(pageIndex: number, pageSize: number): Observable<any> {
+    this.getAllSketchesPega(pageIndex, pageSize, this.userSub).subscribe(recipes => {
       this.myRecipesSubject$.next(recipes);
     })
     this.page = pageIndex;
     this.size = pageSize;
     return this.myRecipesSubject$;
   }
-
 }

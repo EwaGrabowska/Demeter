@@ -55,6 +55,15 @@ public class RecipeController {
         return recipeService.getAllUserRecipesPageble(page, size, usersub);
     }
 
+    @GetMapping("/mysketches/paginated")
+    public Page<RecipeResponse> getUserSketchesPaginated(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("usersub") String usersub
+    ) {
+        return recipeService.getAllUserSketchesPageble(page, size, usersub);
+    }
+
     @PostMapping("/likedrecipe/paginated")
     public Page<RecipeResponse> getLikedRecipesPaginated(
             @RequestParam("page") int page,

@@ -40,6 +40,7 @@ public class Recipe {
     private Integer disLikes;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
+    private boolean sketch;
 
 
     public Integer incrementLikes(){
