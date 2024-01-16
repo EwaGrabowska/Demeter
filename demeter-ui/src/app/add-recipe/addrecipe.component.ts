@@ -4,7 +4,6 @@ import {RecipeRequest} from "./recipeRequest";
 import {Ingredient} from "./ingredient";
 import {Router} from "@angular/router";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
-import {environment} from '../../environments/environment';
 import {Step} from "./step";
 import {UploadPhotoResponse} from "./uploadPhotoResponse";
 import {AddrecipeService} from "./addrecipe.service";
@@ -21,8 +20,6 @@ export class AddrecipeComponent {
   public fileuploaded: boolean = false;
   selectedImage: string | undefined;
   thumbnail: string | null = null;
-  apiURL = environment.apiUrl;
-
   recipeForm: FormGroup;
   recipeRequest= new RecipeRequest ('', '', '',1,
     [new Ingredient(1, '', '')],
@@ -141,6 +138,7 @@ export class AddrecipeComponent {
 
     this.selectedImage = undefined;
     this.thumbnail = null;
+    this.fileuploaded = false;
   }
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
@@ -194,6 +192,7 @@ export class AddrecipeComponent {
   removeImage() {
     this.selectedImage = undefined;
     this.thumbnail = null;
+    this.fileuploaded = false;
   }
 
   async saveSketch() {

@@ -9,14 +9,22 @@ import {RecipeDetailsService} from "../recipe-details/recipeDetails.service";
   styleUrls: ['./recipe-card.component.css']
 })
 export class RecipeCardComponent {
+  @Input()
+  parentComponent!: string;
 
   @Input()
   recipe!: RecipeResponse;
+  event!: string;
   constructor(private router: Router, private recipeService: RecipeDetailsService) {
   }
 
   handleCardClick() {
     this.recipeService.setRecipe(this.recipe);
-    this.router.navigate(['/details'])
+    if(this.parentComponent === "notes"){
+      this.router.navigate(['/edition'])
+    }else{
+      this.router.navigate(['/details'])
+    }
+
   }
 }

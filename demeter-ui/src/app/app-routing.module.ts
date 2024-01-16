@@ -11,6 +11,7 @@ import {SubscribtionsComponent} from "./subscribtions/subscribtions.component";
 import {RecipeDetailsComponent} from "./recipe-details/recipe-details.component";
 import {CallbackComponent} from "./callback/callback.component";
 import {AuthGuard} from "./auth/auth.guard";
+import {EditionComponent} from "./edition/edition.component";
 
 
 const routes: Routes = [
@@ -41,6 +42,9 @@ const routes: Routes = [
       },
       {
         path: 'details', component: RecipeDetailsComponent,
+      },
+      {
+        path: 'edition', component: EditionComponent,
       }
     ]
   },

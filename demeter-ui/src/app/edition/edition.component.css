@@ -1,0 +1,49 @@
+.content-wrapper {
+  display: flex;
+  height: calc(100vh - 80px);
+  margin-top: 70px;
+}
+.vertical-buttons {
+  flex-direction: column;
+  align-items: flex-start;
+}
+mat-button-toggle{
+  margin: 10px;
+}
+.right-column::before {
+  content: "";
+  width: 1px;
+  margin-right: 10px;
+}
+.right-column {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+mat-slider {
+  width: 100%;
+  transform: rotate(270deg);
+}
+.ingredient-row {
+  display: flex;
+  align-items: center;
+}
+.ingredient-row button {
+  margin-left: 10px;
+}
+textarea {
+  width: 80%;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20%;
+}
+
+.buttons button {
+  margin-left: 10pg;
+}

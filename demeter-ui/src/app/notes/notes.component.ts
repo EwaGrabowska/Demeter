@@ -10,6 +10,7 @@ import {SketchesPageService} from "./sketches-page.service";
   styleUrls: ['./notes.component.css']
 })
 export class NotesComponent implements OnDestroy, OnInit {
+  parentComponent: string = 'notes';
   sketches: Array<RecipeResponse> = [];
   getAllSketchesSubscription!: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

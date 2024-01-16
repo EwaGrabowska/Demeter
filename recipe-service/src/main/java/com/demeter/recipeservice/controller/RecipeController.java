@@ -73,7 +73,7 @@ public class RecipeController {
         return recipeService.getAllLikedRecipesPageble(page, size, likedRecipeIdList);
     }
 
-    @PutMapping
+    @PutMapping("/edition")
     @ResponseStatus(HttpStatus.OK)
     public RecipeResponse editRecipe(@RequestBody RecipeResponse recipeResponse){
         return recipeService.editRecipe(recipeResponse);
@@ -101,6 +101,12 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.OK)
     public List<CommentResponse> getComments(@PathVariable("recipeId") String recipeId){
         return recipeService.getAllComments(recipeId);
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteRecipe(@RequestParam("id") String id){
+        recipeService.deleteRecipe(id);
     }
 
 }

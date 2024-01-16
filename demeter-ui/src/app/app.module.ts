@@ -43,6 +43,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {ErrorInterceptor} from "./errorInterceptor";
 import { SingleSubscriptionComponent } from './single-subscription/single-subscription.component';
+import { EditionComponent } from './edition/edition.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -63,6 +64,7 @@ import { SingleSubscriptionComponent } from './single-subscription/single-subscr
     CallbackComponent,
     CommentsComponent,
     SingleSubscriptionComponent,
+    EditionComponent,
   ],
     imports: [
         BrowserModule,

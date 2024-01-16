@@ -1,0 +1,122 @@
+<div class="content-wrapper">
+
+  <div fxLayout="column" style="height: auto" fxFlex="85%" class="right-column">
+    <form class="recipe-form" (ngSubmit)="submitForm()" [formGroup]="recipeForm">
+      <h3>Informacje o przepisie:</h3>
+      <div class="form-field" >
+        <mat-form-field fxFlex="100%">
+          <mat-label>Tytuł</mat-label>
+          <input matInput [(ngModel)] = "recipeResponse.name" [ngModelOptions]="{ standalone: true }" name="name" required>
+          <mat-error *ngIf="recipeForm.controls['name']?.invalid">
+            Pole tytuł jest wymagane
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <mat-form-field fxFlex="80%">
+          <mat-label>Autor</mat-label>
+          <input matInput [(ngModel)]="recipeResponse.author" [ngModelOptions]="{ standalone: true }" name="author" required>
+          <mat-error *ngIf="recipeForm.controls['author']?.invalid">
+            Pole autor jest wymagane
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="20%">
+          <mat-label>Ilość porcji</mat-label>
+          <input matInput [(ngModel)]="recipeResponse.servingSize" [ngModelOptions]="{ standalone: true }" name="servingSize" type="number" required>
+          <mat-error *ngIf="recipeForm.controls['servingSize']?.invalid">
+            Pole iliść porcji jest wymagane
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <h3>Zdjęcie:</h3>
+      <div>
+        <ngx-file-drop (onFileDrop)="dropped($event)" fxFlex="30%" *ngIf="!selectedImage">
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <div>
+              Przeciągnij zdjęcie lub
+              <button mat-raised-button color="accent" type="button" (click)="openFileSelector()"> wybierz plik </button>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+
+        <mat-card *ngIf="selectedImage" fxFlex="75%">
+          <img mat-card-md-image [src]="recipeResponse.photo.photoUrl">
+          <mat-card-actions align="end">
+            <button mat-icon-button color="warn" (click)="removeImage()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <h3>Składniki:</h3>
+      <div *ngFor="let ingredient of recipeResponse.ingredientList; let i = index">
+        <div fxLayout="row" fxLayoutGap="10px">
+
+          <mat-form-field fxFlex="15%">
+            <mat-label>Ilość</mat-label>
+            <input matInput [(ngModel)] = "ingredient.quantity" [ngModelOptions]="{ standalone: true }" type="number" name="ingredient-{{i}}-quantity">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="20%">
+            <mat-label>Rodzaj miary</mat-label>
+            <input matInput [(ngModel)] = "ingredient.measuringUnites" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-measuringUnites">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="40%">
+            <mat-label>Składnik</mat-label>
+            <input matInput [(ngModel)] = "ingredient.name" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-name">
+          </mat-form-field>
+
+          <button mat-icon-button type="button" (click)="moveIngredientUp(i)" *ngIf="i > 0">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="moveIngredientDown(i)" *ngIf="i < recipeResponse.ingredientList.length - 1">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" type="button" (click)="removeIngredient(i)" *ngIf="recipeResponse.ingredientList.length > 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </div>
+      </div>
+      <div>
+        <button mat-raised-button color="accent" type="button" (click)="addIngredient()">Dodaj składnik</button>
+      </div>
+
+      <h3>Wykonanie:</h3>
+      <div class="form-field" *ngFor="let step of recipeResponse.method; let i = index">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <label>{{i+1}}.</label>
+          <mat-form-field fxFlex="75%">
+            <mat-label></mat-label>
+            <textarea matInput [(ngModel)]="step.text" [ngModelOptions]="{ standalone: true }" name="step-{{i}}-text" required></textarea>
+          </mat-form-field>
+
+          <button mat-icon-button type="button" (click)="moveStepUp(i)" *ngIf="i > 0">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="moveStepDown(i)" *ngIf="i < recipeResponse.method.length - 1">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" type="button" (click)="removeStep(i)" *ngIf="recipeResponse.method.length > 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </div>
+      </div>
+      <div>
+        <button mat-raised-button color="accent" type="button" (click)="addStep()">Dodaj etap</button>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="end end">
+        <button mat-raised-button color="accent" type="button" (click)="delete()">Usuń</button>
+        <button mat-raised-button color="accent" type="button" (click)="saveSketch()">Zapisz jako szkic</button>
+        <button mat-raised-button color="primary" type="submit">Dodaj przepis</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

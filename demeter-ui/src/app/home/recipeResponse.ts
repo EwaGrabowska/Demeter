@@ -22,4 +22,9 @@ export class RecipeResponse{
     public comments: CommentRequest[],
     public sketch: boolean
   ){}
+
+  markAsRecipe() {
+    this.sketch = false;
+    return this;
+  }
 }

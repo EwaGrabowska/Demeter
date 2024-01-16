@@ -181,6 +181,12 @@ public class RecipeService {
     public Page<RecipeResponse> getAllUserSketchesPageble(int pageNumber, int size, String usersub) {
         Pageable pageable = PageRequest.of(pageNumber, size);
         Page<Recipe> page = this.recipeRepository.findAllSketchbySub(pageable, usersub);
+        System.out.println("liczba szkiców: "+ page.getTotalElements()+", czy szkice? :"+page.get().findFirst().get().isSketch());
         return page.map(RecipeFactory::dtoToEntity);
+    }
+
+    public void deleteRecipe(String id) {
+        Long idL = Long.parseLong(id);
+        this.recipeRepository.deleteById(idL);
     }
 }

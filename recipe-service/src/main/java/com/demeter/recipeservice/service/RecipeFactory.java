@@ -100,6 +100,9 @@ public class RecipeFactory {
                 .likes(source.getLikes())
                 .disLikes(source.getDisLikes())
                 .sketch(source.isSketch())
+                .comments(source.getCommentResponseList().stream()
+                        .map(comment-> dtoToEntity(comment))
+                        .toList())
                 .build();
         return recipe;
     }
@@ -137,6 +140,13 @@ public class RecipeFactory {
     }
     public static CommentResponse entityToDTO(Comment source){
         return CommentResponse.builder()
+                .id(source.getId())
+                .author(source.getAuthor())
+                .text(source.getText())
+                .build();
+    }
+    public static Comment dtoToEntity(CommentResponse source){
+        return Comment.builder()
                 .id(source.getId())
                 .author(source.getAuthor())
                 .text(source.getText())
