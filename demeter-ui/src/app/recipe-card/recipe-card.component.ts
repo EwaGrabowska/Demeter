@@ -20,6 +20,7 @@ export class RecipeCardComponent {
 
   handleCardClick() {
     this.recipeService.setRecipe(this.recipe);
+    this.recipeService.setParentConponent(this.parentComponent);
     if(this.parentComponent === "notes"){
       this.router.navigate(['/edition'])
     }else{

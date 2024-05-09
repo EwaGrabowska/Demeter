@@ -23,8 +23,4 @@ export class RecipeResponse{
     public sketch: boolean
   ){}
 
-  markAsRecipe() {
-    this.sketch = false;
-    return this;
-  }
 }

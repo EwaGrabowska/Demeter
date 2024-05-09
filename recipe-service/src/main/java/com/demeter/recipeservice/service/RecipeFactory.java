@@ -78,6 +78,7 @@ public class RecipeFactory {
                         .toList())
                 .sketch(source.isSketch())
                 .build();
+        recipe.setLastModification();
         return recipe;
     }
     static Recipe editRecipe(RecipeResponse source){
@@ -104,9 +105,10 @@ public class RecipeFactory {
                         .map(comment-> dtoToEntity(comment))
                         .toList())
                 .build();
+        recipe.setLastModification();
         return recipe;
     }
-    static RecipeResponse dtoToEntity(Recipe source) {
+    static RecipeResponse entityToDTO(Recipe source) {
         return RecipeResponse.builder()
                 .id(source.getId())
                 .name(source.getName())
@@ -129,6 +131,7 @@ public class RecipeFactory {
                         .map(comment -> entityToDTO(comment))
                         .toList())
                 .sketch(source.isSketch())
+                .lastModification(source.getLastModification())
                 .build();
     }
 

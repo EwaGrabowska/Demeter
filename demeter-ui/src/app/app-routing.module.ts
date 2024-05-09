@@ -6,12 +6,13 @@ import {AddrecipeComponent} from "./add-recipe/addrecipe.component";
 import {MenuComponent} from "./menu/menu.component";
 import {NotesComponent} from "./notes/notes.component";
 import {HistoryComponent} from "./history/history.component";
-import {LikedRecipeComponent} from "./liked-recipe/liked-recipe.component";
+import {LikedRecipesComponent} from "./liked-recipes/liked-recipes.component";
 import {SubscribtionsComponent} from "./subscribtions/subscribtions.component";
 import {RecipeDetailsComponent} from "./recipe-details/recipe-details.component";
 import {CallbackComponent} from "./callback/callback.component";
 import {AuthGuard} from "./auth/auth.guard";
 import {EditionComponent} from "./edition/edition.component";
+import {ProfileEditComponent} from "./profile-edit/profile-edit.component";
 
 
 const routes: Routes = [
@@ -35,7 +36,7 @@ const routes: Routes = [
         path: 'history', component: HistoryComponent, canActivate: [AuthGuard]
       },
       {
-        path: 'likedrecipe', component: LikedRecipeComponent, canActivate: [AuthGuard]
+        path: 'likedrecipe', component: LikedRecipesComponent, canActivate: [AuthGuard]
       },
       {
         path: 'subscribtions', component: SubscribtionsComponent, canActivate: [AuthGuard]
@@ -44,7 +45,10 @@ const routes: Routes = [
         path: 'details', component: RecipeDetailsComponent,
       },
       {
-        path: 'edition', component: EditionComponent,
+        path: 'edition', component: EditionComponent, canActivate: [AuthGuard]
+      },
+      {
+        path: 'editprofile', component: ProfileEditComponent, canActivate: [AuthGuard]
       }
     ]
   },

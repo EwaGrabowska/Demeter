@@ -21,7 +21,8 @@ export class HeaderComponent implements OnInit{
 
   ngOnInit(): void{
     this.oidcSecurityService.isAuthenticated$.subscribe(({isAuthenticated}) =>{
-      this.isAuthenticated = isAuthenticated
+      this.isAuthenticated = isAuthenticated;
+      this.userService.registerUser();
     })
     this.userService.getCurrentUser().subscribe(user =>{
       this.fullName = user?.fullName;

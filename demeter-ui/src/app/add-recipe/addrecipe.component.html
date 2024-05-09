@@ -12,14 +12,11 @@
           </mat-error>
         </mat-form-field>
       </div>
+
       <div class="form-field">
-        <mat-form-field fxFlex="80%">
-          <mat-label>Autor</mat-label>
-          <input matInput [(ngModel)]="recipeRequest.author" name="author" required>
-          <mat-error *ngIf="recipeForm.controls['author']?.invalid">
-            Pole autor jest wymagane
-          </mat-error>
-        </mat-form-field>
+        <h3 fxFlex="10%" >Autor: </h3>
+        <h5 fxFlex="30%" >{{fullName}}</h5>
+        <h3 fxFlex="40%" ></h3>
         <mat-form-field fxFlex="20%">
           <mat-label>Ilość porcji</mat-label>
           <input matInput [(ngModel)]="recipeRequest.servingSize" name="servingSize" type="number" required>
@@ -57,7 +54,7 @@
       <div *ngFor="let ingredient of recipeRequest.ingredientList; let i = index">
         <div fxLayout="row" fxLayoutGap="10px">
 
-          <mat-form-field fxFlex="15%">
+          <mat-form-field fxFlex="20%">
             <mat-label>Ilość</mat-label>
             <input matInput [(ngModel)] = "ingredient.quantity" [ngModelOptions]="{ standalone: true }" type="number" name="ingredient-{{i}}-quantity">
 <!--            <input matInput [(ngModel)]="ingredient.quantity" type="number" name="ingredient-{{i}}-quantity">-->
@@ -66,15 +63,22 @@
 <!--            </mat-error>-->
           </mat-form-field>
 
-          <mat-form-field fxFlex="20%">
+          <mat-form-field fxFlex="30%">
             <mat-label>Rodzaj miary</mat-label>
-            <input matInput [(ngModel)]="ingredient.measuringUnites" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-measuringUnites">
+            <mat-select [(ngModel)]="ingredient.measuringUnites" name="ingredient-{{i}}-measuringUnit">
+              <mat-option value="łyżka">łyżka</mat-option>
+              <mat-option value="łyżeczka">łyżeczka</mat-option>
+              <mat-option value="g">g</mat-option>
+              <mat-option value="kg">kg</mat-option>
+              <mat-option value="l">l</mat-option>
+              <mat-option value="mml">mml</mat-option>
+            </mat-select>
 <!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('measuringUnites')?.invalid">-->
 <!--              Pole rodzaj miary jest wymagane-->
 <!--            </mat-error>-->
           </mat-form-field>
 
-          <mat-form-field fxFlex="40%">
+          <mat-form-field fxFlex="50%">
             <mat-label>Składnik</mat-label>
             <input matInput [(ngModel)]="ingredient.name" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-name">
 <!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('name')?.invalid">-->
@@ -101,8 +105,8 @@
       <h3>Wykonanie:</h3>
       <div class="form-field" *ngFor="let step of recipeRequest.method; let i = index">
         <div fxLayout="row" fxLayoutGap="10px">
-          <label>{{i+1}}.</label>
-          <mat-form-field fxFlex="75%">
+          <label fxFlex="10%">{{i+1}}.</label>
+          <mat-form-field fxFlex="90%">
             <mat-label></mat-label>
             <textarea matInput [(ngModel)]="step.text" [ngModelOptions]="{ standalone: true }" name="step-{{i}}-text" required></textarea>
 <!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('quantity')?.invalid">-->

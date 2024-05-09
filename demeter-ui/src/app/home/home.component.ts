@@ -15,6 +15,7 @@ import {RecipePageService} from "./recipe-page.service";
   ]
 })
 export class HomeComponent implements OnDestroy, OnInit{
+  parentComponent: string = 'home';
   recipes: Array<RecipeResponse> = [];
   getAllRecipeSubscription!: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

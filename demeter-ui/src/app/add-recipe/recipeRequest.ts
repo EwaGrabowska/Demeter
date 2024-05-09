@@ -30,5 +30,10 @@ export class RecipeRequest {
   setSketchValue(value: boolean) {
     this.sketch = value;
   }
+
+  setAuthor(fullName: string) {
+    this.author = fullName;
+
   }
+}
 

@@ -14,6 +14,7 @@ import {MyRecipesPageService} from "./my-recipes-page.service";
   ]
 })
 export class MyRecipesComponent implements OnDestroy, OnInit{
+  parentComponent: string = 'myRecipes';
   myRecipes: Array<RecipeResponse> = [];
   getAllRecipeSubscription!: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

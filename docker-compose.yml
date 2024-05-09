@@ -1,36 +1,36 @@
 ---
 version: '3'
 services:
-  ## Keycloak Config with Mysql database
-  keycloak-mysql:
-    container_name: keycloak-mysql
-    image: mysql:5.7
-    volumes:
-      - ./mysql_keycloak_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
-  keycloak:
-    container_name: keycloak
-    image: quay.io/keycloak/keycloak:18.0.0
-    command: [ "start-dev", "--import-realm" ]
-    environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysql
-      DB_DATABASE: keycloak
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./realms/:/opt/keycloak/data/import/
-    depends_on:
-      - keycloak-mysql
+#  ## Keycloak Config with Mysql database
+#  keycloak-mysql:
+#    container_name: keycloak-mysql
+#    image: mysql:5.7
+#    volumes:
+#      - ./mysql_keycloak_data:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#
+#  keycloak:
+#    container_name: keycloak
+#    image: quay.io/keycloak/keycloak:18.0.0
+#    command: [ "start-dev", "--import-realm" ]
+#    environment:
+#      DB_VENDOR: MYSQL
+#      DB_ADDR: mysql
+#      DB_DATABASE: keycloak
+#      DB_USER: ${DB_USER}
+#      DB_PASSWORD: ${DB_PASSWORD}
+#      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+#      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./realms/:/opt/keycloak/data/import/
+#    depends_on:
+#      - keycloak-mysql
 
   ## Kafka with Zookeeper
   zookeeper:
@@ -91,7 +91,7 @@ services:
     depends_on:
       - zipkin
       - eureka-server
-      - keycloak
+#      - keycloak
 
   ## RecipeRequest-Service Docker Compose Config
   recipe-service:
@@ -117,8 +117,8 @@ services:
     image: ewagrabowska/ingredient-service:latest
     pull_policy: always
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID_INGREDIENT}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY_INGREDIENT}
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - eureka-server
@@ -130,6 +130,8 @@ services:
     image: ewagrabowska/user-service:latest
     pull_policy: always
     environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - USER_SERVICE_DB_URL=${USER_SERVICE_DB_URL}
       - USER_SERVICE_DB_USERNAME=${USER_SERVICE_DB_USERNAME}
       - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
@@ -181,16 +183,16 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=password
 
-#  DEMETER-UI
-  demeter-ui:
-    image: ewagrabowska/demeter-ui
-    build:
-      args:
-        PROFILE: production
-    container_name: demeter-ui
-    restart: always
-    ports:
-      - "4200:80"
-
+##  DEMETER-UI
+#  demeter-ui:
+#    image: ewagrabowska/demeter-ui
+#    build:
+#      args:
+#        PROFILE: production
+#    container_name: demeter-ui
+#    restart: always
+#    ports:
+#      - "4200:80"
+#
 
 

@@ -27,7 +27,7 @@ import {RouterModule} from "@angular/router";
 import { HistoryComponent } from './history/history.component';
 import { SubscribtionsComponent } from './subscribtions/subscribtions.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { LikedRecipeComponent } from './liked-recipe/liked-recipe.component';
+import { LikedRecipesComponent } from './liked-recipes/liked-recipes.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { MenuComponent } from './menu/menu.component';
 import {MatListModule} from "@angular/material/list";
@@ -44,6 +44,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {ErrorInterceptor} from "./errorInterceptor";
 import { SingleSubscriptionComponent } from './single-subscription/single-subscription.component';
 import { EditionComponent } from './edition/edition.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -57,7 +59,7 @@ import { EditionComponent } from './edition/edition.component';
     HistoryComponent,
     SubscribtionsComponent,
     SidebarComponent,
-    LikedRecipeComponent,
+    LikedRecipesComponent,
     MenuComponent,
     NotesComponent,
     RecipeCardComponent,
@@ -65,6 +67,7 @@ import { EditionComponent } from './edition/edition.component';
     CommentsComponent,
     SingleSubscriptionComponent,
     EditionComponent,
+    ProfileEditComponent
   ],
     imports: [
         BrowserModule,
@@ -97,7 +100,8 @@ import { EditionComponent } from './edition/edition.component';
         MatMenuModule,
         MatSlideToggleModule,
         MatPaginatorModule,
-        AuthModule
+        AuthModule,
+        MatSelectModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

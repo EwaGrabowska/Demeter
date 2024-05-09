@@ -4,17 +4,18 @@ import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/pagin
 import {PolishMatPaginatorIntl} from "../home/polishMatPaginatorIntl";
 import {Subscription} from "rxjs";
 import {MyRecipesPageService} from "../my-recipes/my-recipes-page.service";
-import {LikedRecipePageService} from "./liked-recipe-page.service";
+import {LikedRecipesPageService} from "./liked-recipes-page.service";
 
 @Component({
   selector: 'app-liked-recipe',
-  templateUrl: './liked-recipe.component.html',
-  styleUrls: ['./liked-recipe.component.css'],
+  templateUrl: './liked-recipes.component.html',
+  styleUrls: ['./liked-recipes.component.css'],
   providers: [
     { provide: MatPaginatorIntl, useValue: new PolishMatPaginatorIntl() }
   ]
 })
-export class LikedRecipeComponent  implements OnDestroy, OnInit{
+export class LikedRecipesComponent implements OnDestroy, OnInit{
+  parentComponent: string = 'likedRecipes';
   likedRecipes: Array<RecipeResponse> = [];
   getAllRecipeSubscription!: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -28,7 +29,7 @@ export class LikedRecipeComponent  implements OnDestroy, OnInit{
   disabled = false;
   userSub!: string;
 
-  constructor(private recipePageService: LikedRecipePageService) { }
+  constructor(private recipePageService: LikedRecipesPageService) { }
 
   ngOnInit(): void {
     this.getAllRecipeSubscription = this.recipePageService.getLikedRecipes(this.pageIndex, this.pageSize)

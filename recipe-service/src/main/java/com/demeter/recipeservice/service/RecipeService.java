@@ -3,7 +3,6 @@ package com.demeter.recipeservice.service;
 import brave.Span;
 import brave.Tracer;
 import com.demeter.recipeservice.client.IngredientClient;
-import com.demeter.recipeservice.client.UserClient;
 import com.demeter.recipeservice.dto.*;
 import com.demeter.recipeservice.event.RecipeAddedEvent;
 import com.demeter.recipeservice.model.Comment;
@@ -30,28 +29,26 @@ import java.util.List;
 public class RecipeService {
 
     private final IngredientClient ingredientClient;
-    private final UserClient userClient;
     private final RecipeRepository recipeRepository;
     private final Tracer tracer;
     private final KafkaTemplate<String, RecipeAddedEvent> kafkaTemplate;
-    private final AWSService AWSService;
+    private final AWSService awsService;
     private final PhotoRepository photoRepository;
     private final UserService userService;
 
 
     public RecipeResponse createRecipe(final RecipeRequest source) {
         Recipe recipe = RecipeFactory.dtoToEntity(source);
-
         recipe = recipeRepository.save(recipe);
         log.info("Recipe {} is saved", recipe.getId());
         kafkaTemplate.send("dbEventTopic", new RecipeAddedEvent(String.valueOf(recipe.getId())));
         log.info("Notification about saved recipe - id {} sended", recipe.getId());
-        return RecipeFactory.dtoToEntity(recipe);
+        return RecipeFactory.entityToDTO(recipe);
     }
 
     public List<RecipeResponse> getAllRecipes() {
         List<Recipe> recipes = recipeRepository.findAll();
-        return recipes.stream().map(recipe-> RecipeFactory.dtoToEntity(recipe)).toList();
+        return recipes.stream().map(recipe-> RecipeFactory.entityToDTO(recipe)).toList();
     }
 
     private List<IngredientSubstituteResponse> getAllSubstitutesByIngredientsName(List<String> ingredientsName){
@@ -78,10 +75,9 @@ public class RecipeService {
     }
 
     public PhotoResponse uploadPhoto(MultipartFile file) {
-        String photoUrl = AWSService.uploadFile(file);
+        String photoUrl = awsService.uploadFile(file);
         var photo = new Photo();
         photo.setPhotoUrl(photoUrl);
-        System.out.println("photo added");
         Photo savedPhoto = photoRepository.save(photo);
         return new PhotoResponse(savedPhoto.getId(), savedPhoto.getPhotoUrl());
 
@@ -91,7 +87,7 @@ public class RecipeService {
         findRecipeById(recipeResponse.getId());
         var editedRecipe = RecipeFactory.editRecipe(recipeResponse);
         var newVersionRecipe = recipeRepository.save(editedRecipe);
-        return RecipeFactory.dtoToEntity(newVersionRecipe);
+        return RecipeFactory.entityToDTO(newVersionRecipe);
     }
 
     private Recipe findRecipeById(Long id){
@@ -107,7 +103,7 @@ public class RecipeService {
         if (currentUser.getLikedRecipe().size()<userResponse.getLikedRecipe().size()){
             return incrementLikes(currentUser, recipe);
         }
-        return RecipeFactory.dtoToEntity(recipe);
+        return RecipeFactory.entityToDTO(recipe);
     }
 
     public RecipeResponse disLikeRecipe(String recipeId, String token) {
@@ -118,7 +114,7 @@ public class RecipeService {
         if (currentUser.getDisLikedRecipe().size()<userResponse.getDisLikedRecipe().size()){
             return incrementDislikes(currentUser, recipe);
         }
-        return RecipeFactory.dtoToEntity(recipe);
+        return RecipeFactory.entityToDTO(recipe);
     }
 
     private RecipeResponse incrementDislikes(UserResponse currentUser, Recipe recipe) {
@@ -127,7 +123,7 @@ public class RecipeService {
         }
         recipe.incrementDislakes();
         Recipe savedRecipe = recipeRepository.save(recipe);
-        return RecipeFactory.dtoToEntity(savedRecipe);
+        return RecipeFactory.entityToDTO(savedRecipe);
     }
 
     private RecipeResponse incrementLikes(UserResponse currentUser, Recipe recipe) {
@@ -136,7 +132,7 @@ public class RecipeService {
         }
         recipe.incrementLikes();
         Recipe savedRecipe = recipeRepository.save(recipe);
-        return RecipeFactory.dtoToEntity(savedRecipe);
+        return RecipeFactory.entityToDTO(savedRecipe);
     }
 
     public void addComment(String recipeId, CommentRequest commentDTO) {
@@ -161,28 +157,38 @@ public class RecipeService {
 
      public Page<RecipeResponse> getAllRecipesPageble(int pageNumber, int size){
         Pageable pageable = PageRequest.of(pageNumber, size);
-
+        if(this.recipeRepository.findAll(pageable).isEmpty()){
+            return Page.empty();
+        }
         Page<Recipe> page = this.recipeRepository.findAll(pageable);
-        return page.map(RecipeFactory::dtoToEntity);
+        return page.map(RecipeFactory::entityToDTO);
     }
 
     public Page<RecipeResponse> getAllUserRecipesPageble(int pageNumber, int size, String usersub) {
         Pageable pageable = PageRequest.of(pageNumber, size);
+        if(this.recipeRepository.findAllbySub(pageable, usersub).isEmpty()){
+            return Page.empty();
+        }
         Page<Recipe> page = this.recipeRepository.findAllbySub(pageable, usersub);
-        return page.map(RecipeFactory::dtoToEntity);
+        return page.map(RecipeFactory::entityToDTO);
     }
 
     public Page<RecipeResponse> getAllLikedRecipesPageble(int pageNumber, int size, List<Integer> likedRecipeIdList) {
         Pageable pageable = PageRequest.of(pageNumber, size);
+        if(this.recipeRepository.findAllByIdIn(pageable, likedRecipeIdList).isEmpty()){
+            return Page.empty();
+        }
         Page<Recipe> page = this.recipeRepository.findAllByIdIn(pageable, likedRecipeIdList);
-        return page.map(RecipeFactory::dtoToEntity);
+        return page.map(RecipeFactory::entityToDTO);
     }
 
     public Page<RecipeResponse> getAllUserSketchesPageble(int pageNumber, int size, String usersub) {
         Pageable pageable = PageRequest.of(pageNumber, size);
+        if(this.recipeRepository.findAllSketchbySub(pageable, usersub).isEmpty()){
+            return Page.empty();
+        }
         Page<Recipe> page = this.recipeRepository.findAllSketchbySub(pageable, usersub);
-        System.out.println("liczba szkiców: "+ page.getTotalElements()+", czy szkice? :"+page.get().findFirst().get().isSketch());
-        return page.map(RecipeFactory::dtoToEntity);
+        return page.map(RecipeFactory::entityToDTO);
     }
 
     public void deleteRecipe(String id) {

@@ -11,6 +11,7 @@ export class SingleSubscriptionComponent implements OnInit, OnChanges {
 
   @Input()
   userSub!: string;
+  parentComponent: string = 'singleSubscription';
   fullName!: string;
   subscribedUserRecipes!: RecipeResponse[]
 

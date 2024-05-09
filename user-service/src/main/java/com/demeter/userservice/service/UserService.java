@@ -1,6 +1,7 @@
 package com.demeter.userservice.service;
 
 import com.demeter.userservice.dto.UserInfoDTO;
+import com.demeter.userservice.dto.UserPhotoURL;
 import com.demeter.userservice.dto.UserResponse;
 import com.demeter.userservice.model.User;
 import com.demeter.userservice.repository.UsersRepository;
@@ -11,6 +12,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,6 +26,7 @@ public class UserService {
     @Value(value = "${auth0.userinfo}")
     private String userInfo;
     private final UsersRepository usersRepository;
+    private final AWSService awsService;
     @Transactional(readOnly = true)
     @SneakyThrows
     public UserResponse findUserBySub(String sub) {
@@ -113,5 +116,22 @@ public class UserService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public UserResponse updateUserWitchPhoto(String fullName, String currentUserSub, String photourl) {
+        User userBySub = this.getUserBySub(currentUserSub);
+        userBySub.setFullName(fullName);
+        if (photourl.equals("")){
+            userBySub.setPicture(null);
+        }else {
+            userBySub.setPicture(photourl);
+        }
+        User savedUser = usersRepository.save(userBySub);
+        return UserFactory.userToDTO(savedUser);
+    }
+
+    public UserPhotoURL updateUserPhoto(MultipartFile file) {
+        String url = awsService.uploadFile(file);
+        return new UserPhotoURL(url);
     }
 }

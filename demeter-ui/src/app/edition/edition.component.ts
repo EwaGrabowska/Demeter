@@ -29,8 +29,8 @@ export class EditionComponent {
               private recipeService: RecipeService, private editionService: EditionService,
               private recipeDetailsService: RecipeDetailsService, private location: Location) {
 
-    this.recipeDetailsService.selectedRecipe$.subscribe((value: any) => {
-      this.recipeResponse = value;
+    this.recipeDetailsService.selectedRecipe$.subscribe((value: RecipeResponse) => {
+      this.recipeResponse = value as RecipeResponse;
     });
     this.recipeForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -40,8 +40,6 @@ export class EditionComponent {
       ingredientList: this.formBuilder.array([], Validators.minLength(1)),
     });
     this.selectedImage = this.recipeResponse.photo.photoUrl;
-    console.log(this.recipeResponse.name)
-    console.log(this.recipeResponse.author)
   }
 
   addIngredient() {
@@ -123,6 +121,7 @@ export class EditionComponent {
   }
 
   async submitForm() {
+    this.recipeResponse.sketch = false;
     if (this.fileuploaded) {
       await this.uploadPhoto();
     }

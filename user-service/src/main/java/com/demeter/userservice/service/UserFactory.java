@@ -19,4 +19,19 @@ public class UserFactory {
                 .subscribedAuthors(source.getSubscribedAuthors())
                 .build();
     }
+
+    public static User DTOtoUser(UserResponse source) {
+        return User.builder()
+                .id(source.getId())
+                .sub(source.getSub())
+                .emailAddress(source.getEmailAddress())
+                .picture(source.getPicture())
+                .firstName(source.getFirstName())
+                .lastName(source.getLastName())
+                .fullName(source.getFullName())
+                .likedRecipe(source.getLikedRecipe())
+                .disLikedRecipe(source.getDisLikedRecipe())
+                .subscribedAuthors(source.getSubscribedAuthors())
+                .build();
+    }
 }

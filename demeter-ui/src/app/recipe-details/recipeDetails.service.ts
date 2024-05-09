@@ -10,6 +10,8 @@ import {RecipeResponse} from "../home/recipeResponse";
 export class RecipeDetailsService {
   private recipe$ = new BehaviorSubject<any>({});
   selectedRecipe$ = this.recipe$.asObservable();
+  private componentName$ = new BehaviorSubject<any>({});
+  temporaryParentComponent$ = this.componentName$.asObservable();
   apiURL = environment.apiUrl;
   constructor(private httpClient: HttpClient) {}
 
@@ -23,5 +25,9 @@ export class RecipeDetailsService {
 
   dislikeRecipe(recipeId: Number): Observable<RecipeResponse> {
     return this.httpClient.post<RecipeResponse>(this.apiURL.concat("recipes/"+recipeId+"/dislike"), null);
+  }
+
+  setParentConponent(parentComponent: string) {
+    this.componentName$.next(parentComponent);
   }
 }

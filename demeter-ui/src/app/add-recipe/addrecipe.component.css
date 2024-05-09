@@ -3,6 +3,9 @@
   height: calc(100vh - 80px);
   margin-top: 70px;
 }
+.form-field {
+  max-width: 100%;
+}
 .vertical-buttons {
   flex-direction: column;
   align-items: flex-start;

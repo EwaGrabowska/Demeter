@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -41,6 +42,7 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
     private boolean sketch;
+    private LocalDateTime lastModification;
 
 
     public Integer incrementLikes(){
@@ -63,4 +65,7 @@ public class Recipe {
         return disLikes;
     }
 
+    public void setLastModification() {
+        this.lastModification = LocalDateTime.now();
+    }
 }

@@ -17,7 +17,7 @@
 
   <div fxLayout="row wrap" fxLayoutGap="15px grid">
     <div fxFlex = 33% *ngFor="let recipe of recipes">
-      <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
+      <app-recipe-card [recipe] = "recipe" [parentComponent] = "parentComponent"></app-recipe-card>
     </div>
     <div>  </div>
   </div>

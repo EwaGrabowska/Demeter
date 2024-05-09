@@ -1,11 +1,14 @@
 package com.demeter.userservice.controller;
 
+import com.demeter.userservice.dto.UserPhotoURL;
 import com.demeter.userservice.dto.UserResponse;
+import com.demeter.userservice.dto.UserUpdateRequest;
 import com.demeter.userservice.service.UserRegisterService;
 import com.demeter.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -60,4 +63,20 @@ public class UserController {
     UserResponse unsubscribeAuthor(@RequestParam("subscribedsub") String subscribedsub, @RequestParam("currentsub") String currentsub){
         return userService.unsubcribeUser(subscribedsub, currentsub);
     }
+
+    @PostMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse updateUserWithPicture(@RequestBody UserUpdateRequest request) {
+
+        return userService.updateUserWitchPhoto(request.getFullname(), request.getCurrentusersub(), request.getPhotourl());
+    }
+
+    @PostMapping("/updatephoto")
+    @ResponseStatus(HttpStatus.OK)
+    public UserPhotoURL updateUserPhoto(@RequestParam("file") MultipartFile file) {
+        return userService.updateUserPhoto(file);
+    }
+
+
+
 }

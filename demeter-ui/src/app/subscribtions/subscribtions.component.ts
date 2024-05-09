@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import {PolishMatPaginatorIntl} from "../home/polishMatPaginatorIntl";
 import {UserService} from "../recipe-details/user.service";
+import {SubscriptionsService} from "./subscriptions.service";
 
 @Component({
   selector: 'app-subscribtions',
@@ -11,8 +12,8 @@ import {UserService} from "../recipe-details/user.service";
     { provide: MatPaginatorIntl, useValue: new PolishMatPaginatorIntl() }
   ]
 })
-export class SubscribtionsComponent implements OnInit{
-  subscribedUsers!: string[] | undefined;
+export class SubscribtionsComponent{
+  subscribedUsers: string[];
   paginatedUsers!: string[] | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   length: number | undefined = 0 ;
@@ -20,19 +21,16 @@ export class SubscribtionsComponent implements OnInit{
   pageIndex = 0;
   disabled = false;
 
-  constructor(private authService: UserService) { }
-
-  ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user =>{
-      this.subscribedUsers = user?.subscribedAuthors;
-      this.length = user?.subscribedAuthors.length;
-    })
+  constructor(private subscriptionService: SubscriptionsService) {
+    this. subscribedUsers = this.subscriptionService.getSubscribedAuthors();
+    this.length = this.subscribedUsers.length;
   }
+
   updatePaginatedUsers(): void {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedUsers = this.subscribedUsers?.slice(startIndex, endIndex);
-    this.length = this.subscribedUsers?.length;
+    this.length = this.subscribedUsers.length;
   }
 
   handlePageEvent(event: PageEvent) {

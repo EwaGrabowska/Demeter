@@ -1,11 +1,17 @@
-<div>
-  <h2>Twoje przepisy:</h2>
-</div>
-
-<div class="content">
-  <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div fxFlex = 30% *ngFor="let recipe of recipes">
-      <app-recipe-card [recipe] = "recipe" ></app-recipe-card>
+<div class="content" fxLayout = "column">
+  <div>
+    <h2>Ostatnio oglądane:</h2>
+  </div>
+  <div *ngIf="recipes.length>0; else noRecords">
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div fxFlex = 30% *ngFor="let recipe of recipes">
+        <app-recipe-card [recipe] = "recipe" [parentComponent] = "parentComponent"></app-recipe-card>
+      </div>
     </div>
+  </div>
+  <div>
+    <ng-template #noRecords>
+      <h1>Brak dostępnych wyników</h1>
+    </ng-template>
   </div>
 </div>

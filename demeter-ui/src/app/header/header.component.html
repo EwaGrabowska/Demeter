@@ -14,7 +14,7 @@
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="logout()" >Wyloguj</button>
-      <button mat-menu-item>Edytuj profil</button>
+      <button mat-menu-item (click)="navigateTo('/editprofile')" >Edytuj profil</button>
     </mat-menu>
   </div>
   <div>

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LikedRecipePageService } from './liked-recipe-page.service';
+import { LikedRecipesPageService } from './liked-recipes-page.service';
 
 describe('LikedrecipePageService', () => {
-  let service: LikedRecipePageService;
+  let service: LikedRecipesPageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LikedRecipePageService);
+    service = TestBed.inject(LikedRecipesPageService);
   });
 
   it('should be created', () => {

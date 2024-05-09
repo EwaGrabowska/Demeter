@@ -9,7 +9,7 @@ import {RecipePage} from "../home/recipePage";
 @Injectable({
   providedIn: 'root'
 })
-export class LikedRecipePageService implements OnInit{
+export class LikedRecipesPageService implements OnInit{
 
   private apiUrl = environment.apiUrl;
   private myRecipesSubject$: BehaviorSubject<RecipeResponse[]> = new BehaviorSubject<RecipeResponse[]>([]);

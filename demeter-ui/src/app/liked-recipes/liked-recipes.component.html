@@ -1,8 +1,8 @@
 <div class="content" fxLayout = "column">
   <div>
-    <h2>Szkice:</h2>
+    <h2>Ulubione:</h2>
   </div>
-  <div *ngIf="sketches.length>0; else noRecords">
+  <div *ngIf="likedRecipes.length>0; else noRecords">
     <mat-paginator #paginator
                    class="demo-paginator"
                    (page)="handlePageEvent($event)"
@@ -17,10 +17,9 @@
     </mat-paginator>
 
     <div fxLayout="row wrap" fxLayoutGap="15px grid">
-      <div fxFlex = 33% *ngFor="let recipe of sketches">
+      <div fxFlex = 33% *ngFor="let recipe of likedRecipes">
         <app-recipe-card [recipe] = "recipe" [parentComponent] = "parentComponent"></app-recipe-card>
       </div>
-
     </div>
   </div>
   <div>

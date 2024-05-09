@@ -25,6 +25,7 @@ export class AddrecipeComponent {
     [new Ingredient(1, '', '')],
     [new Step(1, '')], 0, 0, 0, 0, new UploadPhotoResponse(0,''), 0, 0, [], false);
   private uploadedFile: File | undefined;
+  fullName: string = '';
 
 
   constructor(private addrecipeService: AddrecipeService, private formBuilder: FormBuilder,
@@ -39,6 +40,10 @@ export class AddrecipeComponent {
       // preparationTime: [0],
       // cookingTime: [0],
       // restingTime: [0]
+    });
+    this.userService.getCurrentUser().subscribe(user =>{
+      if (user){this.fullName = user.fullName;
+      }
     });
   }
 
@@ -160,6 +165,7 @@ export class AddrecipeComponent {
     if (this.fileuploaded) {
       await this.uploadPhoto();
     }
+    this.recipeRequest.setAuthor(this.fullName);
     this.recipeRequest.setauthorSub(this.userService.getUserSub())
     this.addrecipeService.addRecipe(this.recipeRequest).subscribe({
       next: response => {

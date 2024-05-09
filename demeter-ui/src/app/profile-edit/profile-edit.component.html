@@ -1,0 +1,30 @@
+<form class="content"  [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <h2>Edycja danych profilowych</h2>
+    </tr>
+    <tr>
+      <mat-form-field>
+        <mat-label>Nazwa użytkownika</mat-label>
+        <input matInput value={{newFullName}} [(ngModel)]="newFullName" (change)="onNameChange($event)">
+      </mat-form-field>
+    </tr>
+    <tr>
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Zdjęcie profilowe</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image class="mat-card-image-container" [src]="previewUserImage || 'https://img.freepik.com/premium-wektory/znak-zapytania-w-ikonie-glowy-osoby-jako-nieznany-tajny-anonimowy-profil-uzytkownika-lub-watpliwosc-w-tajny-umysl-mozgu_101884-2200.jpg?w=826'">
+        <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+          <button mat-button type="button" (click)="deletePhoto()" >Usuń</button>
+          <button mat-button type="button" (click)="openFileSelector()" >Przeglądaj</button>
+          <ngx-file-drop id="profileImage" #fileInput style="display: none;" (onFileDrop)="dropped($event)" ></ngx-file-drop>
+        </mat-card-actions>
+      </mat-card>
+    </tr>
+    <tr fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 10px;">
+      <button mat-raised-button color="accent" type="button" (click)="goBack()">Anuluj</button>
+      <button mat-raised-button color="primary" type="submit">Zapisz</button>
+    </tr>
+  </table>
+</form>

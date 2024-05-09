@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {UploadRecipeResponse} from "../add-recipe/UploadRecipeResponse";
 import {UploadPhotoResponse} from "../add-recipe/uploadPhotoResponse";
+import {Location} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,7 @@ export class EditionService {
   }
 
   saveAsRecipe(recipeResponse: RecipeResponse): Observable<UploadRecipeResponse> {
-    let recipeToSafe: RecipeResponse = recipeResponse.markAsRecipe();
-    return this.saveRecipe(recipeToSafe)
+    return this.httpClient.put<UploadRecipeResponse>(this.apiURL.concat('recipes/edition'), recipeResponse);
   }
 
   private saveRecipe(recipeResponse: RecipeResponse): Observable<UploadRecipeResponse> {

@@ -8,7 +8,7 @@ import {RecipeResponse} from "../home/recipeResponse";
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit{
-
+  parentComponent: string = 'history';
   recipes!: RecipeResponse[];
 
   constructor(private recipeService: RecipeService) {

@@ -2,17 +2,23 @@
   <div>
     <h2>Subskrypcje:</h2>
   </div>
-  <mat-paginator #paginator
-                 class="demo-paginator"
-                 (page)="handlePageEvent($event)"
-                 [length]="length"
-                 [pageSize]="pageSize"
-                 [pageIndex]="pageIndex"
-                 aria-label="Select page">
-  </mat-paginator>
+  <div *ngIf="subscribedUsers.length>0; else noRecords">
+    <mat-paginator #paginator
+                   class="demo-paginator"
+                   (page)="handlePageEvent($event)"
+                   [length]="length"
+                   [pageSize]="pageSize"
+                   [pageIndex]="pageIndex"
+                   aria-label="Select page">
+    </mat-paginator>
 
-  <div fxFlex = 33% class="user-subscription" *ngFor="let userSub of subscribedUsers">
-    <app-single-subscription [userSub] = "userSub" ></app-single-subscription>
+    <div fxFlex = 33% class="user-subscription" *ngFor="let userSub of subscribedUsers">
+      <app-single-subscription [userSub] = "userSub" ></app-single-subscription>
+    </div>
   </div>
-
+  <div>
+    <ng-template #noRecords>
+      <h1>Brak dostępnych wyników</h1>
+    </ng-template>
+  </div>
 </div>

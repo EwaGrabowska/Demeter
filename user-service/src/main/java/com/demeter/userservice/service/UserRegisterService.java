@@ -41,6 +41,9 @@ public class UserRegisterService {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             UserInfoDTO userInfoDTO = objectMapper.readValue(body, UserInfoDTO.class);
 
+            System.out.println("UserREgService, response body: " + body);
+            System.out.println("userInfoDT) : "+userInfoDTO.getPicture());
+
             Optional<User> userBySub = userRepository.findBySub(userInfoDTO.getSub());
             if (userBySub.isPresent()){
                 return UserFactory.userToDTO(userBySub.get());
@@ -51,7 +54,7 @@ public class UserRegisterService {
                         .fullName(userInfoDTO.getName())
                         .emailAddress(userInfoDTO.getEmail())
                         .sub(userInfoDTO.getSub())
-
+                        .picture(userInfoDTO.getPicture())
                         .subscribedAuthors(ConcurrentHashMap.newKeySet())
                         .subscribers(ConcurrentHashMap.newKeySet())
                         .likedRecipe(ConcurrentHashMap.newKeySet())
@@ -59,6 +62,10 @@ public class UserRegisterService {
                         .recipeHistory(ConcurrentHashMap.newKeySet())
                         .build();
                 User saved = userRepository.save(user);
+
+                System.out.println("przed zapisem :"+user.getPicture());
+                System.out.println("po zapisie :"+saved.getPicture());
+
                 return UserFactory.userToDTO(saved);
             }
         } catch (IOException e) {
