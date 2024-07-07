@@ -16,3 +16,7 @@
   margin-right: 2px;
   padding: 10px;
 }
+
+.card-header-image {
+  background-size: cover;
+}

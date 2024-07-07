@@ -13,7 +13,7 @@ public class AWSconfig {
     public AmazonS3Client amazonS3Client() {
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
-                .withRegion("eu-north-1")
+                .withRegion("eu-west-1")
                 .build();
     }
 }

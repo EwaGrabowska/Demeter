@@ -31,7 +31,7 @@
     <p class="details">Porcje: {{ recipe?.servingSize }}</p>
     <p class="details">Składniki: </p>
     <div class="detailsplus" *ngFor="let item of recipe?.ingredientList; let i = index" >
-      <p>{{ item.quantity }} {{ item.measuringUnites }} {{ item.name }}</p>
+      <p>{{ item.quantity }} {{ item.measuringUnits }} {{ item.name }}</p>
     </div>
     <p class="details">Wykonanie: </p>
     <div class="detailsplus" *ngFor="let item of recipe?.method; let i = index" >

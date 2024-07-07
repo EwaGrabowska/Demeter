@@ -19,6 +19,7 @@
         <module>api-gateway</module>
         <module>kafka-service</module>
         <module>user-service</module>
+		<module>openiaapi-service</module>
     </modules>
 	<name>microservices-parent</name>
 	<description>Demo project for Spring Boot</description>
@@ -102,14 +103,18 @@
 					<from>
 						<image>eclipse-temurin:17.0.7_7-jre-jammy</image>
 						<auth>
+							<!--suppress UnresolvedMavenProperty -->
 							<username>${dockerhub_username}</username>
+							<!--suppress UnresolvedMavenProperty -->
 							<password>${dockerhub_password}</password>
 						</auth>
 					</from>
 					<to>
 						<image>registry.hub.docker.com/ewagrabowska/${artifactId}</image>
 						<auth>
+							<!--suppress UnresolvedMavenProperty -->
 							<username>${dockerhub_username}</username>
+							<!--suppress UnresolvedMavenProperty -->
 							<password>${dockerhub_password}</password>
 						</auth>
 					</to>

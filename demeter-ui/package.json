@@ -26,6 +26,7 @@
     "angular-auth-oidc-client": "16.0.0",
     "ngx-file-drop": "^15.0.0",
     "ngx-pagination": "^6.0.3",
+    "ngx-textarea-autosize": "^2.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "typeorm-transactional-cls-hooked": "^0.1.21",

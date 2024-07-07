@@ -1,10 +1,11 @@
 <mat-card class="example-card" (click)="handleCardClick()">
   <mat-card-header>
+    <div mat-card-avatar class="card-header-image" [style.background-image]="'url(' + (photoUrl || 'https://img.freepik.com/premium-wektory/znak-zapytania-w-ikonie-glowy-osoby-jako-nieznany-tajny-anonimowy-profil-uzytkownika-lub-watpliwosc-w-tajny-umysl-mozgu_101884-2200.jpg?w=826') + ')'"></div>
     <mat-card-title-group>
-      <mat-card-title>{{recipe.name}}</mat-card-title>
-      <mat-card-subtitle>{{recipe.author}}</mat-card-subtitle>
+       <mat-card-title>{{recipe.name}}</mat-card-title>
+       <mat-card-subtitle>{{recipe.author}}</mat-card-subtitle>
       <mat-card-subtitle>
-        <span>
+         <span>
           <mat-icon class="list-block-icon" mat-list-icon >thumb_up</mat-icon>
           </span>
         <span class="list-block">{{recipe.likes}}</span>
@@ -17,5 +18,6 @@
     </mat-card-title-group>
   </mat-card-header>
   <mat-card-content>
+
   </mat-card-content>
 </mat-card>

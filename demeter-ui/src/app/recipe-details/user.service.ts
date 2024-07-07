@@ -88,4 +88,10 @@ export class UserService {
     formData.append('file', fileEntry, fileEntry.name);
     return this.httpClient.post<UserPhotoUrl>(this.apiURL.concat("user/updatephoto"), formData);
   }
+
+  getUserPhotoURLbySub(authorSub: string): Observable<UserPhotoUrl>{
+    let params = new HttpParams();
+    params = params.append('sub', authorSub);
+    return this.httpClient.get<UserPhotoUrl>(this.apiURL.concat("user/photourl"), {params});
+  }
 }

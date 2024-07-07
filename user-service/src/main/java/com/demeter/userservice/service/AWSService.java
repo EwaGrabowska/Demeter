@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class AWSService {
-    public static final String BUCKET_NAME = "demeter-bucket2";
+    @Value("${aws.bucket.name}")
+    public String bucketName;
     private final AmazonS3Client awsS3Client;
     public String uploadFile(MultipartFile file) {
         var filenameExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
@@ -28,14 +30,14 @@ public class AWSService {
         metadata.setContentType(file.getContentType());
 
         try {
-            awsS3Client.putObject(BUCKET_NAME, key, file.getInputStream(), metadata);
+            awsS3Client.putObject(bucketName, key, file.getInputStream(), metadata);
         } catch (IOException ioException) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "An Exception occured while uploading the file");
         }
 
-        awsS3Client.setObjectAcl(BUCKET_NAME, key, CannedAccessControlList.PublicRead);
+        awsS3Client.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
 
-        return awsS3Client.getResourceUrl(BUCKET_NAME, key);
+        return awsS3Client.getResourceUrl(bucketName, key);
     }
 }

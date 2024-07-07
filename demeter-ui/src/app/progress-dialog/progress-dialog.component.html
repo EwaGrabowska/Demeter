@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>{{message}}</h2>
+<mat-dialog-content class="dialog-content" *ngIf="data.showSpinner">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</mat-dialog-content>
+<mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()">Anuluj</button>
+</mat-dialog-actions>

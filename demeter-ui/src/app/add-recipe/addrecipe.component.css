@@ -2,6 +2,8 @@
   display: flex;
   height: calc(100vh - 80px);
   margin-top: 70px;
+
+  position: relative;
 }
 .form-field {
   max-width: 100%;
@@ -49,6 +51,28 @@ textarea {
 
 .buttons button {
   margin-left: 10pg;
+}
+
+.separator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 0 10px;
+}
+
+.separator-text {
+  background: white;
+  padding: 0 5px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+}
+
+mat-divider {
+  height: 100px;
+  width: 1px;
 }
 
 

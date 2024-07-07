@@ -46,6 +46,10 @@ import { SingleSubscriptionComponent } from './single-subscription/single-subscr
 import { EditionComponent } from './edition/edition.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import {MatSelectModule} from "@angular/material/select";
+import { RecipeConverterComponent } from './recipe-converter/recipe-converter.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -67,7 +71,9 @@ import {MatSelectModule} from "@angular/material/select";
     CommentsComponent,
     SingleSubscriptionComponent,
     EditionComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    RecipeConverterComponent,
+    ProgressDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -101,7 +107,9 @@ import {MatSelectModule} from "@angular/material/select";
         MatSlideToggleModule,
         MatPaginatorModule,
         AuthModule,
-        MatSelectModule
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatDialogModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

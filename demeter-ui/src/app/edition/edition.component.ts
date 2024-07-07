@@ -45,7 +45,7 @@ export class EditionComponent {
   addIngredient() {
     this.recipeResponse.ingredientList.push({
       quantity: 1,
-      measuringUnites: '',
+      measuringUnits: '',
       name: ''
     });
   }

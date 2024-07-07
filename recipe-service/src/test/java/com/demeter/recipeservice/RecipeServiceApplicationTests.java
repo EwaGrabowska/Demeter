@@ -51,19 +51,19 @@ class RecipeServiceApplicationTests {
 		ingredientRequestList.add(IngredientRequest.builder()
 				.name("salt")
 				.quantity(0.125)
-				.measuringUnites(MeasuringUnites.builder().name("ts").build())
+				.measuringUnits(MeasuringUnites.builder().name("ts").build())
 				.build());
 
 		ingredientRequestList.add(IngredientRequest.builder()
 				.name("oat")
 				.quantity(100.0)
-				.measuringUnites(MeasuringUnites.builder().name("g").build())
+				.measuringUnits(MeasuringUnites.builder().name("g").build())
 				.build());
 
 		ingredientRequestList.add(IngredientRequest.builder()
 				.name("watcher")
 				.quantity(400.0)
-				.measuringUnites(MeasuringUnites.builder().name("ml").build())
+				.measuringUnits(MeasuringUnites.builder().name("ml").build())
 				.build());
 
 		return RecipeRequest.builder()

@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -131,7 +132,16 @@ public class UserService {
     }
 
     public UserPhotoURL updateUserPhoto(MultipartFile file) {
-        String url = awsService.uploadFile(file);
+        var url = awsService.uploadFile(file);
         return new UserPhotoURL(url);
+    }
+
+    public UserPhotoURL getUserPhotoURLbySub(String sub) {
+        String url;
+        Optional<User> userBySub = usersRepository.findBySub(sub);
+        if (userBySub.isPresent()){
+            url = userBySub.get().getPicture();
+            return new UserPhotoURL(url);
+        }else return new UserPhotoURL(null);
     }
 }

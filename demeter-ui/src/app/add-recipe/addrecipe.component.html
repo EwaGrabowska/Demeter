@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 
-  <div fxLayout="column" style="height: auto" fxFlex="85%" class="right-column">
+  <div fxLayout="column" style="height: auto" fxFlex="50%" class="right-column">
     <form class="recipe-form" (ngSubmit)="submitForm()" [formGroup]="recipeForm">
       <h3>Informacje o przepisie:</h3>
       <div class="form-field" >
@@ -65,15 +65,8 @@
 
           <mat-form-field fxFlex="30%">
             <mat-label>Rodzaj miary</mat-label>
-            <mat-select [(ngModel)]="ingredient.measuringUnites" name="ingredient-{{i}}-measuringUnit">
-              <mat-option value="łyżka">łyżka</mat-option>
-              <mat-option value="łyżeczka">łyżeczka</mat-option>
-              <mat-option value="g">g</mat-option>
-              <mat-option value="kg">kg</mat-option>
-              <mat-option value="l">l</mat-option>
-              <mat-option value="mml">mml</mat-option>
-            </mat-select>
-<!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('measuringUnites')?.invalid">-->
+            <input matInput [(ngModel)]="ingredient.measuringUnits" [ngModelOptions]="{ standalone: true }" name="ingredient-{{i}}-measuringUnits">
+<!--            <mat-error *ngIf="recipeForm.controls['ingredientList'].get(i.toString())?.get('measuringUnits')?.invalid">-->
 <!--              Pole rodzaj miary jest wymagane-->
 <!--            </mat-error>-->
           </mat-form-field>
@@ -138,5 +131,13 @@
 
     </form>
 
+  </div>
+  <div class="separator" fxFlex="5%">
+    <mat-divider></mat-divider>
+    <span class="separator-text">lub</span>
+  </div>
+
+  <div fxLayout="column" fxFlex="45%" class="left-column">
+    <app-recipe-converter (valueChanged)="handleValueChanged($event)"></app-recipe-converter>
   </div>
 </div>

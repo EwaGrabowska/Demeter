@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit{
 
   isAuthenticated: boolean = false;
   fullName: string | undefined;
+  photoUrl: string | undefined;
   constructor(private oidcSecurityService: OidcSecurityService, private router: Router, private userService: UserService) {
   }
 
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit{
     })
     this.userService.getCurrentUser().subscribe(user =>{
       this.fullName = user?.fullName;
+      this.photoUrl = user?.picture.valueOf();
     });
   }
 

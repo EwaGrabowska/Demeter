@@ -77,6 +77,12 @@ public class UserController {
         return userService.updateUserPhoto(file);
     }
 
+    @GetMapping("/photourl")
+    @ResponseStatus(HttpStatus.OK)
+    public UserPhotoURL getUserPhotoURLbySub(@RequestParam String sub) {
+        return userService.getUserPhotoURLbySub(sub);
+    }
+
 
 
 }

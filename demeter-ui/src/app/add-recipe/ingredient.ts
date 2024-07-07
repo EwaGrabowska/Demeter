@@ -2,7 +2,7 @@ export class Ingredient {
 
   constructor(
     public quantity: number,
-    public measuringUnites: string,
+    public measuringUnits: string,
     public name: string
   ){}
 }

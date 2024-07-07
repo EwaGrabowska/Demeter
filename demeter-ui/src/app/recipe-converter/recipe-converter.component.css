@@ -1,0 +1,9 @@
+.form-field {
+    height: 70vh;
+}
+
+.custom-textarea {
+    overflow: auto;
+    white-space: pre-wrap;
+    position: absolute;
+}

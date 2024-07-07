@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RecipeRequest} from "./recipeRequest";
 import {Ingredient} from "./ingredient";
 import {Router} from "@angular/router";
@@ -27,7 +27,6 @@ export class AddrecipeComponent {
   private uploadedFile: File | undefined;
   fullName: string = '';
 
-
   constructor(private addrecipeService: AddrecipeService, private formBuilder: FormBuilder,
               private router: Router, private matSnackBar: MatSnackBar, private userService: UserService) {
     this.recipeForm = this.formBuilder.group({
@@ -54,7 +53,7 @@ export class AddrecipeComponent {
   addIngredient() {
     this.recipeRequest.ingredientList.push({
       quantity: 1,
-      measuringUnites: '',
+      measuringUnits: '',
       name: ''
     });
   }
@@ -118,7 +117,7 @@ export class AddrecipeComponent {
       ingredientList: [
         {
           quantity: 1,
-          measuringUnites: '',
+          measuringUnits: '',
           name: ''
         }
       ],
@@ -166,7 +165,7 @@ export class AddrecipeComponent {
       await this.uploadPhoto();
     }
     this.recipeRequest.setAuthor(this.fullName);
-    this.recipeRequest.setauthorSub(this.userService.getUserSub())
+    this.recipeRequest.setauthorSub(this.userService.getUserSub());
     this.addrecipeService.addRecipe(this.recipeRequest).subscribe({
       next: response => {
         console.log('Form submitted successfully! Recipe id: ', response);
@@ -217,6 +216,31 @@ export class AddrecipeComponent {
       error: error => {
         console.error('An error occurred while submitting the form:', error);
       }
+    });
+  }
+
+  handleValueChanged(value: RecipeRequest) {
+    this.recipeForm.patchValue({
+      name: value.name,
+      author: value.author,
+      servingSize: value.servingSize,
+      ingredientList: value.ingredientList,
+      method: value.method,
+      price: value.price,
+      preparationTime: value.preparationTime,
+      cookingTime: value.cookingTime,
+      restingTime: value.restingTime,
+      likes: value.likes,
+      disLikes: value.disLikes,
+      comments: value.comments,
+      sketch: value.sketch
+    })
+    this.updateFormArray(this.recipeForm.get('ingredientList') as FormArray, this.recipeRequest.ingredientList);
+  }
+  updateFormArray(formArray: FormArray, values: any[]) {
+    formArray.clear();
+    values.forEach(value => {
+      formArray.push(this.formBuilder.group(value));
     });
   }
 }

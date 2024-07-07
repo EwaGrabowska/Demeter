@@ -33,7 +33,7 @@ public class RecipeFactory {
         return Ingredient.builder()
                 .name(source.getName())
                 .quantity(source.getQuantity())
-                .measuringUnites(source.getMeasuringUnites())
+                .measuringUnites(source.getMeasuringUnits())
                 .build();
     }
 
@@ -42,7 +42,7 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .quantity(source.getQuantity())
-                .measuringUnites(source.getMeasuringUnites())
+                .measuringUnites(source.getMeasuringUnits())
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class RecipeFactory {
                 .id(source.getId())
                 .name(source.getName())
                 .quantity(source.getQuantity())
-                .measuringUnites(source.getMeasuringUnites())
+                .measuringUnits(source.getMeasuringUnits())
                 .build();
     }
 

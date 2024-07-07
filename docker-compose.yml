@@ -101,6 +101,7 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
       - SPRING_PROFILES_ACTIVE=docker
       - url=${url}
       - username=${username}
@@ -137,6 +138,19 @@ services:
       - USER_SERVICE_DB_PASSWORD=${USER_SERVICE_DB_PASSWORD}
       - OAUTH2_USERINFO=${OAUTH2_USERINFO}
       - SPRING_PROFILES_ACTIVE=docker
+      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
+    depends_on:
+      - eureka-server
+      - api-gateway
+
+  ## Openia-Service Docker Compose Config
+  openiaapi-service:
+    container_name: openiaapi-service
+    image: ewagrabowska/openiaapi-service:latest
+    pull_policy: always
+    environment:
+     - SPRING_PROFILES_ACTIVE=docker
+     - TOKEN=${TOKEN}
     depends_on:
       - eureka-server
       - api-gateway

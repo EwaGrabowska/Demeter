@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class IngredientRequest {
     private String name;
     private Double quantity;
-    private String measuringUnites;
+    private String measuringUnits;
 }
